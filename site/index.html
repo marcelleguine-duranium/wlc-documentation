@@ -1,0 +1,2345 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Central de Ajuda · WeLuvCode</title>
+<style>
+  :root {
+    --fundo: #ffffff;
+    --fundo-alt: #f6f8f9;
+    --borda: #e2e8e9;
+    --texto: #16202b;
+    --texto-suave: #5b6b76;
+    --destaque: #0f9b96;
+    --destaque-fraco: #e6f5f4;
+    --aviso-fundo: #fff8e6;
+    --aviso-borda: #e8c96a;
+    --largura-lateral: 300px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fundo: #10171d;
+      --fundo-alt: #161f27;
+      --borda: #263039;
+      --texto: #e7edf1;
+      --texto-suave: #93a3ae;
+      --destaque: #46c8c0;
+      --destaque-fraco: #12312f;
+      --aviso-fundo: #2b2410;
+      --aviso-borda: #6d5a22;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, system-ui, sans-serif;
+    color: var(--texto);
+    background: var(--fundo);
+  }
+  a { color: var(--destaque); }
+
+  .topo {
+    position: sticky; top: 0; z-index: 20;
+    display: flex; align-items: center; gap: 20px;
+    padding: 14px 24px;
+    background: var(--fundo);
+    border-bottom: 1px solid var(--borda);
+  }
+  .marca { font-weight: 700; font-size: 17px; white-space: nowrap; }
+  .marca span { color: var(--destaque); }
+  .busca-caixa { position: relative; flex: 1; max-width: 520px; }
+  #busca {
+    width: 100%; padding: 9px 14px;
+    border: 1px solid var(--borda); border-radius: 9px;
+    background: var(--fundo-alt); color: var(--texto); font-size: 15px;
+  }
+  #busca:focus { outline: 2px solid var(--destaque); outline-offset: -1px; }
+  #resultados {
+    position: absolute; top: calc(100% + 6px); left: 0; right: 0;
+    background: var(--fundo); border: 1px solid var(--borda);
+    border-radius: 10px; box-shadow: 0 12px 32px rgba(0,0,0,.14);
+    max-height: 60vh; overflow-y: auto; display: none;
+  }
+  #resultados.aberto { display: block; }
+  .resultado { display: block; padding: 11px 14px; border-bottom: 1px solid var(--borda); text-decoration: none; color: inherit; }
+  .resultado:last-child { border-bottom: 0; }
+  .resultado:hover, .resultado.focado { background: var(--destaque-fraco); }
+  .resultado strong { display: block; font-size: 14px; }
+  .resultado span { font-size: 13px; color: var(--texto-suave); }
+  .vazio { padding: 16px; color: var(--texto-suave); font-size: 14px; }
+  .menu-botao {
+    display: none; padding: 8px 12px; border: 1px solid var(--borda);
+    border-radius: 8px; background: var(--fundo-alt); color: var(--texto); cursor: pointer;
+  }
+
+  .corpo { display: flex; align-items: flex-start; }
+  .lateral {
+    position: sticky; top: 61px;
+    width: var(--largura-lateral); flex: none;
+    height: calc(100vh - 61px); overflow-y: auto;
+    padding: 22px 14px; border-right: 1px solid var(--borda);
+    background: var(--fundo-alt);
+  }
+  .lateral ul { list-style: none; margin: 0 0 4px; padding: 0; }
+  .modulo { margin-bottom: 10px; }
+  .modulo-cabecalho {
+    display: flex; align-items: center; gap: 9px; width: 100%;
+    padding: 9px 10px; margin-bottom: 4px;
+    background: none; border: 0; border-radius: 8px;
+    color: var(--texto); cursor: pointer; text-align: left; font: inherit;
+  }
+  .modulo-cabecalho:hover { background: var(--destaque-fraco); }
+  .modulo-seta {
+    font-size: 11px; color: var(--texto-suave);
+    transition: transform .16s ease; transform: rotate(90deg);
+  }
+  .modulo:not(.aberto) .modulo-seta { transform: none; }
+  .modulo-nome { flex: 1; font-size: 13.5px; font-weight: 600; line-height: 1.25; }
+  .modulo-nome em {
+    display: block; font-style: normal; font-weight: 400;
+    font-size: 11px; letter-spacing: .07em; text-transform: uppercase;
+    color: var(--texto-suave); margin-top: 1px;
+  }
+  .modulo-contagem {
+    font-size: 11px; color: var(--texto-suave);
+    background: var(--fundo); border: 1px solid var(--borda);
+    border-radius: 20px; padding: 1px 7px; font-variant-numeric: tabular-nums;
+  }
+  .modulo:not(.aberto) ul { display: none; }
+  .modulo ul { padding-left: 6px; }
+  .secao-link {
+    display: flex; gap: 10px; align-items: baseline;
+    padding: 8px 10px; border-radius: 8px;
+    text-decoration: none; color: var(--texto); font-size: 14.5px;
+  }
+  .secao-link:hover { background: var(--destaque-fraco); }
+  .secao-link.ativo { background: var(--destaque-fraco); color: var(--destaque); font-weight: 600; }
+  .numero { font-variant-numeric: tabular-nums; font-size: 12px; color: var(--texto-suave); }
+  .secao-link.ativo .numero { color: var(--destaque); }
+
+  main { flex: 1; min-width: 0; padding: 34px 40px 90px; max-width: 900px; }
+  .secao { display: none; }
+  .secao.visivel { display: block; animation: entrar .18s ease-out; }
+  @keyframes entrar { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+
+  main h1 { font-size: 30px; line-height: 1.25; margin: 0 0 26px; }
+  main h2 { font-size: 21px; margin: 40px 0 12px; padding-top: 14px; border-top: 1px solid var(--borda); }
+  main h3 { font-size: 17px; margin: 26px 0 8px; }
+  main img {
+    max-width: 100%; height: auto; display: block;
+    margin: 18px 0; border: 1px solid var(--borda); border-radius: 10px;
+  }
+  main table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 14.5px; display: block; overflow-x: auto; }
+  main th, main td { border: 1px solid var(--borda); padding: 9px 12px; text-align: left; vertical-align: top; }
+  main th { background: var(--fundo-alt); font-weight: 600; }
+  main code {
+    background: var(--fundo-alt); border: 1px solid var(--borda);
+    padding: 1px 5px; border-radius: 5px; font-size: 13.5px;
+  }
+  main pre { background: var(--fundo-alt); border: 1px solid var(--borda); border-radius: 9px; padding: 14px; overflow-x: auto; }
+  main pre code { border: 0; background: none; padding: 0; }
+  main blockquote {
+    margin: 18px 0; padding: 12px 16px;
+    background: var(--aviso-fundo); border-left: 3px solid var(--aviso-borda); border-radius: 0 8px 8px 0;
+  }
+  main blockquote p { margin: 0; }
+
+  .rodape-nav { display: flex; justify-content: space-between; gap: 14px; margin-top: 54px; padding-top: 22px; border-top: 1px solid var(--borda); }
+  .rodape-nav a { text-decoration: none; font-size: 14.5px; padding: 10px 14px; border: 1px solid var(--borda); border-radius: 9px; }
+  .rodape-nav a:hover { background: var(--destaque-fraco); }
+
+  @media (max-width: 900px) {
+    .menu-botao { display: block; }
+    .lateral {
+      position: fixed; top: 61px; left: 0; z-index: 15;
+      height: calc(100vh - 61px); transform: translateX(-100%);
+      transition: transform .2s ease;
+    }
+    .lateral.aberta { transform: none; }
+    main { padding: 24px 18px 70px; }
+    .marca { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+  <header class="topo">
+    <button class="menu-botao" id="menu" aria-label="Abrir menu">☰</button>
+    <div class="marca">Central de Ajuda · <span>weLuvCode</span></div>
+    <div class="busca-caixa">
+      <input id="busca" type="search" placeholder="Buscar na documentação…" autocomplete="off" aria-label="Buscar">
+      <div id="resultados" role="listbox"></div>
+    </div>
+  </header>
+
+  <div class="corpo">
+    <nav class="lateral" id="lateral">
+      <section class="modulo aberto" data-modulo="1">
+        <button class="modulo-cabecalho" aria-expanded="true" aria-controls="modulo-1">
+          <span class="modulo-seta" aria-hidden="true">▸</span>
+          <span class="modulo-nome">Módulo 1<em>Painel Principal</em></span>
+          <span class="modulo-contagem">9</span>
+        </button>
+        <ul id="modulo-1">
+            <li>
+              <a class="secao-link ativo" href="#m1-01-visao-geral" data-alvo="m1-01-visao-geral">
+                <span class="numero">01</span>
+                <span>Visão geral</span>
+              </a>
+            </li>
+            <li>
+              <a class="secao-link" href="#m1-02-acesso" data-alvo="m1-02-acesso">
+                <span class="numero">02</span>
+                <span>Acesso</span>
+              </a>
+            </li>
+            <li>
+              <a class="secao-link" href="#m1-03-metricas" data-alvo="m1-03-metricas">
+                <span class="numero">03</span>
+                <span>Métricas</span>
+              </a>
+            </li>
+            <li>
+              <a class="secao-link" href="#m1-04-workspace" data-alvo="m1-04-workspace">
+                <span class="numero">04</span>
+                <span>Workspace</span>
+              </a>
+            </li>
+            <li>
+              <a class="secao-link" href="#m1-05-contexto" data-alvo="m1-05-contexto">
+                <span class="numero">05</span>
+                <span>Contexto</span>
+              </a>
+            </li>
+            <li>
+              <a class="secao-link" href="#m1-06-repositorio" data-alvo="m1-06-repositorio">
+                <span class="numero">06</span>
+                <span>Repositório</span>
+              </a>
+            </li>
+            <li>
+              <a class="secao-link" href="#m1-07-ferramentas" data-alvo="m1-07-ferramentas">
+                <span class="numero">07</span>
+                <span>Ferramentas</span>
+              </a>
+            </li>
+            <li>
+              <a class="secao-link" href="#m1-08-people" data-alvo="m1-08-people">
+                <span class="numero">08</span>
+                <span>People</span>
+              </a>
+            </li>
+            <li>
+              <a class="secao-link" href="#m1-09-perfil" data-alvo="m1-09-perfil">
+                <span class="numero">09</span>
+                <span>Perfil e conta</span>
+              </a>
+            </li>
+        </ul>
+      </section>
+      <section class="modulo aberto" data-modulo="2">
+        <button class="modulo-cabecalho" aria-expanded="true" aria-controls="modulo-2">
+          <span class="modulo-seta" aria-hidden="true">▸</span>
+          <span class="modulo-nome">Módulo 2<em>Painel Admin</em></span>
+          <span class="modulo-contagem">12</span>
+        </button>
+        <ul id="modulo-2">
+            <li>
+              <a class="secao-link" href="#m2-00-visao-admin" data-alvo="m2-00-visao-admin">
+                <span class="numero">01</span>
+                <span>Painel Admin</span>
+              </a>
+            </li>
+            <li>
+              <a class="secao-link" href="#m2-01-geral" data-alvo="m2-01-geral">
+                <span class="numero">02</span>
+                <span>Geral</span>
+              </a>
+            </li>
+            <li>
+              <a class="secao-link" href="#m2-02-repositorios" data-alvo="m2-02-repositorios">
+                <span class="numero">03</span>
+                <span>Repositórios</span>
+              </a>
+            </li>
+            <li>
+              <a class="secao-link" href="#m2-03-contextos" data-alvo="m2-03-contextos">
+                <span class="numero">04</span>
+                <span>Contextos</span>
+              </a>
+            </li>
+            <li>
+              <a class="secao-link" href="#m2-04-api-keys" data-alvo="m2-04-api-keys">
+                <span class="numero">05</span>
+                <span>API Keys</span>
+              </a>
+            </li>
+            <li>
+              <a class="secao-link" href="#m2-05-usuarios" data-alvo="m2-05-usuarios">
+                <span class="numero">06</span>
+                <span>Usuários</span>
+              </a>
+            </li>
+            <li>
+              <a class="secao-link" href="#m2-06-grupos" data-alvo="m2-06-grupos">
+                <span class="numero">07</span>
+                <span>Grupos de Usuários</span>
+              </a>
+            </li>
+            <li>
+              <a class="secao-link" href="#m2-07-notificacoes" data-alvo="m2-07-notificacoes">
+                <span class="numero">08</span>
+                <span>Notificações</span>
+              </a>
+            </li>
+            <li>
+              <a class="secao-link" href="#m2-08-permissoes" data-alvo="m2-08-permissoes">
+                <span class="numero">09</span>
+                <span>Permissões</span>
+              </a>
+            </li>
+            <li>
+              <a class="secao-link" href="#m2-09-monitoramento" data-alvo="m2-09-monitoramento">
+                <span class="numero">10</span>
+                <span>Monitoramento</span>
+              </a>
+            </li>
+            <li>
+              <a class="secao-link" href="#m2-10-sso" data-alvo="m2-10-sso">
+                <span class="numero">11</span>
+                <span>Configurar SSO SAML</span>
+              </a>
+            </li>
+            <li>
+              <a class="secao-link" href="#m2-11-super-admin" data-alvo="m2-11-super-admin">
+                <span class="numero">12</span>
+                <span>Super Admin</span>
+              </a>
+            </li>
+        </ul>
+      </section>
+    </nav>
+    <main id="conteudo">
+      <article class="secao visivel" id="m1-01-visao-geral" data-modulo="1">
+        <h1>Visão geral</h1>
+        <p>O WeLuvCode (WLC) analisa os repositórios de uma organização e traduz o
+resultado em um indicador único, o <strong>Score de Engenharia</strong>, acompanhado da
+documentação técnica que a plataforma gera a partir do próprio código.</p>
+<h2 id="o-score-de-engenharia">O Score de Engenharia</h2>
+<p>O Score vai de 0 a 10 e é a média ponderada de quatro dimensões:</p>
+<table>
+<thead>
+<tr>
+<th>Dimensão</th>
+<th>O que observa</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Fluxo</strong></td>
+<td>ritmo e continuidade da entrega</td>
+</tr>
+<tr>
+<td><strong>Qualidade da Engenharia</strong></td>
+<td>características do código produzido</td>
+</tr>
+<tr>
+<td><strong>Eficiência</strong></td>
+<td>aproveitamento do esforço de engenharia</td>
+</tr>
+<tr>
+<td><strong>Riscos</strong></td>
+<td>exposições identificadas na base</td>
+</tr>
+</tbody></table>
+<p>O Score só é calculado quando há dados suficientes: o produto exige <strong>pelo menos
+três das quatro dimensões</strong>. Enquanto isso não acontece, a tela do repositório
+informa que o cálculo ainda está em andamento, em vez de exibir um número
+incompleto.</p>
+<p>As dimensões não pesam igual, cada uma reúne vários indicadores, e alguns
+indicadores podem reprovar a dimensão inteira sozinhos. Isso está detalhado em
+<a href="m1-03-metricas.md">Métricas</a>, que também explica o que o Score deliberadamente não
+mede.</p>
+<h2 id="a-hierarquia">A hierarquia</h2>
+<p>O produto organiza tudo em três níveis, e o Score existe em cada um deles:</p>
+<pre><code>Organização  →  Contexto  →  Repositório
+(workspace)     (domínio)     (código)
+</code></pre>
+<p>Um <strong>contexto</strong> é um agrupamento lógico de repositórios por produto, domínio ou
+squad. Na organização de demonstração há dois contextos, Backend e Web Frontend,
+somando sete repositórios.</p>
+<h2 id="onde-cada-coisa-fica">Onde cada coisa fica</h2>
+<p>A barra lateral esquerda é fixa e se adapta ao nível em que você está:</p>
+<ul>
+<li><strong>Visão Geral</strong>, <strong>Contextos</strong> e <strong>Repositórios</strong> — navegação principal</li>
+<li><strong>Ferramentas</strong> — Navigate</li>
+<li><strong>People</strong> — Onboarding Dev e Job Description</li>
+</ul>
+<p>No rodapé fica o seu usuário; no topo, o seletor de contexto e repositório.</p>
+<p><img src="../assets/screenshots/visao-geral.png" alt="Visão geral do workspace"></p>
+
+      </article>
+      <article class="secao" id="m1-02-acesso" data-modulo="1">
+        <h1>Acesso</h1>
+        <h2 id="entrar">Entrar</h2>
+<p>A tela de login aceita dois caminhos: e-mail e senha, ou <strong>Entrar com SSO</strong> para
+organizações com autenticação corporativa configurada.</p>
+<p><img src="../assets/screenshots/login.png" alt="Tela de login"></p>
+<h2 id="recuperar-a-senha">Recuperar a senha</h2>
+<p>O link <strong>Esqueceu a senha?</strong>, ao lado do campo de senha, leva ao formulário de
+recuperação. Você informa o e-mail e recebe um link para definir a nova senha.</p>
+<p><img src="../assets/screenshots/esqueci-senha.png" alt="Recuperação de senha"></p>
+<p>Os links de redefinição têm validade. Se o link já tiver sido usado ou expirado,
+o produto explica o que houve e oferece pedir um novo sem voltar ao início:</p>
+<p><img src="../assets/screenshots/link-expirado.png" alt="Link inválido ou expirado"></p>
+<h2 id="uma-conta-uma-organizacao">Uma conta, uma organização</h2>
+<p>Cada e-mail tem acesso a uma única organização. Não existe troca de organização
+dentro do produto: para trabalhar em outra, é preciso uma conta com acesso a ela.</p>
+<p>O seletor no topo da barra lateral, logo abaixo da busca, <strong>não troca de
+organização</strong> — ele navega entre os contextos e os repositórios da organização em
+que você já está. É por ele que se desce da visão geral para um contexto
+específico, e de um contexto para um repositório.</p>
+
+      </article>
+      <article class="secao" id="m1-03-metricas" data-modulo="1">
+        <h1>Métricas</h1>
+        <p>Como o Score é construído: de onde vem cada número do painel. O objetivo é que você
+consiga ler qualquer valor e saber também <strong>o que ele não afirma</strong>.</p>
+<h2 id="o-que-o-score-responde-e-o-que-nao-responde">O que o Score responde — e o que não responde</h2>
+<p>O Score de Engenharia é um resumo da saúde do <strong>processo</strong> de engenharia de um
+repositório em um período, numa escala de 0 a 10.</p>
+<p>Ele responde a uma pergunta operacional: <em>este repositório entrega com
+previsibilidade, revisão e conhecimento distribuído?</em></p>
+<p>Ele <strong>não</strong> responde se o produto é bom, se o time é bom ou se o prazo será
+cumprido. É um resumo de processo, não uma nota de pessoas nem de produto.</p>
+<h2 id="a-cascata">A cascata</h2>
+<pre><code>contexto → repositório → 1 Score → 4 dimensões → 17 indicadores
+</code></pre>
+<p>O Score existe por repositório. O contexto agrega o Score dos seus repositórios;
+nenhum indicador é recalculado no agrupamento.</p>
+<h2 id="as-quatro-dimensoes-e-seus-pesos">As quatro dimensões e seus pesos</h2>
+<table>
+<thead>
+<tr>
+<th>Dimensão</th>
+<th>Peso</th>
+<th>O que observa</th>
+<th>Indicadores</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Fluxo de Entrega</strong></td>
+<td>30%</td>
+<td>ritmo e previsibilidade da entrega: lead time, taxa de entrega, trabalho em andamento, tempo até a primeira revisão</td>
+<td>5</td>
+</tr>
+<tr>
+<td><strong>Qualidade da Engenharia</strong></td>
+<td>30%</td>
+<td>disciplina técnica: testes, tamanho das entregas, Profundidade de Revisão, retrabalho</td>
+<td>7</td>
+</tr>
+<tr>
+<td><strong>Eficiência do Time</strong></td>
+<td>20%</td>
+<td>distribuição do trabalho: quanto do código e das revisões se concentra em uma pessoa</td>
+<td>2</td>
+</tr>
+<tr>
+<td><strong>Riscos Organizacionais</strong></td>
+<td>20%</td>
+<td>dependência de pessoas e trabalho travado: Bus Factor, Concentração de Conhecimento, Entregas de Longa Duração</td>
+<td>3</td>
+</tr>
+</tbody></table>
+<p>Entrega e qualidade valem 60% somadas; distribuição do time e risco
+organizacional completam os 40% restantes.</p>
+<p><img src="../assets/screenshots/visao-geral.png" alt="Cards das dimensões na Visão Geral"></p>
+<h2 id="como-o-calculo-funciona">Como o cálculo funciona</h2>
+<p>Antes dos detalhes, o caminho completo de um número. Seguindo o <strong>tempo de
+ciclo</strong> do repositório <code>django</code>, do valor medido até o Score:</p>
+<pre><code>2h21m                    valor medido no período
+  ↓  comparado com os limiares do Lead Time de Entrega (até 24h / 24h–168h / acima de 168h)
+SAUDÁVEL                 a faixa em que o valor caiu
+  ↓  cada faixa vale um número fixo de pontos
+1 ponto                  saudável = 1 · atenção = 0,5 · crítico = 0
+  ↓  multiplicado pelo peso do indicador dentro da dimensão (Lead Time de Entrega pesa 3)
+3                        contribuição deste indicador
+  ↓  somado aos outros 4 indicadores de Fluxo e dividido pela soma dos pesos
+6,4                      nota da dimensão Fluxo de Entrega
+  ↓  multiplicado pelo peso da dimensão no Score (Fluxo vale 30%)
+6,5                      Score de Engenharia do repositório
+</code></pre>
+<p>Cada seta é um dos passos abaixo.</p>
+<h3 id="passo-1-o-valor-medido-vira-uma-faixa">Passo 1 — o valor medido vira uma faixa</h3>
+<p>Cada indicador tem <strong>limiares próprios</strong>, que definem três faixas. O valor
+medido é comparado com esses limiares e cai em exatamente uma delas. É só isso
+que define se um indicador está saudável: <strong>o valor medido estar dentro do
+limiar daquele indicador.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Faixa</th>
+<th>Quando o indicador recebe</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Saudável</strong></td>
+<td>o valor está dentro do limiar esperado</td>
+<td>fluxo sustentável nesse aspecto</td>
+</tr>
+<tr>
+<td><strong>Atenção</strong></td>
+<td>o valor passou do limiar saudável, mas não do crítico</td>
+<td>fora do ideal, sem impedir a entrega</td>
+</tr>
+<tr>
+<td><strong>Crítico</strong></td>
+<td>o valor passou do segundo limiar</td>
+<td>sinal que costuma explicar atrasos e incidentes</td>
+</tr>
+</tbody></table>
+<p>Os limiares mudam de indicador para indicador, e a direção também. Alguns são
+&quot;menor é melhor&quot;, outros &quot;maior é melhor&quot;, e um é faixa fechada, onde exceder
+também é sinal:</p>
+<table>
+<thead>
+<tr>
+<th>Indicador</th>
+<th>Saudável</th>
+<th>Atenção</th>
+<th>Crítico</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Lead Time de Entrega (menor é melhor)</td>
+<td>até 24h</td>
+<td>24h – 168h</td>
+<td>acima de 168h</td>
+</tr>
+<tr>
+<td>Disciplina de Testes (maior é melhor)</td>
+<td>60% ou mais</td>
+<td>30% – 60%</td>
+<td>abaixo de 30%</td>
+</tr>
+<tr>
+<td>Profundidade de Revisão (faixa fechada)</td>
+<td>2 a 10 comentários</td>
+<td>1 a 2</td>
+<td>menos de 1</td>
+</tr>
+</tbody></table>
+<p>Por isso um valor sozinho não diz nada: 2 comentários por entrega é saudável em
+Profundidade de Revisão, enquanto 2 pessoas em Bus Factor é atenção. Os limiares
+de todos os indicadores estão em <a href="#os-indicadores-um-a-um">Os indicadores, um a um</a>.</p>
+<h3 id="passo-2-a-faixa-vira-pontos">Passo 2 — a faixa vira pontos</h3>
+<p>A faixa vale um número fixo de pontos, e é <strong>para isso que os pontos servem</strong>:
+eles são a moeda comum que permite somar indicadores de naturezas diferentes —
+horas, percentuais, contagens de pessoas — dentro de uma mesma dimensão.</p>
+<table>
+<thead>
+<tr>
+<th>Faixa</th>
+<th>Pontos</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Saudável</td>
+<td><strong>1</strong></td>
+</tr>
+<tr>
+<td>Atenção</td>
+<td><strong>0,5</strong></td>
+</tr>
+<tr>
+<td>Crítico</td>
+<td><strong>0</strong></td>
+</tr>
+</tbody></table>
+<p><strong>Só existem esses três valores.</strong> Um indicador nunca vale 0,8 nem 0,3, e não há
+gradação dentro da faixa: estar por pouco ou por muito dentro dela dá o mesmo
+resultado: um lead time de 2h e outro de 23h valem 1 ponto igualmente.</p>
+<h3 id="passo-3-os-pontos-viram-a-nota-da-dimensao">Passo 3 — os pontos viram a nota da dimensão</h3>
+<p>Aqui aparece a escala contínua. Cada ponto é multiplicado pelo peso do seu
+indicador, e a média ponderada vira uma nota de 0 a 10:</p>
+<blockquote>
+<p>nota da dimensão = (soma de pontos × peso ÷ soma dos pesos) × 10</p>
+</blockquote>
+<p>Nem todo indicador pesa igual dentro da sua dimensão: Lead Time de Entrega e Taxa
+de Entrega pesam 3, enquanto Arquivos Mais Alterados pesa 1.</p>
+<p><strong>Indicador sem dado sai da conta.</strong> A ausência nunca é tratada como zero — o
+indicador é retirado do numerador e do denominador.</p>
+<h4>Exemplo real</h4>
+<p>Fluxo de Entrega do repositório <code>django</code>, com os valores da aba Métricas:</p>
+<table>
+<thead>
+<tr>
+<th>Indicador</th>
+<th>Valor medido</th>
+<th>Faixa</th>
+<th>Pontos</th>
+<th>Peso</th>
+<th>Pontos × peso</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Lead Time de Entrega</td>
+<td>2h21m</td>
+<td>saudável</td>
+<td>1</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Taxa de Entrega</td>
+<td>15,30 PRs/semana</td>
+<td>saudável</td>
+<td>1</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Tempo até 1ª Revisão</td>
+<td>19h28m</td>
+<td>atenção</td>
+<td>0,5</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Trabalho em Andamento (WIP)</td>
+<td>7,10 PR/pessoa</td>
+<td>crítico</td>
+<td>0</td>
+<td>2</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Novo vs. Manutenção</td>
+<td>1,49%</td>
+<td>crítico</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody></table>
+<p>Soma da última coluna: <strong>7</strong>. Soma dos pesos: <strong>11</strong>.</p>
+<blockquote>
+<p>7 ÷ 11 = 0,636 → × 10 = <strong>6,4</strong></p>
+</blockquote>
+<p>É exatamente a nota exibida no painel. Repare que a nota é contínua — 6,4 —
+embora nenhum indicador tenha valido 0,64.</p>
+<h3 id="passo-4-as-notas-viram-o-score">Passo 4 — as notas viram o Score</h3>
+<p>O Score é a média das notas das dimensões, ponderada pelos pesos de cada uma:</p>
+<blockquote>
+<p>Score = soma (nota da dimensão × peso) ÷ soma dos pesos</p>
+</blockquote>
+<p>Seguindo o mesmo repositório, com as quatro notas do painel:</p>
+<table>
+<thead>
+<tr>
+<th>Dimensão</th>
+<th>Nota</th>
+<th>Peso</th>
+<th>Nota × peso</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Fluxo de Entrega</td>
+<td>6,4</td>
+<td>0,30</td>
+<td>1,92</td>
+</tr>
+<tr>
+<td>Qualidade da Engenharia</td>
+<td>7,1</td>
+<td>0,30</td>
+<td>2,13</td>
+</tr>
+<tr>
+<td>Eficiência do Time</td>
+<td>10,0</td>
+<td>0,20</td>
+<td>2,00</td>
+</tr>
+<tr>
+<td>Riscos Organizacionais</td>
+<td>2,1</td>
+<td>0,20</td>
+<td>0,42</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>soma 6,47 ÷ 1,00 = <strong>6,5</strong></p>
+</blockquote>
+<p>É o Score que aparece na home do repositório.</p>
+<p><strong>Quando uma dimensão fica sem nota, os pesos são renormalizados.</strong> A divisão é
+pela soma dos pesos das dimensões que têm nota, não por 100%. Se Eficiência do
+Time (20%) ficar sem dado, as outras três — que somam 80% — são divididas por
+0,80 e passam a representar o Score inteiro. Uma dimensão ausente não puxa o
+Score para baixo; ela simplesmente sai da conta.</p>
+<h3 id="passo-5-blockers">Passo 5 — blockers</h3>
+<p>Alguns indicadores são graves o suficiente para reprovar a dimensão inteira,
+mesmo com média ponderada boa. É o que evita que um problema estrutural seja
+diluído por indicadores confortáveis.</p>
+<table>
+<thead>
+<tr>
+<th>Dimensão</th>
+<th>Regra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Fluxo de Entrega</strong></td>
+<td>Lead Time de Entrega <strong>ou</strong> Taxa de Entrega em crítico torna a dimensão crítica</td>
+</tr>
+<tr>
+<td><strong>Riscos Organizacionais</strong></td>
+<td>Bus Factor em crítico torna a dimensão crítica</td>
+</tr>
+<tr>
+<td><strong>Eficiência do Time</strong></td>
+<td>só bloqueia quando <strong>os dois</strong> indicadores estão críticos ao mesmo tempo</td>
+</tr>
+</tbody></table>
+<p>É a resposta para a pergunta que aparece em reunião: <em>por que a dimensão está
+crítica se a média não está?</em> Porque um blocker foi acionado.</p>
+<h3 id="passo-6-suficiencia-de-dados">Passo 6 — suficiência de dados</h3>
+<p>Quando falta base, a plataforma deixa o campo vazio em vez de publicar um número
+frágil:</p>
+<ul>
+<li><strong>3 de 4 dimensões</strong> precisam ter nota para o repositório receber Score no período</li>
+<li><strong>pelo menos metade</strong> dos indicadores de uma dimensão precisa ter dado para ela ser calculada</li>
+<li><strong>Eficiência do Time exige os 2</strong> indicadores, por ter apenas dois</li>
+</ul>
+<p>O painel também explica a ausência: coleta em andamento, primeira coleta
+pendente, ou atividade Git insuficiente no período. Campo vazio é honestidade,
+não defeito.</p>
+<h3 id="faixas-de-status-da-nota">Faixas de status da nota</h3>
+<p>Atenção para não confundir: os rótulos <em>Saudável</em>, <em>Atenção</em> e <em>Crítico</em>
+aparecem em <strong>dois lugares diferentes</strong>, com regras diferentes.</p>
+<ul>
+<li><strong>No indicador</strong> — definido pelos limiares próprios daquele indicador (24h,
+60%, 3 pessoas…), e o resultado são pontos discretos: 1, 0,5 ou 0.</li>
+<li><strong>Na nota</strong> — definido por dois cortes fixos, 4,0 e 7,0, aplicados à nota
+contínua de 0 a 10. Vale tanto para a nota de cada dimensão quanto para o
+Score final.</li>
+</ul>
+<p>São os cortes da nota:</p>
+<table>
+<thead>
+<tr>
+<th>Faixa</th>
+<th>Intervalo</th>
+<th>Leitura</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Crítico</strong></td>
+<td>0 – 4,0</td>
+<td>entra na fila de prioridades e no ranking de risco</td>
+</tr>
+<tr>
+<td><strong>Atenção</strong></td>
+<td>4,0 – 7,0</td>
+<td>funciona, com um ou dois indicadores puxando para baixo</td>
+</tr>
+<tr>
+<td><strong>Saudável</strong></td>
+<td>7,0 – 10</td>
+<td>fluxo sustentável; a discussão passa a ser de evolução</td>
+</tr>
+</tbody></table>
+<h2 id="onde-ler-os-indicadores-no-produto">Onde ler os indicadores no produto</h2>
+<p>Toda a mecânica descrita acima fica visível na aba <strong>Métricas</strong> da home do
+repositório, alcançada pelo botão <strong>Ver métricas detalhadas</strong>.</p>
+<p><img src="../assets/screenshots/repo-metricas.png" alt="Métricas detalhadas do repositório"></p>
+<p>O cabeçalho informa a janela considerada — últimos 90 dias, com o intervalo de
+datas explícito — e a faixa <strong>Pipeline</strong> resume o volume do período: pull
+requests criadas, em aberto, integradas e descartadas.</p>
+<p>Cada dimensão vem em um cartão com a nota, uma pergunta-guia que resume o que ela
+observa, e os seus indicadores. Cada indicador mostra:</p>
+<ul>
+<li>o <strong>valor medido</strong>, com a base entre parênteses (por exemplo, &quot;133 commits&quot;)</li>
+<li>as <strong>três faixas</strong> do indicador, com a faixa em que ele caiu destacada</li>
+</ul>
+<p>É assim que se vê, sem cálculo mental, por que um indicador está em atenção ou em
+crítico. Indicadores sem dado aparecem com <code>--</code> e, como explicado acima, saem da
+conta em vez de contar como zero.</p>
+<p>Alguns blocos trazem detalhamento adicional: a composição entre nova capacidade,
+correção e outros; a distribuição de contribuições por autor; e a lista dos
+Arquivos Mais Alterados no período.</p>
+<blockquote>
+<p>A distribuição de contribuições aparece com os autores identificados como #1,
+#2, #3… Isso é a permissão <strong>Anonimizar autores nas contribuições</strong>, descrita
+em <a href="m2-00-visao-admin.md">Administração</a>, agindo. Desligá-la troca os
+identificadores pelos nomes.</p>
+</blockquote>
+<h2 id="os-indicadores-um-a-um">Os indicadores, um a um</h2>
+<p>O número após o nome é o peso do indicador dentro da sua dimensão.</p>
+<h3 id="fluxo-de-entrega-30">Fluxo de Entrega — 30%</h3>
+<table>
+<thead>
+<tr>
+<th>Indicador</th>
+<th>O que mede</th>
+<th>Sinal saudável</th>
+<th>Peso</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Lead Time de Entrega</td>
+<td>mediana do tempo entre abrir uma entrega e integrá-la</td>
+<td>menos de 24h</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Taxa de Entrega</td>
+<td>entregas integradas por semana</td>
+<td>1 ou mais por semana</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Trabalho em Andamento (WIP)</td>
+<td>entregas abertas por pessoa ativa no período</td>
+<td>menos de 2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Tempo até 1ª Revisão</td>
+<td>quanto uma entrega espera pelo primeiro olhar</td>
+<td>menos de 4h</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Novo vs. Manutenção</td>
+<td>fatia das entregas que cria capacidade nova</td>
+<td>60% ou mais</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>Os dois primeiros são blockers.</p>
+<h3 id="qualidade-da-engenharia-30">Qualidade da Engenharia — 30%</h3>
+<table>
+<thead>
+<tr>
+<th>Indicador</th>
+<th>O que mede</th>
+<th>Sinal saudável</th>
+<th>Peso</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Disciplina de Testes</td>
+<td>fatia das entregas acompanhadas de teste</td>
+<td>60% ou mais</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Tamanho das Entregas</td>
+<td>fatia de entregas pequenas e médias, revisáveis</td>
+<td>70% ou mais</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Profundidade de Revisão</td>
+<td>comentários de revisão por entrega</td>
+<td>entre 2 e 10</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Taxa de Correções</td>
+<td>fatia das entregas que corrigem algo já entregue</td>
+<td>menos de 15%</td>
+<td>2</td>
+</tr>
+<tr>
+<td>PRs Sem Revisão</td>
+<td>fatia integrada sem nenhuma revisão registrada</td>
+<td>zero</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Taxa de Retrabalho</td>
+<td>código reescrito pouco depois de escrito</td>
+<td>menos de 5%</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Arquivos Mais Alterados</td>
+<td>concentração das mudanças nos cinco arquivos mais tocados</td>
+<td>menos de 30%</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>Nenhum blocker nesta dimensão.</p>
+<h3 id="eficiencia-do-time-20">Eficiência do Time — 20%</h3>
+<table>
+<thead>
+<tr>
+<th>Indicador</th>
+<th>O que mede</th>
+<th>Saudável</th>
+<th>Crítico</th>
+<th>Peso</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Distribuição de Contribuições</td>
+<td>quanto das entregas vem do maior contribuidor</td>
+<td>abaixo de 40%</td>
+<td>a partir de 60%</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Distribuição de Revisões</td>
+<td>quanto das revisões vem do maior revisor</td>
+<td>abaixo de 40%</td>
+<td>a partir de 60%</td>
+<td>3</td>
+</tr>
+</tbody></table>
+<p>Os dois indicadores são sempre agregados: <strong>nenhum nome de pessoa aparece</strong>.</p>
+<p>Um terceiro indicador, <em>Mudança de Contexto</em>, existe na configuração mas fica fora
+do cálculo enquanto não houver fonte de dados para ele.</p>
+<h3 id="riscos-organizacionais-20">Riscos Organizacionais — 20%</h3>
+<table>
+<thead>
+<tr>
+<th>Indicador</th>
+<th>O que mede</th>
+<th>Saudável</th>
+<th>Crítico</th>
+<th>Peso</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Bus Factor</td>
+<td>quantas pessoas sustentam de fato o repositório</td>
+<td>3 ou mais</td>
+<td>menos de 2</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Concentração de Conhecimento</td>
+<td>quanto do código só uma pessoa conhece</td>
+<td>abaixo de 30%</td>
+<td>a partir de 50%</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Entregas de Longa Duração</td>
+<td>quantas entregas ficam abertas muito além do normal</td>
+<td>nenhuma</td>
+<td>4 ou mais</td>
+<td>2</td>
+</tr>
+</tbody></table>
+<p>Bus Factor é blocker. Entregas de Longa Duração costumam ser o sinal mais barato de agir.</p>
+<h2 id="salvaguardas-contra-leitura-errada">Salvaguardas contra leitura errada</h2>
+<p><strong>Mais revisão não é sempre melhor.</strong> Profundidade de Revisão é uma faixa, não
+uma escada: acima de 10 comentários por entrega o indicador para em atenção,
+porque normalmente indica entrega grande demais ou desalinhamento, não rigor.</p>
+<p><strong>Zero entregas não vira zero por cento.</strong> Indicadores calculados sobre entregas
+são pulados quando o repositório não teve entrega no período. Um repositório
+parado não é premiado nem punido por indicadores sem base.</p>
+<p><strong>Indicador sem fonte fica de fora.</strong> Mudança de Contexto está desenhada mas não é
+coletada, então é excluída do cálculo em vez de entrar com valor estimado.</p>
+<h2 id="exemplo-por-que-tres-dimensoes-boas-nao-salvam-o-score">Exemplo: por que três dimensões boas não salvam o Score</h2>
+<p>Números fictícios, para ilustrar a mecânica:</p>
+<table>
+<thead>
+<tr>
+<th>Dimensão</th>
+<th>Peso</th>
+<th>Nota</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Fluxo de Entrega</td>
+<td>30%</td>
+<td>7,7</td>
+</tr>
+<tr>
+<td>Qualidade da Engenharia</td>
+<td>30%</td>
+<td>7,3</td>
+</tr>
+<tr>
+<td>Eficiência do Time</td>
+<td>20%</td>
+<td>2,5</td>
+</tr>
+<tr>
+<td>Riscos Organizacionais</td>
+<td>20%</td>
+<td>8,6</td>
+</tr>
+</tbody></table>
+<p><strong>Score: 6,7 — Atenção.</strong></p>
+<p>A Eficiência caiu para 2,5 porque a revisão estava concentrada em uma pessoa
+acima de 60%. Três dimensões saudáveis não compensam uma dimensão crítica, e é
+exatamente essa assimetria que o Score deve tornar visível.</p>
+<h2 id="o-estagio-muda-a-conclusao-nao-o-calculo">O estágio muda a conclusão, não o cálculo</h2>
+<p>O <a href="m1-04-workspace.md">ciclo de vida do repositório</a> não altera o Score. Ele altera
+a conclusão que se tira do mesmo número:</p>
+<ul>
+<li><strong>5,2 em um legado estável</strong> — esperado. O repositório não recebe investimento;
+o que interessa ali é Bus Factor e documentação, não Taxa de Entrega.</li>
+<li><strong>5,2 em um produto em evolução</strong> — sinal de fricção onde há investimento
+ativo. É este caso que entra na fila de prioridades da semana.</li>
+</ul>
+<p>Por isso: filtre por estágio antes de comparar repositórios.</p>
+<h2 id="dora-e-space">DORA e SPACE</h2>
+<p>A plataforma se apoia nos dois frameworks de mercado, com fronteira explícita
+entre o que é medido e o que é aproximação.</p>
+<h3 id="as-quatro-metricas-dora">As quatro métricas DORA</h3>
+<table>
+<thead>
+<tr>
+<th>Métrica</th>
+<th>Situação</th>
+<th>Como é obtida</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Lead time de mudança</td>
+<td><strong>Medida</strong></td>
+<td>mediana do Lead Time de Entrega dos repositórios do escopo — mediana, e não média, para que um repositório atípico não distorça a leitura</td>
+</tr>
+<tr>
+<td>Frequência de entrega</td>
+<td><strong>Medida</strong></td>
+<td>média da Taxa de Entrega semanal do escopo, a partir das integrações</td>
+</tr>
+<tr>
+<td>Taxa de falha de mudança</td>
+<td><strong>Proxy declarada</strong></td>
+<td>usa retrabalho como aproximação. <strong>Não é falha em produção</strong>: é a fatia de entregas que precisou de correção depois. O relatório sempre carrega esse aviso</td>
+</tr>
+<tr>
+<td>Tempo de restauração</td>
+<td><strong>Não apresentada</strong></td>
+<td>não há fonte de incidentes conectada; em vez de estimar, a plataforma omite</td>
+</tr>
+</tbody></table>
+<p>Quem precisa de MTTR real precisa conectar uma fonte de incidentes.</p>
+<h3 id="os-cinco-eixos-space">Os cinco eixos SPACE</h3>
+<table>
+<thead>
+<tr>
+<th>Eixo</th>
+<th>Como é aproximado</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Atividade</td>
+<td>média de contribuidores ativos: quantas pessoas efetivamente entregaram no período</td>
+</tr>
+<tr>
+<td>Comunicação</td>
+<td>fatia de entregas integradas sem revisão — quanto menor, mais o time conversa sobre o código</td>
+</tr>
+<tr>
+<td>Desempenho</td>
+<td>Taxa de Entrega normalizada pelo Lead Time de Entrega: entregar rápido e com frequência ao mesmo tempo</td>
+</tr>
+<tr>
+<td>Eficiência</td>
+<td>tempo médio até a primeira revisão, como medida de espera no fluxo</td>
+</tr>
+<tr>
+<td>Satisfação</td>
+<td><strong>sem fonte.</strong> Exige pesquisa com o time e não é inferida a partir de dados de repositório</td>
+</tr>
+</tbody></table>
+<h2 id="o-que-a-plataforma-nao-mede">O que a plataforma não mede</h2>
+<p>Três fronteiras que são de construção, não de configuração:</p>
+<p><strong>Nenhum score por desenvolvedor.</strong> Não existe nota individual no modelo de
+dados. As métricas de distribuição aparecem como percentual do maior
+contribuidor, sem nome associado.</p>
+<p><strong>Nenhum dado de produção.</strong> Incidentes, disponibilidade e desempenho em produção
+ficam fora do escopo. O recorte vai do requisito ao merge.</p>
+<p><strong>Nenhum valor fabricado.</strong> Quando falta dado, a seção é omitida. É preferível um
+relatório mais curto a um relatório com número inventado.</p>
+<h2 id="como-usar-o-painel-na-rotina">Como usar o painel na rotina</h2>
+<ol>
+<li><strong>Filtre por estágio de ciclo de vida</strong> antes de comparar repositórios</li>
+<li><strong>Abra a dimensão</strong> que puxou o Score para baixo, não o Score em si</li>
+<li><strong>Cheque se há blocker</strong> antes de discutir a média ponderada</li>
+<li><strong>Acompanhe a variação entre períodos</strong>, que diz mais do que o valor absoluto</li>
+</ol>
+
+      </article>
+      <article class="secao" id="m1-04-workspace" data-modulo="1">
+        <h1>Workspace</h1>
+        <h2 id="visao-geral">Visão Geral</h2>
+<p>É a tela inicial do produto: acessar a raiz leva direto para cá. Ela responde
+&quot;como está a engenharia desta organização agora&quot;.</p>
+<p><img src="../assets/screenshots/visao-geral.png" alt="Visão geral"></p>
+<blockquote>
+<p>A mecânica por trás destes números — pesos, indicadores, blockers e faixas —
+está em <a href="m1-03-metricas.md">Métricas</a>.</p>
+</blockquote>
+<h3 id="o-bloco-do-score">O bloco do Score</h3>
+<p>O bloco superior traz o Score da organização, o recorte a que ele se refere
+(quantos contextos e repositórios entraram na conta) e um selo de estado:
+<strong>Saudável</strong>, <strong>Atenção</strong> ou <strong>Crítico</strong>.</p>
+<p>Ao lado, o produto escreve em texto corrido o que a variação significa,
+nomeando o contexto que mais puxou o resultado para cima ou para baixo — e
+distinguindo movimento concentrado em um contexto de movimento distribuído entre
+vários.</p>
+<h3 id="o-que-e-quotperiodo-anteriorquot">O que é &quot;período anterior&quot;</h3>
+<p>A variação compara <strong>o último período fechado com o imediatamente anterior, na
+granularidade selecionada</strong>. Trocar a granularidade muda a comparação:</p>
+<table>
+<thead>
+<tr>
+<th>Granularidade</th>
+<th>A variação compara</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Semanas</strong></td>
+<td>a última semana fechada com a semana anterior</td>
+</tr>
+<tr>
+<td><strong>Meses</strong></td>
+<td>o último mês fechado com o mês anterior</td>
+</tr>
+<tr>
+<td><strong>Quarters</strong></td>
+<td>o último quarter fechado com o anterior</td>
+</tr>
+</tbody></table>
+<p>A seta indica a direção e a cor indica o sentido: verde melhorou, vermelho
+piorou. Quando não há histórico suficiente, o produto informa que aquele é o
+primeiro período registrado, em vez de exibir variação zero.</p>
+<p>Logo abaixo aparecem <strong>vs mês</strong> e <strong>vs trimestre</strong>. Estes são outra coisa: em vez
+de comparar com o período anterior, comparam o Score do período atual com a
+<strong>média</strong> daquela janela mais longa. Servem para separar oscilação pontual de
+tendência.</p>
+<h3 id="composicao">Composição</h3>
+<p>Lista os contextos que formam o Score, cada um com sua contribuição. Os nomes são
+links para a visão daquele contexto.</p>
+<h3 id="trajetoria">Trajetória</h3>
+<p>Plota o Score e as quatro dimensões ao longo do tempo, um ponto por período
+medido, com legenda por série. O botão ao lado do título alterna entre linhas e
+barras. A série é reconstruída a partir do histórico do git, e não apenas do
+período em que o repositório está conectado ao WLC.</p>
+<h3 id="cards-das-dimensoes">Cards das dimensões</h3>
+<p>Abaixo do gráfico, cada uma das quatro dimensões tem seu próprio card, com a nota
+de 0 a 10, o estado (Saudável, Atenção ou Crítico) e a variação em relação ao
+período anterior. É onde se vê rapidamente qual dimensão está puxando o Score.</p>
+<h3 id="filtro-por-contexto">Filtro por contexto</h3>
+<p>O controle <strong>Contexto</strong>, no topo, limita toda a tela a um contexto específico ou
+mantém a visão consolidada em &quot;Todos&quot;.</p>
+<h2 id="repositorios">Repositórios</h2>
+<p>Lista todos os repositórios da organização com busca e filtros.</p>
+<p><img src="../assets/screenshots/repositorios.png" alt="Lista de repositórios"></p>
+<p>Cada linha traz o Score do repositório, a tendência, o contexto ao qual pertence,
+o status, a contagem de pull requests e de contribuidores, a data da última
+medição e as quatro dimensões abertas.</p>
+<h3 id="os-status">Os status</h3>
+<p>Quando um repositório aparece sem Score, o status explica o motivo:</p>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Processando</strong></td>
+<td>a análise está em andamento; o Score aparece ao terminar</td>
+</tr>
+<tr>
+<td><strong>Aguardando primeira coleta</strong></td>
+<td>o repositório foi conectado, mas a primeira leitura ainda não rodou</td>
+</tr>
+<tr>
+<td><strong>Sem atividade Git</strong></td>
+<td>não há atividade suficiente no histórico para medir</td>
+</tr>
+<tr>
+<td><strong>Score baixo</strong></td>
+<td>o Score foi calculado e ficou em patamar que merece atenção</td>
+</tr>
+</tbody></table>
+<p>O monitoramento de cada repositório também pode estar <strong>Ativo</strong> ou <strong>Pausado</strong>,
+o que é configurado na administração.</p>
+<h2 id="contextos">Contextos</h2>
+<p><img src="../assets/screenshots/contextos.png" alt="Lista de contextos"></p>
+<p>O topo repete o Score da organização, com o detalhe de <strong>quantos repositórios já
+têm Score</strong> em relação ao total — informação que ajuda a calibrar a confiança no
+número.</p>
+<p>A lista tem três recortes dos mesmos repositórios:</p>
+<h3 id="contextos">Contextos</h3>
+<p>Agrupa pelos contextos definidos na administração — produto, domínio ou squad.
+Cada linha mostra o Score do contexto, a quantidade de repositórios, de pull
+requests e de contribuidores, além das quatro dimensões. A seta à esquerda
+expande a linha e revela os repositórios daquele contexto.</p>
+<h3 id="ciclo-de-vida">Ciclo de Vida</h3>
+<p>Agrupa por estágio de maturidade. A classificação é <strong>automática</strong>, feita a partir
+da atividade no git — idade do repositório, frequência de commits, pull requests
+integradas e contribuidores ativos. São cinco estágios:</p>
+<table>
+<thead>
+<tr>
+<th>Estágio</th>
+<th>Critério</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Ativo em Construção</strong></td>
+<td>criado há menos de 6 meses, ainda sem versão publicada, com commits no último mês e ao menos 3 PRs integradas por mês</td>
+</tr>
+<tr>
+<td><strong>Ativo em Evolução</strong></td>
+<td>já em produção (com versão publicada ou criado há 6 meses ou mais), commits no último mês, ao menos 3 PRs integradas por mês e 2 ou mais pessoas contribuindo nos últimos 90 dias</td>
+</tr>
+<tr>
+<td><strong>Ativo em Manutenção</strong></td>
+<td>continua mantido, mas sem o ritmo dos anteriores; inclui repositórios cujo último commit ficou entre 6 e 12 meses e que ainda recebem PRs</td>
+</tr>
+<tr>
+<td><strong>Legado Estável</strong></td>
+<td>último commit entre 6 e 12 meses atrás e menos de 2 PRs integradas nos últimos 180 dias — em produção, com baixa movimentação</td>
+</tr>
+<tr>
+<td><strong>Legado Abandonado</strong></td>
+<td>sem commits há mais de 12 meses</td>
+</tr>
+</tbody></table>
+<p>Esse recorte é útil para decidir onde investir: um Score baixo em um repositório
+classificado como Legado Abandonado tem peso diferente de um Score baixo em um
+Ativo em Evolução. O estágio <strong>não altera o cálculo</strong> do Score, só a conclusão
+que se tira dele — ver <a href="m1-03-metricas.md">Métricas</a>.</p>
+<h3 id="grupos">Grupos</h3>
+<p>Agrupa pelos <strong>grupos de usuários</strong> definidos em
+<a href="m2-00-visao-admin.md">Administração › Grupos de Usuários</a>. Um grupo associa
+pessoas a contextos e determina quais repositórios cada pessoa enxerga, então
+este recorte mostra o Score do conjunto de repositórios visível a cada grupo.</p>
+<p>É a leitura por recorte de time: em vez de &quot;como está este domínio&quot;, responde
+&quot;como está o que este time acompanha&quot;. Grupos sem contextos associados aparecem
+vazios.</p>
+<h2 id="analises-em-andamento">Análises em andamento</h2>
+<p>Quando os repositórios estão sendo processados, esta tela acompanha o progresso
+de cada um, com percentual e situação. O botão de atualizar recarrega o estado.</p>
+<p><img src="../assets/screenshots/analise-em-progresso.png" alt="Análises em andamento"></p>
+
+      </article>
+      <article class="secao" id="m1-05-contexto" data-modulo="1">
+        <h1>Contexto</h1>
+        <p>Um contexto é um agrupamento lógico de repositórios por produto, domínio ou
+squad. Clicar no nome de um contexto muda o escopo do produto inteiro: o caminho
+percorrido fica visível na trilha do topo (<em>Organização › Contexto</em>) e o seletor
+da barra lateral passa a indicar o nível em que você está.</p>
+<h2 id="visao-geral-do-contexto">Visão Geral do contexto</h2>
+<p><img src="../assets/screenshots/contexto-home.png" alt="Visão geral do contexto"></p>
+<p>Mesma estrutura da visão da organização — Score, variação, composição e
+trajetória — restrita aos repositórios daquele contexto. A diferença está na
+composição, que aqui lista repositórios em vez de contextos: é assim que se
+identifica qual repositório puxou o Score do contexto.</p>
+<p>A leitura do bloco de Score é a mesma descrita em <a href="m1-04-workspace.md">Workspace</a>, e
+a mecânica por trás dos números está em <a href="m1-03-metricas.md">Métricas</a>.</p>
+<p>Três abas organizam o conteúdo: <strong>Overview</strong>, <strong>Insights</strong> e <strong>Digest</strong>.</p>
+<h2 id="repositorios-do-contexto">Repositórios do contexto</h2>
+<p><img src="../assets/screenshots/contexto-repositorios.png" alt="Repositórios do contexto"></p>
+<p>Mesma lista da visão da organização, limitada ao contexto, com os recortes
+<strong>Repositórios</strong> e <strong>Ciclo de Vida</strong>.</p>
+<h2 id="navigate-no-contexto">Navigate no contexto</h2>
+<p><img src="../assets/screenshots/contexto-navigate.png" alt="Navigate no contexto"></p>
+<p>O assistente com o escopo restrito ao contexto: as perguntas são respondidas
+considerando apenas os repositórios daquele agrupamento. O funcionamento está
+descrito em <a href="m1-07-ferramentas.md">Ferramentas</a>.</p>
+
+      </article>
+      <article class="secao" id="m1-06-repositorio" data-modulo="1">
+        <h1>Repositório</h1>
+        <p>O repositório é o nível mais profundo da navegação, e é onde o Score de fato é
+calculado — os níveis acima agregam. A trilha do topo mostra o caminho completo
+(<em>Organização › Contexto › Repositório</em>).</p>
+<p>A barra lateral, neste nível, traz <strong>Visão Geral</strong> e <strong>Documentação</strong>.</p>
+<h2 id="visao-geral-do-repositorio">Visão Geral do repositório</h2>
+<p><img src="../assets/screenshots/repo-home.png" alt="Visão geral do repositório"></p>
+<p>Score do repositório, variação e trajetória. A composição, aqui, lista as quatro
+dimensões em vez de repositórios — é o nível em que se vê qual dimensão está
+puxando o Score.</p>
+<p>O botão <strong>Ver métricas detalhadas</strong> abre a aba <strong>Métricas</strong>, onde cada indicador
+aparece com o valor medido e a faixa em que caiu. Essa tela está explicada em
+<a href="m1-03-metricas.md">Métricas</a>.</p>
+<h2 id="documentacao-gerada">Documentação gerada</h2>
+<p>É onde o WLC entrega a leitura semântica do código. A plataforma analisa o
+repositório em <strong>sete frentes</strong>, cada uma com estado próprio, indicando a branch
+analisada.</p>
+<p><img src="../assets/screenshots/repo-documentacao.png" alt="Documentação do repositório"></p>
+<table>
+<thead>
+<tr>
+<th>Frente</th>
+<th>O que cobre</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Visão Geral</td>
+<td>fotografia consolidada da saúde do projeto</td>
+</tr>
+<tr>
+<td>Arquitetura</td>
+<td>padrões de design, camadas, acoplamento e coesão</td>
+</tr>
+<tr>
+<td>Regras de Negócio</td>
+<td>regras implícitas no código</td>
+</tr>
+<tr>
+<td>Gestão de Dependências</td>
+<td>versões, depreciação, dívida técnica e licenças</td>
+</tr>
+<tr>
+<td>Design de APIs</td>
+<td>qualidade arquitetural das APIs</td>
+</tr>
+<tr>
+<td>Qualidade de Código</td>
+<td>complexidade, manutenibilidade e cobertura de testes</td>
+</tr>
+<tr>
+<td>Conformidade CNPJ 2026</td>
+<td>adaptação ao novo formato alfanumérico</td>
+</tr>
+</tbody></table>
+<p>Cada frente fica em um de dois estados:</p>
+<ul>
+<li><strong>Atualizada</strong> — a análise foi concluída, com a data da última atualização, e o
+botão <strong>Abrir</strong> mostra o documento</li>
+<li><strong>Fora de escopo</strong> — a frente não se aplica àquele repositório, e o produto diz
+por quê (por exemplo, nenhum endpoint de API detectado). O botão <strong>Reavaliar
+escopo</strong> força uma nova verificação</li>
+</ul>
+<p>Esse segundo estado é deliberado: em vez de entregar um documento vazio, o
+produto explica a ausência.</p>
+<h3 id="o-que-define-quotfora-de-escopoquot">O que define &quot;fora de escopo&quot;</h3>
+<p>A decisão é automática e acontece <strong>antes</strong> da análise rodar. O motor inspeciona
+o repositório e produz artefatos de detecção — inventário de arquivos,
+tecnologias, dependências declaradas, registro de APIs — e cada frente tem um
+critério objetivo sobre esses artefatos.</p>
+<p>Vale registrar como a decisão <strong>não</strong> é tomada: ela não depende de julgamento do
+modelo de IA. Os critérios usam apenas sinais calculados a partir do código, o
+que evita que uma leitura equivocada do modelo tire uma análise de escopo.</p>
+<p>Primeiro há uma regra geral. <strong>Repositório pequeno</strong> — menos de 100 linhas de
+código <em>e</em> menos de 5 arquivos — coloca todas as frentes fora de escopo, exceto a
+Visão Geral. As duas condições precisam ser verdadeiras ao mesmo tempo.</p>
+<p>Depois, cada frente tem seu próprio critério:</p>
+<table>
+<thead>
+<tr>
+<th>Frente</th>
+<th>Entra em escopo quando</th>
+<th>Mensagem quando não entra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Visão Geral</strong></td>
+<td>sempre; é a única frente que a regra de repositório pequeno não afeta</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Arquitetura</strong></td>
+<td>o repositório tem mais de 5 arquivos e contém arquivos de código-fonte</td>
+<td>&quot;Repositório não possui estrutura suficiente para análise de arquitetura&quot;</td>
+</tr>
+<tr>
+<td><strong>Regras de Negócio</strong></td>
+<td>o repositório tem mais de 100 linhas e contém arquivos de código-fonte</td>
+<td>&quot;Repositório possui código insuficiente para análise de negócios&quot;</td>
+</tr>
+<tr>
+<td><strong>Qualidade de Código</strong></td>
+<td>há pelo menos alguma linha de código e arquivos de código-fonte</td>
+<td>&quot;Nenhum arquivo de código-fonte encontrado&quot;</td>
+</tr>
+<tr>
+<td><strong>Gestão de Dependências</strong></td>
+<td>há dependências declaradas em algum gerenciador de pacotes</td>
+<td>&quot;Nenhuma dependência detectada&quot;</td>
+</tr>
+<tr>
+<td><strong>Design de APIs</strong></td>
+<td>há endpoints detectados, ou arquivos de especificação de API (OpenAPI, WSDL, GraphQL, gRPC)</td>
+<td>&quot;Nenhum endpoint de API detectado&quot;</td>
+</tr>
+<tr>
+<td><strong>Conformidade CNPJ 2026</strong></td>
+<td>o repositório declara alguma biblioteca conhecida de validação de CPF/CNPJ</td>
+<td>&quot;Nenhum padrão de validação CNPJ/CPF encontrado&quot;</td>
+</tr>
+</tbody></table>
+<p>Dois detalhes que evitam falso negativo:</p>
+<ul>
+<li><strong>&quot;Arquivo de código-fonte&quot; exclui markdown, formatos de configuração e
+arquivos de dados.</strong> Um repositório só com YAML e README não passa nos
+critérios que exigem código, e é por isso que a mensagem de Qualidade de Código
+menciona repositórios que contêm apenas configurações ou scripts simples.</li>
+<li><strong>Design de APIs não exige endpoints implementados.</strong> Um repositório que só
+publica contratos — arquivos <code>.wsdl</code>, <code>.proto</code> ou especificações OpenAPI — entra
+em escopo mesmo sem código de API.</li>
+</ul>
+<p>Quando os artefatos de detecção não estão disponíveis, o motor assume que a
+análise <strong>se aplica</strong> em vez de descartá-la. O comportamento é conservador na
+direção de analisar demais, não de menos.</p>
+<p>É por isso que <strong>Reavaliar escopo</strong> existe: o critério é avaliado sobre o estado
+do repositório naquele momento. Um repositório que ganhou seu primeiro endpoint,
+ou passou a declarar dependências, muda de situação — e a reavaliação é o que
+detecta isso.</p>
+<h3 id="como-a-documentacao-e-atualizada">Como a documentação é atualizada</h3>
+<p>As análises não são geradas uma única vez: elas acompanham a evolução do código.
+Há dois caminhos.</p>
+<p><strong>Automaticamente, pela esteira de CI/CD.</strong> Quando o repositório tem a integração
+configurada, cada execução do pipeline dispara uma nova análise, e a documentação
+reflete o estado atual do código sem intervenção. A conexão é feita com uma chave
+de API, criada em <a href="m2-00-visao-admin.md">Administração › API Keys</a> — é para isso
+que aquelas chaves existem.</p>
+<p><strong>Manualmente, por esta tela.</strong> O menu de ações de cada frente, no fim da linha,
+oferece <strong>Gerar novamente</strong>, que reprocessa apenas aquela análise. Para
+reprocessar tudo de uma vez, o menu no topo direito da tela traz <strong>Gerar todas
+novamente</strong>, que pede confirmação antes de disparar — a análise de todas as
+frentes leva alguns minutos e consome recursos do motor.</p>
+<p>Os mesmos menus permitem exportar o resultado: <strong>Baixar PDF</strong> e <strong>Baixar
+Markdown</strong> por frente, ou <strong>Baixar tudo em PDF</strong> e <strong>Baixar tudo em Markdown</strong>
+para o conjunto.</p>
+<p>Frentes marcadas como <em>Fora de escopo</em> não têm a opção de gerar novamente, e sim
+<strong>Reavaliar escopo</strong>: em vez de reprocessar uma análise que não se aplica, o
+produto verifica de novo se ela passou a se aplicar — por exemplo, se o
+repositório ganhou endpoints de API desde a última verificação.</p>
+<blockquote>
+<p><strong>Esta frente está em evolução.</strong> A análise semântica que produz esses
+documentos está passando por uma reformulação ampla, que abrange desde a coleta
+dos dados até o processamento e a forma de apresentá-los. Por isso, neste
+momento, algumas análises aparecem com layout e nível de detalhe diferentes das
+demais. A diferença é temporária e será uniformizada conforme as frentes forem
+migradas para o novo formato.</p>
+</blockquote>
+
+      </article>
+      <article class="secao" id="m1-07-ferramentas" data-modulo="1">
+        <h1>Ferramentas</h1>
+        <h2 id="navigate">Navigate</h2>
+<p>Assistente que responde perguntas usando o conhecimento que o WLC acumulou sobre
+os repositórios — tanto a documentação gerada pelas análises semânticas quanto as
+métricas de processo.</p>
+<p><img src="../assets/screenshots/navigate.png" alt="Navigate"></p>
+<h3 id="onde-acessar">Onde acessar</h3>
+<p>Há dois caminhos, e eles compartilham o mesmo histórico de conversas:</p>
+<ul>
+<li><strong>Pelo menu lateral</strong>, em Ferramentas › Navigate, que abre a tela cheia</li>
+<li><strong>Pelo botão flutuante</strong>, o ícone de conversa no canto inferior direito, que
+está presente em <strong>todas as telas do produto</strong> e abre um painel lateral sem
+tirar você de onde está</li>
+</ul>
+<p><img src="../assets/screenshots/navigate-painel.png" alt="Painel do Navigate sobre a lista de repositórios"></p>
+<p>O painel é a versão compacta: serve para uma pergunta rápida sobre a tela que
+você está vendo. Ele traz <strong>Ir para o Navigate</strong>, que transfere a conversa para a
+tela cheia quando o assunto se aprofunda.</p>
+<h3 id="escopo-da-conversa">Escopo da conversa</h3>
+<p>O seletor no canto superior esquerdo define sobre o que o Navigate responde:</p>
+<ul>
+<li><strong>Workspace</strong> — todos os repositórios da organização</li>
+<li><strong>Um contexto específico</strong> — apenas os repositórios daquele agrupamento</li>
+</ul>
+<p>Ao abrir o painel flutuante, o escopo vem da tela em que você está. O escopo não
+pode ser trocado no meio de uma resposta: é preciso esperar a resposta corrente
+terminar.</p>
+<blockquote>
+<p>O que cada pessoa enxerga depende das permissões. Com a filtragem por usuário
+ativa, perfis de desenvolvedor e visualizador só recebem respostas sobre os
+repositórios aos quais têm acesso pelos seus
+<a href="m2-00-visao-admin.md">grupos</a>.</p>
+</blockquote>
+<h3 id="os-tres-botoes">Os três botões</h3>
+<p><strong>Nova conversa</strong> — descarta o contexto acumulado e começa do zero. Útil quando o
+assunto muda: sem isso, o Navigate segue considerando as perguntas anteriores.</p>
+<p><strong>Compartilhar</strong> — gera um link para a conversa. O acesso é restrito: apenas
+pessoas <strong>da mesma organização</strong> e <strong>com permissão sobre os repositórios tratados
+na conversa</strong> conseguem abrir. Links de outra organização são recusados, e quem
+não tem acesso aos repositórios recebe orientação para pedir liberação ao
+administrador. Quem abre um link compartilhado vê a conversa marcada como
+<em>Compartilhada por</em> quem a gerou.</p>
+<p><strong>Histórico</strong> — lista as conversas anteriores, com a data relativa de cada uma
+(&quot;Há 3 dias&quot;) e o escopo em que foi feita, para retomar de onde parou.</p>
+<h3 id="panorama-de-saude">Panorama de Saúde</h3>
+<p>É o único relatório pronto disponível hoje, oferecido em <strong>Comece com um
+relatório pronto</strong>. Ele monta uma visão consolidada de saúde da engenharia —
+score, evolução no período e ações sugeridas — com formatação própria, em vez de
+uma resposta em texto corrido.</p>
+<p>O Panorama é sempre construído <strong>sobre contextos</strong>. Ao acioná-lo, o produto
+pergunta duas coisas:</p>
+<p><img src="../assets/screenshots/navigate-panorama.png" alt="Seleção de contextos e período do Panorama"></p>
+<ol>
+<li><strong>Quais contextos entram</strong> — um, vários, ou &quot;Todos os contextos (workspace)&quot;.
+Quando muitos contextos são selecionados, todos entram no score consolidado,
+mas a tabela detalha os principais e agrupa o restante em &quot;Demais&quot;.</li>
+<li><strong>Qual o período base</strong> — Últimos 30 dias, Esse mês ou Mês anterior.</li>
+</ol>
+<p>O período escolhido ancora o relatório inteiro: o score, a tendência de 90 dias e
+as métricas de fluxo. Nas comparações, &quot;Atual&quot; é o período escolhido e &quot;Anterior&quot;
+é o período imediatamente anterior a ele.</p>
+<p>No painel flutuante o Panorama aparece como <strong>Disponível no Navigate</strong>: clicar
+leva à tela cheia, onde a seleção de contextos e período acontece.</p>
+<h3 id="o-que-perguntar">O que perguntar</h3>
+<p>O produto oferece três atalhos abaixo do campo de pergunta:</p>
+<ul>
+<li>Quais são as principais regras de negócio?</li>
+<li>Quem domina o conhecimento aqui?</li>
+<li>Quais repositórios fazem parte?</li>
+</ul>
+<p>São pontos de partida, não um cardápio fechado. Como o Navigate se apoia na
+documentação gerada pelas análises e nas métricas de processo, as perguntas que
+mais rendem são as que aproveitam esse cruzamento:</p>
+<p><strong>Para entrar em um código desconhecido</strong></p>
+<ul>
+<li>O que este repositório faz e como está organizado?</li>
+<li>Quais são as regras de negócio implícitas neste módulo?</li>
+<li>Que decisões de arquitetura explicam a estrutura atual?</li>
+<li>Por onde começar para mexer nesta parte do sistema com segurança?</li>
+</ul>
+<p><strong>Para entender um número do painel</strong></p>
+<ul>
+<li>Por que a Qualidade da Engenharia caiu no último período?</li>
+<li>O que está puxando o Bus Factor para baixo neste repositório?</li>
+<li>Quais repositórios têm o maior risco de continuidade hoje?</li>
+<li>O que mudou nas últimas semanas que explica a variação do Score?</li>
+</ul>
+<p><strong>Para decidir onde agir</strong></p>
+<ul>
+<li>Quais repositórios deveriam receber atenção nesta semana?</li>
+<li>Onde a revisão de código está concentrada em poucas pessoas?</li>
+<li>Que dependências estão desatualizadas ou representam risco?</li>
+<li>Quais repositórios estão em estágio de legado mas ainda são críticos?</li>
+</ul>
+<p><strong>Para preparar uma conversa ou um documento</strong></p>
+<ul>
+<li>Resuma a saúde desta área para uma reunião de gestão.</li>
+<li>Quem procurar sobre este módulo?</li>
+<li>Que pontos de conformidade merecem atenção neste repositório?</li>
+</ul>
+
+      </article>
+      <article class="secao" id="m1-08-people" data-modulo="1">
+        <h1>People</h1>
+        <p>Duas funcionalidades que aplicam o conhecimento do WLC sobre a base de código a
+decisões sobre pessoas. As duas seguem o mesmo desenho: uma lista do que já foi
+produzido, e um assistente de três passos para produzir um item novo.</p>
+<h2 id="onboarding-dev">Onboarding Dev</h2>
+<p>Planos de integração para desenvolvedores que chegam ao time, construídos a
+partir do que a plataforma já sabe sobre os repositórios.</p>
+<p><img src="../assets/screenshots/onboarding-plano.png" alt="Onboarding Dev"></p>
+<p>Cada plano aparece com o nome da pessoa, o cargo e a senioridade, os repositórios
+vinculados, quem criou e a data. O selo à direita do nome indica o estado — no
+exemplo, <strong>Pronto</strong>. A busca filtra por nome e <strong>Novo Plano</strong> inicia a criação.</p>
+<p>O número de repositórios é um link: é por ele que se vê sobre qual parte da base
+de código aquele plano foi construído.</p>
+<h3 id="criar-um-plano">Criar um plano</h3>
+<p><strong>Novo Plano</strong> abre um assistente de três passos.</p>
+<p><strong>Passo 1 — Desenvolvedor.</strong> Os dados de quem está chegando:</p>
+<p><img src="../assets/screenshots/novo-plano-1-desenvolvedor.png" alt="Novo plano, passo 1"></p>
+<ul>
+<li><strong>Nome completo</strong></li>
+<li><strong>Cargo / Função</strong></li>
+<li><strong>Nível de senioridade</strong> — Junior (0–2 anos), Pleno (3–5 anos) ou Senior (5+ anos)</li>
+</ul>
+<p><strong>Passo 2 — Assessment.</strong> O perfil técnico, que orienta a profundidade do plano:</p>
+<p><img src="../assets/screenshots/novo-plano-2-assessment.png" alt="Novo plano, passo 2"></p>
+<ul>
+<li><strong>Principais tecnologias que domina</strong> — campo livre</li>
+<li><strong>Experiência no domínio do projeto</strong> — Nenhuma, Baixa, Média ou Alta</li>
+<li><strong>Experiência com ferramentas de IA para código</strong> — Nenhuma, Básica (Copilot),
+Intermediária ou Avançada (Claude Code, Cursor)</li>
+<li><strong>Foco principal nos primeiros 90 dias</strong> — Desenvolvimento de funcionalidades,
+Correção de bugs e estabilidade, Testes e qualidade, ou Infraestrutura e
+operações</li>
+<li><strong>Estilo de aprendizado preferido</strong> — Programação em par, Documentação e
+leitura, Prático (mergulhar no código) ou Misto</li>
+</ul>
+<p><strong>Passo 3 — Repositórios.</strong> A seleção dos repositórios em que a pessoa vai
+trabalhar nos primeiros 90 dias, com filtro por nome. São eles que definem qual
+conhecimento acumulado entra no plano.</p>
+<p><img src="../assets/screenshots/novo-plano-3-repositorios.png" alt="Novo plano, passo 3"></p>
+<p>O botão final é <strong>Gerar Plano de 90 Dias</strong>. A geração leva algum tempo: o plano
+aparece na lista com o estado <em>Gerando</em> e passa a <em>Pronto</em> quando conclui.</p>
+<h2 id="job-description">Job Description</h2>
+<p>Descrições de vaga geradas com base nas tecnologias e características reais dos
+repositórios da organização.</p>
+<p><img src="../assets/screenshots/vaga.png" alt="Job Description"></p>
+<p>Cada vaga traz o título, o estado (<strong>Rascunho</strong> ou publicada), a senioridade, o
+regime de trabalho, os repositórios usados como base, o autor e a data. Uma vaga
+em rascunho pode ser retomada e editada antes de ser finalizada.</p>
+<h3 id="criar-uma-vaga">Criar uma vaga</h3>
+<p><strong>Nova Vaga</strong> abre um assistente de três passos, no mesmo formato do Onboarding.</p>
+<p><strong>Passo 1 — Vaga.</strong> As informações da posição:</p>
+<p><img src="../assets/screenshots/nova-vaga-1.png" alt="Nova vaga, passo 1"></p>
+<ul>
+<li><strong>Título da vaga</strong></li>
+<li><strong>Nível de senioridade</strong></li>
+<li><strong>Modelo de trabalho</strong> — presencial, híbrido ou remoto</li>
+</ul>
+<p><strong>Passo 2 — Assessment.</strong> O perfil desejado para a pessoa a contratar.</p>
+<p><strong>Passo 3 — Repositórios.</strong> Os repositórios que servem de base: é deles que saem
+as tecnologias, as práticas e o contexto técnico que aparecem no texto final.</p>
+<h3 id="a-vaga-gerada">A vaga gerada</h3>
+<p>Abrir uma vaga mostra a <strong>Descrição da Vaga</strong> pronta para uso, com botões de
+exportação em <strong>PDF</strong> e <strong>DOCX</strong>.</p>
+<p><img src="../assets/screenshots/vaga-gerada.png" alt="Descrição da vaga gerada"></p>
+<p>O documento começa por uma linha de resumo — senioridade, modelo de trabalho,
+área e tamanho do time — seguida da apresentação da posição em prosa e das
+seções de <strong>Responsabilidades</strong> e <strong>Requisitos</strong>.</p>
+<p>O conteúdo não é genérico: as responsabilidades e os requisitos citam as
+tecnologias efetivamente usadas nos repositórios selecionados e as práticas que a
+análise identificou neles, como testes automatizados, revisão de código e
+pipeline de CI/CD.</p>
+
+      </article>
+      <article class="secao" id="m1-09-perfil" data-modulo="1">
+        <h1>Perfil e conta</h1>
+        <p><img src="../assets/screenshots/perfil.png" alt="Meu perfil"></p>
+<p>Em <strong>Meu Perfil</strong> você edita seus dados e a aparência do produto.</p>
+<p>Campos editáveis:</p>
+<ul>
+<li><strong>Nome</strong></li>
+<li><strong>Cargo</strong></li>
+</ul>
+<p>Campos apenas de leitura, sinalizados com um cadeado:</p>
+<ul>
+<li><strong>Email</strong></li>
+<li><strong>Role</strong> — o perfil de acesso, definido pelo administrador</li>
+<li><strong>Grupos</strong> — também definidos pelo administrador; são eles que determinam quais
+repositórios você enxerga (ver <a href="m2-00-visao-admin.md">Administração</a>)</li>
+</ul>
+<p>O produto explica cada bloqueio na própria tela, para deixar claro que a mudança
+existe, mas passa pela administração.</p>
+<p>Abaixo fica a seção <strong>Aparência</strong>, com as preferências visuais.</p>
+<blockquote>
+<p>No print, o e-mail está borrado por ser dado pessoal.</p>
+</blockquote>
+
+      </article>
+      <article class="secao" id="m2-00-visao-admin" data-modulo="2">
+        <h1>Painel Admin</h1>
+        <p>A área administrativa tem barra lateral própria, identificada por <strong>ADMIN</strong>, e o
+link <strong>Voltar ao sistema</strong> no rodapé retorna à navegação normal.</p>
+<p><img src="../assets/screenshots/admin-geral.png" alt="Administração — Geral"></p>
+<p>É onde se configura tudo que o painel principal consome: quais repositórios são
+analisados, como eles são agrupados, quem tem acesso a quê, e com que frequência
+os dados são coletados.</p>
+<h2 id="o-que-fica-onde">O que fica onde</h2>
+<table>
+<thead>
+<tr>
+<th>Seção</th>
+<th>Responde a</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="m2-01-geral.md">Geral</a></td>
+<td>como esta organização se identifica</td>
+</tr>
+<tr>
+<td><a href="m2-02-repositorios.md">Repositórios</a></td>
+<td>quais repositórios o WLC analisa</td>
+</tr>
+<tr>
+<td><a href="m2-03-contextos.md">Contextos</a></td>
+<td>como esses repositórios são agrupados</td>
+</tr>
+<tr>
+<td><a href="m2-04-api-keys.md">API Keys</a></td>
+<td>como a esteira de CI/CD dispara análises</td>
+</tr>
+<tr>
+<td><a href="m2-05-usuarios.md">Usuários</a></td>
+<td>quem tem acesso e com qual perfil</td>
+</tr>
+<tr>
+<td><a href="m2-06-grupos.md">Grupos de Usuários</a></td>
+<td>quem enxerga quais repositórios</td>
+</tr>
+<tr>
+<td><a href="m2-07-notificacoes.md">Notificações</a></td>
+<td>o que é enviado para fora do produto</td>
+</tr>
+<tr>
+<td><a href="m2-08-permissoes.md">Permissões</a></td>
+<td>o que cada perfil pode fazer</td>
+</tr>
+<tr>
+<td><a href="m2-09-monitoramento.md">Monitoramento</a></td>
+<td>com que frequência os dados são coletados</td>
+</tr>
+<tr>
+<td><a href="m2-10-sso.md">SSO SAML</a></td>
+<td>autenticação corporativa</td>
+</tr>
+<tr>
+<td><a href="m2-11-super-admin.md">Super Admin</a></td>
+<td>seções restritas à equipe Duranium</td>
+</tr>
+</tbody></table>
+<p>O acesso a cada seção depende de permissão: quem não tem a permissão
+correspondente não vê o item no menu e é redirecionado ao tentar acessá-lo
+diretamente.</p>
+<h2 id="por-onde-comecar">Por onde começar</h2>
+<p>Numa organização nova, a ordem que funciona é esta:</p>
+<ol>
+<li><strong>Repositórios</strong> — conectar o GitHub e escolher o que será analisado</li>
+<li><strong>Contextos</strong> — agrupar os repositórios por domínio e escrever o briefing de
+cada um</li>
+<li><strong>Usuários</strong> — convidar as pessoas e definir o perfil de cada uma</li>
+<li><strong>Grupos</strong> — se nem todo mundo deve ver tudo, restringir por contexto</li>
+<li><strong>API Keys</strong> — se as análises devem rodar a cada push, conectar a esteira</li>
+<li><strong>Monitoramento</strong> — ajustar a frequência da coleta, se o padrão não servir</li>
+</ol>
+
+      </article>
+      <article class="secao" id="m2-01-geral" data-modulo="2">
+        <h1>Geral</h1>
+        <p>Os dados cadastrais da organização — o que o produto usa para se referir a ela e
+para calibrar comparações.</p>
+<p><img src="../assets/screenshots/admin-geral.png" alt="Administração — Geral"></p>
+<h2 id="os-campos">Os campos</h2>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Para que serve</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Nome</strong></td>
+<td>identifica a organização no cabeçalho e na barra lateral</td>
+</tr>
+<tr>
+<td><strong>Descrição</strong></td>
+<td>texto livre sobre o que a organização faz</td>
+</tr>
+<tr>
+<td><strong>Setor</strong></td>
+<td>segmento de atuação</td>
+</tr>
+<tr>
+<td><strong>Porte da engenharia</strong></td>
+<td>tamanho do time técnico</td>
+</tr>
+</tbody></table>
+<p>Setor e porte não são decorativos: eles dão à plataforma uma referência do tipo
+de operação, o que ajuda a contextualizar análises e relatórios gerados por IA.</p>
+<h2 id="como-editar">Como editar</h2>
+<p>O botão <strong>Editar</strong>, no canto do cartão, libera os campos para alteração. O nome
+alterado passa a valer imediatamente em toda a interface.</p>
+
+      </article>
+      <article class="secao" id="m2-02-repositorios" data-modulo="2">
+        <h1>Repositórios</h1>
+        <p>Onde os repositórios são conectados ao WLC. Nada é analisado antes de passar por
+aqui.</p>
+<p><img src="../assets/screenshots/admin-repositorios.png" alt="Administração — Repositórios"></p>
+<h2 id="a-conexao-com-o-github">A conexão com o GitHub</h2>
+<p>O bloco superior mostra o estado da integração: o método (OAuth), a conta usada e
+um indicador de saúde. <strong>Atualizar conexão</strong> refaz a autorização — necessário
+quando as permissões concedidas mudam ou expiram.</p>
+<p>Se a conexão estiver sem alguma permissão obrigatória, o produto avisa nesse
+bloco e explica quais faltam. Sem elas, as análises não rodam.</p>
+<h2 id="adicionar-repositorios">Adicionar repositórios</h2>
+<p><strong>Adicionar repositório</strong> abre a lista de repositórios disponíveis na conta
+conectada, com busca por nome. A tela informa a <strong>cota do plano</strong> — quantos
+repositórios já estão em uso e quantas vagas restam — e marca os arquivados, para
+que não sejam incluídos por engano.</p>
+<p>Repositórios já adicionados ficam ocultos por padrão; a caixa <strong>Mostrar
+repositórios já adicionados</strong> os exibe.</p>
+<p>Para incluir muitos de uma vez existe o caminho por planilha:</p>
+<ol>
+<li><strong>Baixar template</strong> — gera o CSV no formato esperado</li>
+<li>Preencher com os repositórios desejados</li>
+<li><strong>Importar CSV</strong> — envia a lista</li>
+</ol>
+<p><strong>Exportar</strong> faz o inverso: extrai a lista atual, útil para auditoria ou para
+replicar a configuração em outra organização.</p>
+<h2 id="monitoramento-por-repositorio">Monitoramento por repositório</h2>
+<p>Cada repositório da lista tem um menu de ações e um estado de monitoramento, que
+pode ser <strong>Ativo</strong> ou <strong>Pausado</strong>. Pausar interrompe novas análises sem remover o
+repositório nem descartar o histórico já coletado — útil para um projeto que
+entrou em espera.</p>
+
+      </article>
+      <article class="secao" id="m2-03-contextos" data-modulo="2">
+        <h1>Contextos</h1>
+        <p>Um <strong>contexto</strong> é um agrupamento lógico de repositórios — por produto, domínio ou
+squad. É a peça central da organização dos dados: o Score é agregado por
+contexto, o Navigate pode ser restrito a um contexto, e o acesso das pessoas é
+concedido por contexto.</p>
+<p><img src="../assets/screenshots/admin-contextos.png" alt="Administração — Contextos"></p>
+<h2 id="a-arvore">A árvore</h2>
+<p>Os contextos aparecem em árvore, com a contagem de repositórios de cada um.
+Contextos podem ter <strong>contexto pai</strong>, o que permite hierarquias — uma área que se
+subdivide em domínios, por exemplo.</p>
+<p>Um nó <strong>Sem Contexto</strong> reúne os repositórios ainda não classificados. É o item a
+observar depois de conectar repositórios novos: enquanto estiverem ali, não
+entram em nenhuma visão por contexto.</p>
+<h2 id="criar-um-contexto">Criar um contexto</h2>
+<p><strong>Novo Contexto</strong> abre um formulário curto:</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Observação</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Nome</strong></td>
+<td>obrigatório</td>
+</tr>
+<tr>
+<td><strong>Descrição</strong></td>
+<td>opcional, até 250 caracteres</td>
+</tr>
+<tr>
+<td><strong>Contexto pai</strong></td>
+<td>define a posição na árvore</td>
+</tr>
+</tbody></table>
+<p><strong>Importar CSV</strong> permite criar vários de uma vez.</p>
+<h2 id="o-briefing-do-contexto">O briefing do contexto</h2>
+<p>Abrir um contexto leva à sua tela de detalhe, que tem duas partes: o <strong>briefing</strong>
+e a lista de repositórios.</p>
+<p>O briefing é um texto livre de até 3000 caracteres com informações de negócio
+sobre aquele conjunto de repositórios. Ele não é decorativo: <strong>é usado pela IA
+para contextualizar as análises daquele contexto.</strong> O mesmo código analisado com
+e sem briefing produz leituras diferentes, porque o modelo passa a saber o que o
+sistema faz, que restrições existem e o que está em andamento.</p>
+<p>O botão <strong>Usar template</strong> preenche o campo com uma estrutura de quatro partes:</p>
+<table>
+<thead>
+<tr>
+<th>Seção do template</th>
+<th>O que escrever</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Sobre este produto/domínio</strong></td>
+<td>o que este conjunto de repositórios faz e qual o papel dele no negócio</td>
+</tr>
+<tr>
+<td><strong>Stack e decisões técnicas</strong></td>
+<td>linguagens, frameworks, bancos, padrões arquiteturais adotados e por quê</td>
+</tr>
+<tr>
+<td><strong>Dependências e integrações</strong></td>
+<td>outros times, serviços externos ou internos dos quais o domínio depende</td>
+</tr>
+<tr>
+<td><strong>Contexto relevante para análise</strong></td>
+<td>migrações em andamento, dívida técnica conhecida, restrições regulatórias, decisões recentes</td>
+</tr>
+</tbody></table>
+<p>A última seção costuma ser a mais valiosa: é onde entram informações que não
+estão no código e que mudam a interpretação dele — uma migração em curso explica
+código duplicado, uma restrição regulatória explica uma validação aparentemente
+redundante.</p>
+<h2 id="repositorios-do-contexto">Repositórios do contexto</h2>
+<p>Abaixo do briefing fica a lista de repositórios vinculados, cada um com seu
+estado de monitoramento. <strong>Adicionar</strong> vincula repositórios ao contexto e
+<strong>Remover</strong> desfaz o vínculo — sem excluir o repositório da organização, que
+apenas volta para &quot;Sem Contexto&quot;.</p>
+<p>O contexto também pode ser editado ou excluído pelos botões no topo.</p>
+
+      </article>
+      <article class="secao" id="m2-04-api-keys" data-modulo="2">
+        <h1>API Keys</h1>
+        <p>Chaves de acesso à API do WLC. Elas existem para um propósito específico:
+<strong>disparar análises a partir da esteira de CI/CD</strong>, para que a documentação
+gerada acompanhe o código sem intervenção manual.</p>
+<p><img src="../assets/screenshots/admin-api-keys.png" alt="Administração — API Keys"></p>
+<h2 id="a-tabela">A tabela</h2>
+<table>
+<thead>
+<tr>
+<th>Coluna</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Descrição</strong></td>
+<td>o nome dado à chave na criação, que identifica seu uso</td>
+</tr>
+<tr>
+<td><strong>Prefixo</strong></td>
+<td>os primeiros caracteres da chave, para reconhecê-la sem expô-la</td>
+</tr>
+<tr>
+<td><strong>Criado em</strong></td>
+<td>data de emissão</td>
+</tr>
+<tr>
+<td><strong>Status</strong></td>
+<td>Ativo ou Revogado</td>
+</tr>
+<tr>
+<td><strong>Ações</strong></td>
+<td><strong>Revogar</strong>, que invalida a chave imediatamente</td>
+</tr>
+</tbody></table>
+<p>A caixa <strong>Mostrar revogados</strong> inclui as chaves desativadas na listagem.</p>
+<h2 id="criar-uma-chave">Criar uma chave</h2>
+<p><strong>Nova API Key</strong> gera a chave. O valor completo é exibido <strong>uma única vez, no
+momento da criação</strong> — depois disso, a listagem mostra apenas o prefixo. Guarde-o
+no cofre de segredos da sua esteira nesse momento; se perder, o caminho é revogar
+e gerar outra.</p>
+<blockquote>
+<p>Chaves de API são credenciais. Não as compartilhe em conversas, tickets ou
+documentos, e prefira revogar e emitir uma nova a reaproveitar uma chave que
+tenha sido exposta.</p>
+</blockquote>
+<h2 id="exemplos-de-integracao">Exemplos de integração</h2>
+<p>O botão <strong>Exemplos</strong> abre um guia com configurações prontas para reanálise
+automática a cada push na branch principal, cobrindo <strong>GitHub Actions, GitLab CI,
+Azure DevOps, CircleCI, Bitbucket, Jenkins</strong> e <strong>cURL</strong>, com botão para copiar.</p>
+<p>O funcionamento é o mesmo em todas as plataformas:</p>
+<ol>
+<li>A chave é guardada como <strong>secret</strong> na sua ferramenta de CI</li>
+<li>O pipeline chama o endpoint de análise enviando a chave no cabeçalho
+<code>Authorization: Bearer</code></li>
+<li>A API responde <strong>202 Accepted</strong> e a análise roda em segundo plano, sem travar
+o pipeline</li>
+</ol>
+<p>Como a resposta é assíncrona, o build não espera pela análise: o resultado
+aparece na documentação do repositório quando o processamento termina.</p>
+
+      </article>
+      <article class="secao" id="m2-05-usuarios" data-modulo="2">
+        <h1>Usuários</h1>
+        <p>As pessoas com acesso à organização.</p>
+<p><img src="../assets/screenshots/admin-usuarios.png" alt="Administração — Usuários"></p>
+<h2 id="a-tabela">A tabela</h2>
+<table>
+<thead>
+<tr>
+<th>Coluna</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Usuário</strong></td>
+<td>nome e e-mail</td>
+</tr>
+<tr>
+<td><strong>Perfil</strong></td>
+<td>o papel da pessoa, editável no próprio seletor da linha</td>
+</tr>
+<tr>
+<td><strong>Grupos</strong></td>
+<td>os grupos a que pertence, que determinam o que ela enxerga</td>
+</tr>
+<tr>
+<td><strong>Status</strong></td>
+<td>Ativo, Inativo, Pendente ou Expirado</td>
+</tr>
+</tbody></table>
+<p>A busca filtra por nome ou e-mail, e <strong>Filtros</strong> permite recortar por status e
+por situação do convite.</p>
+<h2 id="os-perfis">Os perfis</h2>
+<p>O produto trabalha com cinco perfis: <strong>Administrador</strong>, <strong>Gestor</strong>, <strong>Analista de
+Segurança</strong>, <strong>Desenvolvedor</strong> e <strong>Visualizador</strong>. O que cada um pode fazer está
+em <a href="m2-08-permissoes.md">Permissões</a>.</p>
+<p>Trocar o perfil de alguém é imediato: basta usar o seletor na linha da pessoa.</p>
+<h2 id="convidar-pessoas">Convidar pessoas</h2>
+<p><strong>Convidar usuários</strong> envia convite por e-mail. Até a pessoa aceitar, ela aparece
+na lista com status <strong>Pendente</strong>; convites não aceitos dentro do prazo passam a
+<strong>Expirado</strong>, e o filtro de convites ajuda a encontrá-los para reenvio.</p>
+<h2 id="perfil-e-visibilidade-sao-coisas-diferentes">Perfil e visibilidade são coisas diferentes</h2>
+<p>Vale separar os dois conceitos, porque eles se confundem com frequência:</p>
+<ul>
+<li>O <strong>perfil</strong> define <em>o que a pessoa pode fazer</em> — administrar, apenas
+visualizar, e assim por diante</li>
+<li>Os <strong>grupos</strong> definem <em>o que a pessoa enxerga</em> — quais contextos, e portanto
+quais repositórios</li>
+</ul>
+<p>Uma pessoa com perfil de Desenvolvedor e sem grupo algum pode não ver nenhum
+repositório. Administradores são exceção: enxergam tudo, independentemente de
+grupos.</p>
+<blockquote>
+<p>No print, nomes e e-mails estão borrados por serem dados pessoais.</p>
+</blockquote>
+
+      </article>
+      <article class="secao" id="m2-06-grupos" data-modulo="2">
+        <h1>Grupos de Usuários</h1>
+        <p>Grupos são o mecanismo de <strong>visibilidade</strong> do produto: eles respondem quem
+enxerga o quê.</p>
+<p><img src="../assets/screenshots/admin-grupos.png" alt="Administração — Grupos"></p>
+<h2 id="o-que-um-grupo-reune">O que um grupo reúne</h2>
+<p>Um grupo junta duas coisas:</p>
+<ul>
+<li><strong>pessoas</strong> — os membros do grupo</li>
+<li><strong>contextos</strong> — os contextos cujos repositórios esses membros poderão ver</li>
+</ul>
+<p>As pessoas de um grupo passam a enxergar os repositórios dos contextos vinculados
+a ele, e não os demais. As colunas da lista refletem isso: nome, descrição,
+número de membros e número de contextos.</p>
+<blockquote>
+<p><strong>Administradores são exceção.</strong> Quem tem perfil de administrador visualiza
+todos os repositórios da organização, esteja ou não em algum grupo. Grupos
+restringem a visão dos demais perfis.</p>
+</blockquote>
+<h2 id="criar-um-grupo">Criar um grupo</h2>
+<p><strong>Novo Grupo</strong> abre um assistente de três passos:</p>
+<p><strong>Passo 1 — Identificação.</strong> Nome do grupo e descrição.</p>
+<p><strong>Passo 2 — Membros</strong> (opcional). Lista das pessoas da organização, com busca,
+para marcar quem entra.</p>
+<p><strong>Passo 3 — Contextos</strong> (opcional). Lista dos contextos existentes, para marcar
+quais o grupo poderá ver.</p>
+<p>Os dois últimos passos são opcionais: dá para criar o grupo e preencher depois,
+pelo menu de ações na linha. Mas um grupo sem contextos não concede visibilidade
+alguma, e um grupo sem membros não afeta ninguém.</p>
+<h2 id="efeito-no-navigate">Efeito no Navigate</h2>
+<p>A visibilidade por grupo também vale para o assistente: com a filtragem por
+usuário ativa, perfis de desenvolvedor e visualizador recebem respostas apenas
+sobre os repositórios a que têm acesso. O Navigate não contorna a restrição de
+visibilidade.</p>
+
+      </article>
+      <article class="secao" id="m2-07-notificacoes" data-modulo="2">
+        <h1>Notificações</h1>
+        <p>Envio de mensagens em comunicadores, organizado por contexto. É a única parte do
+produto que envia informação para fora dele.</p>
+<p><img src="../assets/screenshots/admin-notificacoes.png" alt="Administração — Notificações"></p>
+<h2 id="digest-semanal">Digest semanal</h2>
+<p>O recurso disponível é o <strong>Digest semanal</strong>: um resumo periódico do contexto,
+entregue no comunicador do time.</p>
+<p>Cada contexto precisa ser <strong>matriculado</strong> individualmente, através de <strong>Matricular
+contexto</strong>, informando o grupo de destino. A tabela acompanha cada matrícula:</p>
+<table>
+<thead>
+<tr>
+<th>Coluna</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Contexto</strong></td>
+<td>o contexto matriculado</td>
+</tr>
+<tr>
+<td><strong>Grupo de destino</strong></td>
+<td>para onde as mensagens vão</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td>se o envio está apto a acontecer</td>
+</tr>
+<tr>
+<td><strong>Última entrega</strong></td>
+<td>quando o último digest saiu</td>
+</tr>
+<tr>
+<td><strong>Ações</strong></td>
+<td><strong>Testar</strong>, que dispara um envio de verificação</td>
+</tr>
+</tbody></table>
+<h2 id="o-estado-e-a-coluna-a-observar">O estado é a coluna a observar</h2>
+<p>Matricular o contexto não basta. O envio depende de a feature flag <code>digest_push</code>
+estar ligada para a organização. Enquanto ela estiver desligada, a linha exibe
+<em>feature desligada na organização</em>, o botão <strong>Testar</strong> fica indisponível, e a
+instrução aparece na própria linha.</p>
+<p>Um grupo de destino sem endereço cadastrado também é sinalizado ali, na mesma
+coluna — o que evita descobrir o problema só quando o digest não chega.</p>
+
+      </article>
+      <article class="secao" id="m2-08-permissoes" data-modulo="2">
+        <h1>Permissões</h1>
+        <p>Define, por perfil de usuário, quais funcionalidades ficam habilitadas.</p>
+<p><img src="../assets/screenshots/admin-permissoes.png" alt="Administração — Permissões"></p>
+<h2 id="a-matriz">A matriz</h2>
+<p>As linhas são funcionalidades e as colunas são os cinco perfis do produto:
+<strong>Administrador</strong>, <strong>Gestor</strong>, <strong>Analista de Segurança</strong>, <strong>Desenvolvedor</strong> e
+<strong>Visualizador</strong>. Cada cruzamento tem um interruptor.</p>
+<h2 id="as-funcionalidades-configuraveis">As funcionalidades configuráveis</h2>
+<table>
+<thead>
+<tr>
+<th>Funcionalidade</th>
+<th>Efeito quando ativa</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Compartilhar conversas</strong></td>
+<td>o perfil pode criar e abrir links de compartilhamento de conversas do Navigate</td>
+</tr>
+<tr>
+<td><strong>Anonimizar autores nas contribuições</strong></td>
+<td>a Distribuição de Contribuições exibe os autores como #1, #2, #3…; desativar mostra os nomes</td>
+</tr>
+</tbody></table>
+<h2 id="sobre-a-anonimizacao">Sobre a anonimização</h2>
+<p>A segunda merece decisão consciente: ela controla se nomes de pessoas aparecem
+associados a métricas de contribuição.</p>
+<p>Manter a anonimização ativa é a opção mais conservadora do ponto de vista de
+dados pessoais, e é coerente com o desenho do produto — que, como descrito em
+<a href="m1-03-metricas.md">Métricas</a>, não produz score individual por desenvolvedor. As
+métricas de distribuição existem para revelar <strong>concentração de conhecimento</strong>,
+não para avaliar pessoas.</p>
+<p>Desativar a anonimização transforma um indicador de risco organizacional em algo
+que pode ser lido como avaliação individual. É uma escolha da organização, e vale
+que seja explícita.</p>
+
+      </article>
+      <article class="secao" id="m2-09-monitoramento" data-modulo="2">
+        <h1>Monitoramento</h1>
+        <p>Saúde do motor de análise e das integrações, e o controle de com que frequência
+os dados são coletados.</p>
+<p><img src="../assets/screenshots/admin-monitoramento.png" alt="Administração — Monitoramento"></p>
+<h2 id="coleta-automatica-de-metricas">Coleta Automática de Métricas</h2>
+<p>O bloco principal controla a periodicidade da coleta que alimenta o Score e as
+métricas do painel. O interruptor no canto liga e desliga a coleta automática.</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>O que define</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Frequência</strong></td>
+<td>de quanto em quanto tempo a coleta roda — diariamente, por exemplo</td>
+</tr>
+<tr>
+<td><strong>Executar às (UTC)</strong></td>
+<td>o horário da execução, em UTC</td>
+</tr>
+<tr>
+<td><strong>Janela de dados</strong></td>
+<td>o período considerado em cada coleta, por exemplo os últimos 90 dias</td>
+</tr>
+</tbody></table>
+<p>Dois pontos que evitam confusão:</p>
+<p><strong>O horário é em UTC</strong>, não no fuso local. Uma coleta às 04:51 UTC acontece por
+volta das 01:51 no horário de Brasília.</p>
+<p><strong>A janela de dados não é a mesma coisa que a frequência.</strong> A frequência diz de
+quanto em quanto tempo a coleta roda; a janela diz quanto tempo para trás cada
+coleta enxerga. Uma coleta diária com janela de 90 dias recalcula, todo dia, uma
+fotografia dos últimos 90 dias.</p>
+<p>Desligar a coleta automática não apaga o histórico já reunido — apenas interrompe
+a atualização, e o painel passa a mostrar dados cada vez mais antigos.</p>
+
+      </article>
+      <article class="secao" id="m2-10-sso" data-modulo="2">
+        <h1>Configurar SSO SAML</h1>
+        <p>Autenticação corporativa via SAML, para que as pessoas entrem no WLC com as
+credenciais que já usam na empresa.</p>
+<p><img src="../assets/screenshots/admin-sso.png" alt="Administração — SSO SAML"></p>
+<h2 id="o-estado-da-configuracao">O estado da configuração</h2>
+<p>A tela mostra a situação do SSO da organização, que pode ser:</p>
+<table>
+<thead>
+<tr>
+<th>Estado</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Não configurado</strong></td>
+<td>nenhum provedor de identidade foi conectado</td>
+</tr>
+<tr>
+<td><strong>Pendente</strong></td>
+<td>a configuração foi iniciada e ainda não concluída</td>
+</tr>
+<tr>
+<td><strong>Ativo</strong></td>
+<td>o login por SSO está funcionando</td>
+</tr>
+<tr>
+<td><strong>Desabilitado</strong></td>
+<td>a configuração existe, mas está desligada</td>
+</tr>
+<tr>
+<td><strong>Falhou</strong></td>
+<td>a validação com o provedor não passou</td>
+</tr>
+</tbody></table>
+<p>O botão <strong>Configurar</strong> abre o assistente de configuração, onde se informam os
+dados do provedor de identidade.</p>
+<h2 id="efeito-no-login">Efeito no login</h2>
+<p>Com o SSO ativo, a tela de acesso passa a oferecer <strong>Entrar com SSO</strong>, ao lado do
+login por e-mail e senha — como descrito em <a href="m1-02-acesso.md">Acesso</a>.</p>
+
+      </article>
+      <article class="secao" id="m2-11-super-admin" data-modulo="2">
+        <h1>Super Admin</h1>
+        <p>Seções restritas à equipe Duranium, que administram a plataforma como um todo em
+vez de uma organização específica. A própria tela avisa dessa restrição.</p>
+<p><img src="../assets/screenshots/admin-empresas.png" alt="Administração — Empresas"></p>
+<h2 id="empresas">Empresas</h2>
+<p>Lista as contas (tenants) da plataforma, com nome, slug, domínio e status, e
+permite criar uma nova empresa. É a partir daqui que se chega às configurações
+por organização de cada cliente, incluindo SSO e feature flags específicas.</p>
+<h2 id="feature-flags-e-termos-de-uso">Feature flags e Termos de uso</h2>
+<p>Duas outras seções pertencem a este grupo:</p>
+<ul>
+<li><strong>Feature flags</strong> — liga e desliga funcionalidades por organização. É o
+mecanismo por trás de recursos que existem no produto mas não estão ativos em
+todas as contas, como o <code>digest_push</code> mencionado em
+<a href="m2-07-notificacoes.md">Notificações</a></li>
+<li><strong>Termos de uso</strong> — versões dos termos, com estados de rascunho, ativa e
+arquivada</li>
+</ul>
+<blockquote>
+<p>Estas duas telas não estão documentadas com imagem: elas exigem as permissões
+<code>admin.feature-flags</code> e <code>admin.terms</code>, que a conta usada na captura não possui.</p>
+</blockquote>
+
+      </article>
+      <div class="rodape-nav">
+        <a href="#" id="anterior">← Anterior</a>
+        <a href="#" id="proximo">Próxima →</a>
+      </div>
+    </main>
+  </div>
+
+<script>
+const INDICE = [{"id":"m1-01-visao-geral","modulo":1,"titulo":"Visão geral","subtitulos":["O Score de Engenharia","A hierarquia","Onde cada coisa fica"],"texto":"O WeLuvCode (WLC) analisa os repositórios de uma organização e traduz o resultado em um indicador único, o Score de Engenharia , acompanhado da documentação técnica que a plataforma gera a partir do próprio código. O Score de Engenharia O Score vai de 0 a 10 e é a média ponderada de quatro dimensões: Dimensão O que observa Fluxo ritmo e continuidade da entrega Qualidade da Engenharia características do código produzido Eficiência aproveitamento do esforço de engenharia Riscos exposições identificadas na base O Score só é calculado quando há dados suficientes: o produto exige pelo menos três das quatro dimensões . Enquanto isso não acontece, a tela do repositório informa que o cálculo ainda está em andamento, em vez de exibir um número incompleto. As dimensões não pesam igual, cada uma reúne vários indicadores, e alguns indicadores podem reprovar a dimensão inteira sozinhos. Isso está detalhado em [Métricas](m1 03 metricas.md), que também explica o que o Score deliberadamente não mede. A hierarquia O produto organiza tudo em três níveis, e o Score existe em cada um deles: Organização → Contexto → Repositório (workspace) (domínio) (código) Um contexto é um agrupamento lógico de repositórios por produto, domínio ou squad. Na organização de demonstração há dois contextos, Backend e Web Frontend, somando sete repositórios. Onde cada coisa fica A barra lateral esquerda é fixa e se adapta ao nível em que você está: Visão Geral , Contextos e Repositórios — navegação principal Ferramentas — Navigate People — Onboarding Dev e Job Description No rodapé fica o seu usuário; no topo, o seletor de contexto e repositório. ![Visão geral do workspace](../assets/screenshots/visao geral.png)"},{"id":"m1-02-acesso","modulo":1,"titulo":"Acesso","subtitulos":["Entrar","Recuperar a senha","Uma conta, uma organização"],"texto":"Entrar A tela de login aceita dois caminhos: e mail e senha, ou Entrar com SSO para organizações com autenticação corporativa configurada. ![Tela de login](../assets/screenshots/login.png) Recuperar a senha O link Esqueceu a senha? , ao lado do campo de senha, leva ao formulário de recuperação. Você informa o e mail e recebe um link para definir a nova senha. ![Recuperação de senha](../assets/screenshots/esqueci senha.png) Os links de redefinição têm validade. Se o link já tiver sido usado ou expirado, o produto explica o que houve e oferece pedir um novo sem voltar ao início: ![Link inválido ou expirado](../assets/screenshots/link expirado.png) Uma conta, uma organização Cada e mail tem acesso a uma única organização. Não existe troca de organização dentro do produto: para trabalhar em outra, é preciso uma conta com acesso a ela. O seletor no topo da barra lateral, logo abaixo da busca, não troca de organização — ele navega entre os contextos e os repositórios da organização em que você já está. É por ele que se desce da visão geral para um contexto específico, e de um contexto para um repositório."},{"id":"m1-03-metricas","modulo":1,"titulo":"Métricas","subtitulos":["O que o Score responde — e o que não responde","A cascata","As quatro dimensões e seus pesos","Como o cálculo funciona","Onde ler os indicadores no produto","Os indicadores, um a um","Salvaguardas contra leitura errada","Exemplo: por que três dimensões boas não salvam o Score","O estágio muda a conclusão, não o cálculo","DORA e SPACE","O que a plataforma não mede","Como usar o painel na rotina"],"texto":"Como o Score é construído: de onde vem cada número do painel. O objetivo é que você consiga ler qualquer valor e saber também o que ele não afirma . O que o Score responde — e o que não responde O Score de Engenharia é um resumo da saúde do processo de engenharia de um repositório em um período, numa escala de 0 a 10. Ele responde a uma pergunta operacional: este repositório entrega com previsibilidade, revisão e conhecimento distribuído? Ele não responde se o produto é bom, se o time é bom ou se o prazo será cumprido. É um resumo de processo, não uma nota de pessoas nem de produto. A cascata contexto → repositório → 1 Score → 4 dimensões → 17 indicadores O Score existe por repositório. O contexto agrega o Score dos seus repositórios; nenhum indicador é recalculado no agrupamento. As quatro dimensões e seus pesos Dimensão Peso O que observa Indicadores Fluxo de Entrega 30% ritmo e previsibilidade da entrega: lead time, taxa de entrega, trabalho em andamento, tempo até a primeira revisão 5 Qualidade da Engenharia 30% disciplina técnica: testes, tamanho das entregas, Profundidade de Revisão, retrabalho 7 Eficiência do Time 20% distribuição do trabalho: quanto do código e das revisões se concentra em uma pessoa 2 Riscos Organizacionais 20% dependência de pessoas e trabalho travado: Bus Factor, Concentração de Conhecimento, Entregas de Longa Duração 3 Entrega e qualidade valem 60% somadas; distribuição do time e risco organizacional completam os 40% restantes. ![Cards das dimensões na Visão Geral](../assets/screenshots/visao geral.png) Como o cálculo funciona Antes dos detalhes, o caminho completo de um número. Seguindo o tempo de ciclo do repositório django , do valor medido até o Score: 2h21m valor medido no período ↓ comparado com os limiares do Lead Time de Entrega (até 24h / 24h–168h / acima de 168h) SAUDÁVEL a faixa em que o valor caiu ↓ cada faixa vale um número fixo de pontos 1 ponto saudável = 1 · atenção = 0,5 · crítico = 0 ↓ multiplicado pelo peso do indicador dentro da dimensão (Lead Time de Entrega pesa 3) 3 contribuição deste indicador ↓ somado aos outros 4 indicadores de Fluxo e dividido pela soma dos pesos 6,4 nota da dimensão Fluxo de Entrega ↓ multiplicado pelo peso da dimensão no Score (Fluxo vale 30%) 6,5 Score de Engenharia do repositório Cada seta é um dos passos abaixo. Passo 1 — o valor medido vira uma faixa Cada indicador tem limiares próprios , que definem três faixas. O valor medido é comparado com esses limiares e cai em exatamente uma delas. É só isso que define se um indicador está saudável: o valor medido estar dentro do limiar daquele indicador. Faixa Quando o indicador recebe Significado Saudável o valor está dentro do limiar esperado fluxo sustentável nesse aspecto Atenção o valor passou do limiar saudável, mas não do crítico fora do ideal, sem impedir a entrega Crítico o valor passou do segundo limiar sinal que costuma explicar atrasos e incidentes Os limiares mudam de indicador para indicador, e a direção também. Alguns são \"menor é melhor\", outros \"maior é melhor\", e um é faixa fechada, onde exceder também é sinal: Indicador Saudável Atenção Crítico Lead Time de Entrega (menor é melhor) até 24h 24h – 168h acima de 168h Disciplina de Testes (maior é melhor) 60% ou mais 30% – 60% abaixo de 30% Profundidade de Revisão (faixa fechada) 2 a 10 comentários 1 a 2 menos de 1 Por isso um valor sozinho não diz nada: 2 comentários por entrega é saudável em Profundidade de Revisão, enquanto 2 pessoas em Bus Factor é atenção. Os limiares de todos os indicadores estão em [Os indicadores, um a um]( os indicadores um a um). Passo 2 — a faixa vira pontos A faixa vale um número fixo de pontos, e é para isso que os pontos servem : eles são a moeda comum que permite somar indicadores de naturezas diferentes — horas, percentuais, contagens de pessoas — dentro de uma mesma dimensão. Faixa Pontos Saudável 1 Atenção 0,5 Crítico 0 Só existem esses três valores. Um indicador nunca vale 0,8 nem 0,3, e não há gradação dentro da faixa: estar por pouco ou por muito dentro dela dá o mesmo resultado: um lead time de 2h e outro de 23h valem 1 ponto igualmente. Passo 3 — os pontos viram a nota da dimensão Aqui aparece a escala contínua. Cada ponto é multiplicado pelo peso do seu indicador, e a média ponderada vira uma nota de 0 a 10: nota da dimensão = (soma de pontos × peso ÷ soma dos pesos) × 10 Nem todo indicador pesa igual dentro da sua dimensão: Lead Time de Entrega e Taxa de Entrega pesam 3, enquanto Arquivos Mais Alterados pesa 1. Indicador sem dado sai da conta. A ausência nunca é tratada como zero — o indicador é retirado do numerador e do denominador. Exemplo real Fluxo de Entrega do repositório django , com os valores da aba Métricas: Indicador Valor medido Faixa Pontos Peso Pontos × peso Lead Time de Entrega 2h21m saudável 1 3 3 Taxa de Entrega 15,30 PRs/semana saudável 1 3 3 Tempo até 1ª Revisão 19h28m atenção 0,5 2 1 Trabalho em Andamento (WIP) 7,10 PR/pessoa crítico 0 2 0 Novo vs. Manutenção 1,49% crítico 0 1 0 Soma da última coluna: 7 . Soma dos pesos: 11 . 7 ÷ 11 = 0,636 → × 10 = 6,4 É exatamente a nota exibida no painel. Repare que a nota é contínua — 6,4 — embora nenhum indicador tenha valido 0,64. Passo 4 — as notas viram o Score O Score é a média das notas das dimensões, ponderada pelos pesos de cada uma: Score = soma (nota da dimensão × peso) ÷ soma dos pesos Seguindo o mesmo repositório, com as quatro notas do painel: Dimensão Nota Peso Nota × peso Fluxo de Entrega 6,4 0,30 1,92 Qualidade da Engenharia 7,1 0,30 2,13 Eficiência do Time 10,0 0,20 2,00 Riscos Organizacionais 2,1 0,20 0,42 soma 6,47 ÷ 1,00 = 6,5 É o Score que aparece na home do repositório. Quando uma dimensão fica sem nota, os pesos são renormalizados. A divisão é pela soma dos pesos das dimensões que têm nota, não por 100%. Se Eficiência do Time (20%) ficar sem dado, as outras três — que somam 80% — são divididas por 0,80 e passam a representar o Score inteiro. Uma dimensão ausente não puxa o Score para baixo; ela simplesmente sai da conta. Passo 5 — blockers Alguns indicadores são graves o suficiente para reprovar a dimensão inteira, mesmo com média ponderada boa. É o que evita que um problema estrutural seja diluído por indicadores confortáveis. Dimensão Regra Fluxo de Entrega Lead Time de Entrega ou Taxa de Entrega em crítico torna a dimensão crítica Riscos Organizacionais Bus Factor em crítico torna a dimensão crítica Eficiência do Time só bloqueia quando os dois indicadores estão críticos ao mesmo tempo É a resposta para a pergunta que aparece em reunião: por que a dimensão está crítica se a média não está? Porque um blocker foi acionado. Passo 6 — suficiência de dados Quando falta base, a plataforma deixa o campo vazio em vez de publicar um número frágil: 3 de 4 dimensões precisam ter nota para o repositório receber Score no período pelo menos metade dos indicadores de uma dimensão precisa ter dado para ela ser calculada Eficiência do Time exige os 2 indicadores, por ter apenas dois O painel também explica a ausência: coleta em andamento, primeira coleta pendente, ou atividade Git insuficiente no período. Campo vazio é honestidade, não defeito. Faixas de status da nota Atenção para não confundir: os rótulos Saudável , Atenção e Crítico aparecem em dois lugares diferentes , com regras diferentes. No indicador — definido pelos limiares próprios daquele indicador (24h, 60%, 3 pessoas…), e o resultado são pontos discretos: 1, 0,5 ou 0. Na nota — definido por dois cortes fixos, 4,0 e 7,0, aplicados à nota contínua de 0 a 10. Vale tanto para a nota de cada dimensão quanto para o Score final. São os cortes da nota: Faixa Intervalo Leitura Crítico 0 – 4,0 entra na fila de prioridades e no ranking de risco Atenção 4,0 – 7,0 funciona, com um ou dois indicadores puxando para baixo Saudável 7,0 – 10 fluxo sustentável; a discussão passa a ser de evolução Onde ler os indicadores no produto Toda a mecânica descrita acima fica visível na aba Métricas da home do repositório, alcançada pelo botão Ver métricas detalhadas . ![Métricas detalhadas do repositório](../assets/screenshots/repo metricas.png) O cabeçalho informa a janela considerada — últimos 90 dias, com o intervalo de datas explícito — e a faixa Pipeline resume o volume do período: pull requests criadas, em aberto, integradas e descartadas. Cada dimensão vem em um cartão com a nota, uma pergunta guia que resume o que ela observa, e os seus indicadores. Cada indicador mostra: o valor medido , com a base entre parênteses (por exemplo, \"133 commits\") as três faixas do indicador, com a faixa em que ele caiu destacada É assim que se vê, sem cálculo mental, por que um indicador está em atenção ou em crítico. Indicadores sem dado aparecem com e, como explicado acima, saem da conta em vez de contar como zero. Alguns blocos trazem detalhamento adicional: a composição entre nova capacidade, correção e outros; a distribuição de contribuições por autor; e a lista dos Arquivos Mais Alterados no período. A distribuição de contribuições aparece com os autores identificados como 1, 2, 3… Isso é a permissão Anonimizar autores nas contribuições , descrita em [Administração](m2 00 visao admin.md), agindo. Desligá la troca os identificadores pelos nomes. Os indicadores, um a um O número após o nome é o peso do indicador dentro da sua dimensão. Fluxo de Entrega — 30% Indicador O que mede Sinal saudável Peso Lead Time de Entrega mediana do tempo entre abrir uma entrega e integrá la menos de 24h 3 Taxa de Entrega entregas integradas por semana 1 ou mais por semana 3 Trabalho em Andamento (WIP) entregas abertas por pessoa ativa no período menos de 2 2 Tempo até 1ª Revisão quanto uma entrega espera pelo primeiro olhar menos de 4h 2 Novo vs. Manutenção fatia das entregas que cria capacidade nova 60% ou mais 1 Os dois primeiros são blockers. Qualidade da Engenharia — 30% Indicador O que mede Sinal saudável Peso Disciplina de Testes fatia das entregas acompanhadas de teste 60% ou mais 3 Tamanho das Entregas fatia de entregas pequenas e médias, revisáveis 70% ou mais 2 Profundidade de Revisão comentários de revisão por entrega entre 2 e 10 2 Taxa de Correções fatia das entregas que corrigem algo já entregue menos de 15% 2 PRs Sem Revisão fatia integrada sem nenhuma revisão registrada zero 2 Taxa de Retrabalho código reescrito pouco depois de escrito menos de 5% 1 Arquivos Mais Alterados concentração das mudanças nos cinco arquivos mais tocados menos de 30% 1 Nenhum blocker nesta dimensão. Eficiência do Time — 20% Indicador O que mede Saudável Crítico Peso Distribuição de Contribuições quanto das entregas vem do maior contribuidor abaixo de 40% a partir de 60% 3 Distribuição de Revisões quanto das revisões vem do maior revisor abaixo de 40% a partir de 60% 3 Os dois indicadores são sempre agregados: nenhum nome de pessoa aparece . Um terceiro indicador, Mudança de Contexto , existe na configuração mas fica fora do cálculo enquanto não houver fonte de dados para ele. Riscos Organizacionais — 20% Indicador O que mede Saudável Crítico Peso Bus Factor quantas pessoas sustentam de fato o repositório 3 ou mais menos de 2 3 Concentração de Conhecimento quanto do código só uma pessoa conhece abaixo de 30% a partir de 50% 2 Entregas de Longa Duração quantas entregas ficam abertas muito além do normal nenhuma 4 ou mais 2 Bus Factor é blocker. Entregas de Longa Duração costumam ser o sinal mais barato de agir. Salvaguardas contra leitura errada Mais revisão não é sempre melhor. Profundidade de Revisão é uma faixa, não uma escada: acima de 10 comentários por entrega o indicador para em atenção, porque normalmente indica entrega grande demais ou desalinhamento, não rigor. Zero entregas não vira zero por cento. Indicadores calculados sobre entregas são pulados quando o repositório não teve entrega no período. Um repositório parado não é premiado nem punido por indicadores sem base. Indicador sem fonte fica de fora. Mudança de Contexto está desenhada mas não é coletada, então é exc"},{"id":"m1-04-workspace","modulo":1,"titulo":"Workspace","subtitulos":["Visão Geral","Repositórios","Contextos","Análises em andamento"],"texto":"Visão Geral É a tela inicial do produto: acessar a raiz leva direto para cá. Ela responde \"como está a engenharia desta organização agora\". ![Visão geral](../assets/screenshots/visao geral.png) A mecânica por trás destes números — pesos, indicadores, blockers e faixas — está em [Métricas](m1 03 metricas.md). O bloco do Score O bloco superior traz o Score da organização, o recorte a que ele se refere (quantos contextos e repositórios entraram na conta) e um selo de estado: Saudável , Atenção ou Crítico . Ao lado, o produto escreve em texto corrido o que a variação significa, nomeando o contexto que mais puxou o resultado para cima ou para baixo — e distinguindo movimento concentrado em um contexto de movimento distribuído entre vários. O que é \"período anterior\" A variação compara o último período fechado com o imediatamente anterior, na granularidade selecionada . Trocar a granularidade muda a comparação: Granularidade A variação compara Semanas a última semana fechada com a semana anterior Meses o último mês fechado com o mês anterior Quarters o último quarter fechado com o anterior A seta indica a direção e a cor indica o sentido: verde melhorou, vermelho piorou. Quando não há histórico suficiente, o produto informa que aquele é o primeiro período registrado, em vez de exibir variação zero. Logo abaixo aparecem vs mês e vs trimestre . Estes são outra coisa: em vez de comparar com o período anterior, comparam o Score do período atual com a média daquela janela mais longa. Servem para separar oscilação pontual de tendência. Composição Lista os contextos que formam o Score, cada um com sua contribuição. Os nomes são links para a visão daquele contexto. Trajetória Plota o Score e as quatro dimensões ao longo do tempo, um ponto por período medido, com legenda por série. O botão ao lado do título alterna entre linhas e barras. A série é reconstruída a partir do histórico do git, e não apenas do período em que o repositório está conectado ao WLC. Cards das dimensões Abaixo do gráfico, cada uma das quatro dimensões tem seu próprio card, com a nota de 0 a 10, o estado (Saudável, Atenção ou Crítico) e a variação em relação ao período anterior. É onde se vê rapidamente qual dimensão está puxando o Score. Filtro por contexto O controle Contexto , no topo, limita toda a tela a um contexto específico ou mantém a visão consolidada em \"Todos\". Repositórios Lista todos os repositórios da organização com busca e filtros. ![Lista de repositórios](../assets/screenshots/repositorios.png) Cada linha traz o Score do repositório, a tendência, o contexto ao qual pertence, o status, a contagem de pull requests e de contribuidores, a data da última medição e as quatro dimensões abertas. Os status Quando um repositório aparece sem Score, o status explica o motivo: Status Significado Processando a análise está em andamento; o Score aparece ao terminar Aguardando primeira coleta o repositório foi conectado, mas a primeira leitura ainda não rodou Sem atividade Git não há atividade suficiente no histórico para medir Score baixo o Score foi calculado e ficou em patamar que merece atenção O monitoramento de cada repositório também pode estar Ativo ou Pausado , o que é configurado na administração. Contextos ![Lista de contextos](../assets/screenshots/contextos.png) O topo repete o Score da organização, com o detalhe de quantos repositórios já têm Score em relação ao total — informação que ajuda a calibrar a confiança no número. A lista tem três recortes dos mesmos repositórios: Contextos Agrupa pelos contextos definidos na administração — produto, domínio ou squad. Cada linha mostra o Score do contexto, a quantidade de repositórios, de pull requests e de contribuidores, além das quatro dimensões. A seta à esquerda expande a linha e revela os repositórios daquele contexto. Ciclo de Vida Agrupa por estágio de maturidade. A classificação é automática , feita a partir da atividade no git — idade do repositório, frequência de commits, pull requests integradas e contribuidores ativos. São cinco estágios: Estágio Critério Ativo em Construção criado há menos de 6 meses, ainda sem versão publicada, com commits no último mês e ao menos 3 PRs integradas por mês Ativo em Evolução já em produção (com versão publicada ou criado há 6 meses ou mais), commits no último mês, ao menos 3 PRs integradas por mês e 2 ou mais pessoas contribuindo nos últimos 90 dias Ativo em Manutenção continua mantido, mas sem o ritmo dos anteriores; inclui repositórios cujo último commit ficou entre 6 e 12 meses e que ainda recebem PRs Legado Estável último commit entre 6 e 12 meses atrás e menos de 2 PRs integradas nos últimos 180 dias — em produção, com baixa movimentação Legado Abandonado sem commits há mais de 12 meses Esse recorte é útil para decidir onde investir: um Score baixo em um repositório classificado como Legado Abandonado tem peso diferente de um Score baixo em um Ativo em Evolução. O estágio não altera o cálculo do Score, só a conclusão que se tira dele — ver [Métricas](m1 03 metricas.md). Grupos Agrupa pelos grupos de usuários definidos em [Administração › Grupos de Usuários](m2 00 visao admin.md). Um grupo associa pessoas a contextos e determina quais repositórios cada pessoa enxerga, então este recorte mostra o Score do conjunto de repositórios visível a cada grupo. É a leitura por recorte de time: em vez de \"como está este domínio\", responde \"como está o que este time acompanha\". Grupos sem contextos associados aparecem vazios. Análises em andamento Quando os repositórios estão sendo processados, esta tela acompanha o progresso de cada um, com percentual e situação. O botão de atualizar recarrega o estado. ![Análises em andamento](../assets/screenshots/analise em progresso.png)"},{"id":"m1-05-contexto","modulo":1,"titulo":"Contexto","subtitulos":["Visão Geral do contexto","Repositórios do contexto","Navigate no contexto"],"texto":"Um contexto é um agrupamento lógico de repositórios por produto, domínio ou squad. Clicar no nome de um contexto muda o escopo do produto inteiro: o caminho percorrido fica visível na trilha do topo ( Organização › Contexto ) e o seletor da barra lateral passa a indicar o nível em que você está. Visão Geral do contexto ![Visão geral do contexto](../assets/screenshots/contexto home.png) Mesma estrutura da visão da organização — Score, variação, composição e trajetória — restrita aos repositórios daquele contexto. A diferença está na composição, que aqui lista repositórios em vez de contextos: é assim que se identifica qual repositório puxou o Score do contexto. A leitura do bloco de Score é a mesma descrita em [Workspace](m1 04 workspace.md), e a mecânica por trás dos números está em [Métricas](m1 03 metricas.md). Três abas organizam o conteúdo: Overview , Insights e Digest . Repositórios do contexto ![Repositórios do contexto](../assets/screenshots/contexto repositorios.png) Mesma lista da visão da organização, limitada ao contexto, com os recortes Repositórios e Ciclo de Vida . Navigate no contexto ![Navigate no contexto](../assets/screenshots/contexto navigate.png) O assistente com o escopo restrito ao contexto: as perguntas são respondidas considerando apenas os repositórios daquele agrupamento. O funcionamento está descrito em [Ferramentas](m1 07 ferramentas.md)."},{"id":"m1-06-repositorio","modulo":1,"titulo":"Repositório","subtitulos":["Visão Geral do repositório","Documentação gerada"],"texto":"O repositório é o nível mais profundo da navegação, e é onde o Score de fato é calculado — os níveis acima agregam. A trilha do topo mostra o caminho completo ( Organização › Contexto › Repositório ). A barra lateral, neste nível, traz Visão Geral e Documentação . Visão Geral do repositório ![Visão geral do repositório](../assets/screenshots/repo home.png) Score do repositório, variação e trajetória. A composição, aqui, lista as quatro dimensões em vez de repositórios — é o nível em que se vê qual dimensão está puxando o Score. O botão Ver métricas detalhadas abre a aba Métricas , onde cada indicador aparece com o valor medido e a faixa em que caiu. Essa tela está explicada em [Métricas](m1 03 metricas.md). Documentação gerada É onde o WLC entrega a leitura semântica do código. A plataforma analisa o repositório em sete frentes , cada uma com estado próprio, indicando a branch analisada. ![Documentação do repositório](../assets/screenshots/repo documentacao.png) Frente O que cobre Visão Geral fotografia consolidada da saúde do projeto Arquitetura padrões de design, camadas, acoplamento e coesão Regras de Negócio regras implícitas no código Gestão de Dependências versões, depreciação, dívida técnica e licenças Design de APIs qualidade arquitetural das APIs Qualidade de Código complexidade, manutenibilidade e cobertura de testes Conformidade CNPJ 2026 adaptação ao novo formato alfanumérico Cada frente fica em um de dois estados: Atualizada — a análise foi concluída, com a data da última atualização, e o botão Abrir mostra o documento Fora de escopo — a frente não se aplica àquele repositório, e o produto diz por quê (por exemplo, nenhum endpoint de API detectado). O botão Reavaliar escopo força uma nova verificação Esse segundo estado é deliberado: em vez de entregar um documento vazio, o produto explica a ausência. O que define \"fora de escopo\" A decisão é automática e acontece antes da análise rodar. O motor inspeciona o repositório e produz artefatos de detecção — inventário de arquivos, tecnologias, dependências declaradas, registro de APIs — e cada frente tem um critério objetivo sobre esses artefatos. Vale registrar como a decisão não é tomada: ela não depende de julgamento do modelo de IA. Os critérios usam apenas sinais calculados a partir do código, o que evita que uma leitura equivocada do modelo tire uma análise de escopo. Primeiro há uma regra geral. Repositório pequeno — menos de 100 linhas de código e menos de 5 arquivos — coloca todas as frentes fora de escopo, exceto a Visão Geral. As duas condições precisam ser verdadeiras ao mesmo tempo. Depois, cada frente tem seu próprio critério: Frente Entra em escopo quando Mensagem quando não entra Visão Geral sempre; é a única frente que a regra de repositório pequeno não afeta — Arquitetura o repositório tem mais de 5 arquivos e contém arquivos de código fonte \"Repositório não possui estrutura suficiente para análise de arquitetura\" Regras de Negócio o repositório tem mais de 100 linhas e contém arquivos de código fonte \"Repositório possui código insuficiente para análise de negócios\" Qualidade de Código há pelo menos alguma linha de código e arquivos de código fonte \"Nenhum arquivo de código fonte encontrado\" Gestão de Dependências há dependências declaradas em algum gerenciador de pacotes \"Nenhuma dependência detectada\" Design de APIs há endpoints detectados, ou arquivos de especificação de API (OpenAPI, WSDL, GraphQL, gRPC) \"Nenhum endpoint de API detectado\" Conformidade CNPJ 2026 o repositório declara alguma biblioteca conhecida de validação de CPF/CNPJ \"Nenhum padrão de validação CNPJ/CPF encontrado\" Dois detalhes que evitam falso negativo: \"Arquivo de código fonte\" exclui markdown, formatos de configuração e arquivos de dados. Um repositório só com YAML e README não passa nos critérios que exigem código, e é por isso que a mensagem de Qualidade de Código menciona repositórios que contêm apenas configurações ou scripts simples. Design de APIs não exige endpoints implementados. Um repositório que só publica contratos — arquivos .wsdl , .proto ou especificações OpenAPI — entra em escopo mesmo sem código de API. Quando os artefatos de detecção não estão disponíveis, o motor assume que a análise se aplica em vez de descartá la. O comportamento é conservador na direção de analisar demais, não de menos. É por isso que Reavaliar escopo existe: o critério é avaliado sobre o estado do repositório naquele momento. Um repositório que ganhou seu primeiro endpoint, ou passou a declarar dependências, muda de situação — e a reavaliação é o que detecta isso. Como a documentação é atualizada As análises não são geradas uma única vez: elas acompanham a evolução do código. Há dois caminhos. Automaticamente, pela esteira de CI/CD. Quando o repositório tem a integração configurada, cada execução do pipeline dispara uma nova análise, e a documentação reflete o estado atual do código sem intervenção. A conexão é feita com uma chave de API, criada em [Administração › API Keys](m2 00 visao admin.md) — é para isso que aquelas chaves existem. Manualmente, por esta tela. O menu de ações de cada frente, no fim da linha, oferece Gerar novamente , que reprocessa apenas aquela análise. Para reprocessar tudo de uma vez, o menu no topo direito da tela traz Gerar todas novamente , que pede confirmação antes de disparar — a análise de todas as frentes leva alguns minutos e consome recursos do motor. Os mesmos menus permitem exportar o resultado: Baixar PDF e Baixar Markdown por frente, ou Baixar tudo em PDF e Baixar tudo em Markdown para o conjunto. Frentes marcadas como Fora de escopo não têm a opção de gerar novamente, e sim Reavaliar escopo : em vez de reprocessar uma análise que não se aplica, o produto verifica de novo se ela passou a se aplicar — por exemplo, se o repositório ganhou endpoints de API desde a última verificação. Esta frente está em evolução. A análise semântica que produz esses documentos está passando por uma reformulação ampla, que abrange desde a coleta dos dados até o processamento e a forma de apresentá los. Por isso, neste momento, algumas análises aparecem com layout e nível de detalhe diferentes das demais. A diferença é temporária e será uniformizada conforme as frentes forem migradas para o novo formato."},{"id":"m1-07-ferramentas","modulo":1,"titulo":"Ferramentas","subtitulos":["Navigate"],"texto":"Navigate Assistente que responde perguntas usando o conhecimento que o WLC acumulou sobre os repositórios — tanto a documentação gerada pelas análises semânticas quanto as métricas de processo. ![Navigate](../assets/screenshots/navigate.png) Onde acessar Há dois caminhos, e eles compartilham o mesmo histórico de conversas: Pelo menu lateral , em Ferramentas › Navigate, que abre a tela cheia Pelo botão flutuante , o ícone de conversa no canto inferior direito, que está presente em todas as telas do produto e abre um painel lateral sem tirar você de onde está ![Painel do Navigate sobre a lista de repositórios](../assets/screenshots/navigate painel.png) O painel é a versão compacta: serve para uma pergunta rápida sobre a tela que você está vendo. Ele traz Ir para o Navigate , que transfere a conversa para a tela cheia quando o assunto se aprofunda. Escopo da conversa O seletor no canto superior esquerdo define sobre o que o Navigate responde: Workspace — todos os repositórios da organização Um contexto específico — apenas os repositórios daquele agrupamento Ao abrir o painel flutuante, o escopo vem da tela em que você está. O escopo não pode ser trocado no meio de uma resposta: é preciso esperar a resposta corrente terminar. O que cada pessoa enxerga depende das permissões. Com a filtragem por usuário ativa, perfis de desenvolvedor e visualizador só recebem respostas sobre os repositórios aos quais têm acesso pelos seus [grupos](m2 00 visao admin.md). Os três botões Nova conversa — descarta o contexto acumulado e começa do zero. Útil quando o assunto muda: sem isso, o Navigate segue considerando as perguntas anteriores. Compartilhar — gera um link para a conversa. O acesso é restrito: apenas pessoas da mesma organização e com permissão sobre os repositórios tratados na conversa conseguem abrir. Links de outra organização são recusados, e quem não tem acesso aos repositórios recebe orientação para pedir liberação ao administrador. Quem abre um link compartilhado vê a conversa marcada como Compartilhada por quem a gerou. Histórico — lista as conversas anteriores, com a data relativa de cada uma (\"Há 3 dias\") e o escopo em que foi feita, para retomar de onde parou. Panorama de Saúde É o único relatório pronto disponível hoje, oferecido em Comece com um relatório pronto . Ele monta uma visão consolidada de saúde da engenharia — score, evolução no período e ações sugeridas — com formatação própria, em vez de uma resposta em texto corrido. O Panorama é sempre construído sobre contextos . Ao acioná lo, o produto pergunta duas coisas: ![Seleção de contextos e período do Panorama](../assets/screenshots/navigate panorama.png) 1. Quais contextos entram — um, vários, ou \"Todos os contextos (workspace)\". Quando muitos contextos são selecionados, todos entram no score consolidado, mas a tabela detalha os principais e agrupa o restante em \"Demais\". 2. Qual o período base — Últimos 30 dias, Esse mês ou Mês anterior. O período escolhido ancora o relatório inteiro: o score, a tendência de 90 dias e as métricas de fluxo. Nas comparações, \"Atual\" é o período escolhido e \"Anterior\" é o período imediatamente anterior a ele. No painel flutuante o Panorama aparece como Disponível no Navigate : clicar leva à tela cheia, onde a seleção de contextos e período acontece. O que perguntar O produto oferece três atalhos abaixo do campo de pergunta: Quais são as principais regras de negócio? Quem domina o conhecimento aqui? Quais repositórios fazem parte? São pontos de partida, não um cardápio fechado. Como o Navigate se apoia na documentação gerada pelas análises e nas métricas de processo, as perguntas que mais rendem são as que aproveitam esse cruzamento: Para entrar em um código desconhecido O que este repositório faz e como está organizado? Quais são as regras de negócio implícitas neste módulo? Que decisões de arquitetura explicam a estrutura atual? Por onde começar para mexer nesta parte do sistema com segurança? Para entender um número do painel Por que a Qualidade da Engenharia caiu no último período? O que está puxando o Bus Factor para baixo neste repositório? Quais repositórios têm o maior risco de continuidade hoje? O que mudou nas últimas semanas que explica a variação do Score? Para decidir onde agir Quais repositórios deveriam receber atenção nesta semana? Onde a revisão de código está concentrada em poucas pessoas? Que dependências estão desatualizadas ou representam risco? Quais repositórios estão em estágio de legado mas ainda são críticos? Para preparar uma conversa ou um documento Resuma a saúde desta área para uma reunião de gestão. Quem procurar sobre este módulo? Que pontos de conformidade merecem atenção neste repositório?"},{"id":"m1-08-people","modulo":1,"titulo":"People","subtitulos":["Onboarding Dev","Job Description"],"texto":"Duas funcionalidades que aplicam o conhecimento do WLC sobre a base de código a decisões sobre pessoas. As duas seguem o mesmo desenho: uma lista do que já foi produzido, e um assistente de três passos para produzir um item novo. Onboarding Dev Planos de integração para desenvolvedores que chegam ao time, construídos a partir do que a plataforma já sabe sobre os repositórios. ![Onboarding Dev](../assets/screenshots/onboarding plano.png) Cada plano aparece com o nome da pessoa, o cargo e a senioridade, os repositórios vinculados, quem criou e a data. O selo à direita do nome indica o estado — no exemplo, Pronto . A busca filtra por nome e Novo Plano inicia a criação. O número de repositórios é um link: é por ele que se vê sobre qual parte da base de código aquele plano foi construído. Criar um plano Novo Plano abre um assistente de três passos. Passo 1 — Desenvolvedor. Os dados de quem está chegando: ![Novo plano, passo 1](../assets/screenshots/novo plano 1 desenvolvedor.png) Nome completo Cargo / Função Nível de senioridade — Junior (0–2 anos), Pleno (3–5 anos) ou Senior (5+ anos) Passo 2 — Assessment. O perfil técnico, que orienta a profundidade do plano: ![Novo plano, passo 2](../assets/screenshots/novo plano 2 assessment.png) Principais tecnologias que domina — campo livre Experiência no domínio do projeto — Nenhuma, Baixa, Média ou Alta Experiência com ferramentas de IA para código — Nenhuma, Básica (Copilot), Intermediária ou Avançada (Claude Code, Cursor) Foco principal nos primeiros 90 dias — Desenvolvimento de funcionalidades, Correção de bugs e estabilidade, Testes e qualidade, ou Infraestrutura e operações Estilo de aprendizado preferido — Programação em par, Documentação e leitura, Prático (mergulhar no código) ou Misto Passo 3 — Repositórios. A seleção dos repositórios em que a pessoa vai trabalhar nos primeiros 90 dias, com filtro por nome. São eles que definem qual conhecimento acumulado entra no plano. ![Novo plano, passo 3](../assets/screenshots/novo plano 3 repositorios.png) O botão final é Gerar Plano de 90 Dias . A geração leva algum tempo: o plano aparece na lista com o estado Gerando e passa a Pronto quando conclui. Job Description Descrições de vaga geradas com base nas tecnologias e características reais dos repositórios da organização. ![Job Description](../assets/screenshots/vaga.png) Cada vaga traz o título, o estado ( Rascunho ou publicada), a senioridade, o regime de trabalho, os repositórios usados como base, o autor e a data. Uma vaga em rascunho pode ser retomada e editada antes de ser finalizada. Criar uma vaga Nova Vaga abre um assistente de três passos, no mesmo formato do Onboarding. Passo 1 — Vaga. As informações da posição: ![Nova vaga, passo 1](../assets/screenshots/nova vaga 1.png) Título da vaga Nível de senioridade Modelo de trabalho — presencial, híbrido ou remoto Passo 2 — Assessment. O perfil desejado para a pessoa a contratar. Passo 3 — Repositórios. Os repositórios que servem de base: é deles que saem as tecnologias, as práticas e o contexto técnico que aparecem no texto final. A vaga gerada Abrir uma vaga mostra a Descrição da Vaga pronta para uso, com botões de exportação em PDF e DOCX . ![Descrição da vaga gerada](../assets/screenshots/vaga gerada.png) O documento começa por uma linha de resumo — senioridade, modelo de trabalho, área e tamanho do time — seguida da apresentação da posição em prosa e das seções de Responsabilidades e Requisitos . O conteúdo não é genérico: as responsabilidades e os requisitos citam as tecnologias efetivamente usadas nos repositórios selecionados e as práticas que a análise identificou neles, como testes automatizados, revisão de código e pipeline de CI/CD."},{"id":"m1-09-perfil","modulo":1,"titulo":"Perfil e conta","subtitulos":[],"texto":"![Meu perfil](../assets/screenshots/perfil.png) Em Meu Perfil você edita seus dados e a aparência do produto. Campos editáveis: Nome Cargo Campos apenas de leitura, sinalizados com um cadeado: Email Role — o perfil de acesso, definido pelo administrador Grupos — também definidos pelo administrador; são eles que determinam quais repositórios você enxerga (ver [Administração](m2 00 visao admin.md)) O produto explica cada bloqueio na própria tela, para deixar claro que a mudança existe, mas passa pela administração. Abaixo fica a seção Aparência , com as preferências visuais. No print, o e mail está borrado por ser dado pessoal."},{"id":"m2-00-visao-admin","modulo":2,"titulo":"Painel Admin","subtitulos":["O que fica onde","Por onde começar"],"texto":"A área administrativa tem barra lateral própria, identificada por ADMIN , e o link Voltar ao sistema no rodapé retorna à navegação normal. ![Administração — Geral](../assets/screenshots/admin geral.png) É onde se configura tudo que o painel principal consome: quais repositórios são analisados, como eles são agrupados, quem tem acesso a quê, e com que frequência os dados são coletados. O que fica onde Seção Responde a [Geral](m2 01 geral.md) como esta organização se identifica [Repositórios](m2 02 repositorios.md) quais repositórios o WLC analisa [Contextos](m2 03 contextos.md) como esses repositórios são agrupados [API Keys](m2 04 api keys.md) como a esteira de CI/CD dispara análises [Usuários](m2 05 usuarios.md) quem tem acesso e com qual perfil [Grupos de Usuários](m2 06 grupos.md) quem enxerga quais repositórios [Notificações](m2 07 notificacoes.md) o que é enviado para fora do produto [Permissões](m2 08 permissoes.md) o que cada perfil pode fazer [Monitoramento](m2 09 monitoramento.md) com que frequência os dados são coletados [SSO SAML](m2 10 sso.md) autenticação corporativa [Super Admin](m2 11 super admin.md) seções restritas à equipe Duranium O acesso a cada seção depende de permissão: quem não tem a permissão correspondente não vê o item no menu e é redirecionado ao tentar acessá lo diretamente. Por onde começar Numa organização nova, a ordem que funciona é esta: 1. Repositórios — conectar o GitHub e escolher o que será analisado 2. Contextos — agrupar os repositórios por domínio e escrever o briefing de cada um 3. Usuários — convidar as pessoas e definir o perfil de cada uma 4. Grupos — se nem todo mundo deve ver tudo, restringir por contexto 5. API Keys — se as análises devem rodar a cada push, conectar a esteira 6. Monitoramento — ajustar a frequência da coleta, se o padrão não servir"},{"id":"m2-01-geral","modulo":2,"titulo":"Geral","subtitulos":["Os campos","Como editar"],"texto":"Os dados cadastrais da organização — o que o produto usa para se referir a ela e para calibrar comparações. ![Administração — Geral](../assets/screenshots/admin geral.png) Os campos Campo Para que serve Nome identifica a organização no cabeçalho e na barra lateral Descrição texto livre sobre o que a organização faz Setor segmento de atuação Porte da engenharia tamanho do time técnico Setor e porte não são decorativos: eles dão à plataforma uma referência do tipo de operação, o que ajuda a contextualizar análises e relatórios gerados por IA. Como editar O botão Editar , no canto do cartão, libera os campos para alteração. O nome alterado passa a valer imediatamente em toda a interface."},{"id":"m2-02-repositorios","modulo":2,"titulo":"Repositórios","subtitulos":["A conexão com o GitHub","Adicionar repositórios","Monitoramento por repositório"],"texto":"Onde os repositórios são conectados ao WLC. Nada é analisado antes de passar por aqui. ![Administração — Repositórios](../assets/screenshots/admin repositorios.png) A conexão com o GitHub O bloco superior mostra o estado da integração: o método (OAuth), a conta usada e um indicador de saúde. Atualizar conexão refaz a autorização — necessário quando as permissões concedidas mudam ou expiram. Se a conexão estiver sem alguma permissão obrigatória, o produto avisa nesse bloco e explica quais faltam. Sem elas, as análises não rodam. Adicionar repositórios Adicionar repositório abre a lista de repositórios disponíveis na conta conectada, com busca por nome. A tela informa a cota do plano — quantos repositórios já estão em uso e quantas vagas restam — e marca os arquivados, para que não sejam incluídos por engano. Repositórios já adicionados ficam ocultos por padrão; a caixa Mostrar repositórios já adicionados os exibe. Para incluir muitos de uma vez existe o caminho por planilha: 1. Baixar template — gera o CSV no formato esperado 2. Preencher com os repositórios desejados 3. Importar CSV — envia a lista Exportar faz o inverso: extrai a lista atual, útil para auditoria ou para replicar a configuração em outra organização. Monitoramento por repositório Cada repositório da lista tem um menu de ações e um estado de monitoramento, que pode ser Ativo ou Pausado . Pausar interrompe novas análises sem remover o repositório nem descartar o histórico já coletado — útil para um projeto que entrou em espera."},{"id":"m2-03-contextos","modulo":2,"titulo":"Contextos","subtitulos":["A árvore","Criar um contexto","O briefing do contexto","Repositórios do contexto"],"texto":"Um contexto é um agrupamento lógico de repositórios — por produto, domínio ou squad. É a peça central da organização dos dados: o Score é agregado por contexto, o Navigate pode ser restrito a um contexto, e o acesso das pessoas é concedido por contexto. ![Administração — Contextos](../assets/screenshots/admin contextos.png) A árvore Os contextos aparecem em árvore, com a contagem de repositórios de cada um. Contextos podem ter contexto pai , o que permite hierarquias — uma área que se subdivide em domínios, por exemplo. Um nó Sem Contexto reúne os repositórios ainda não classificados. É o item a observar depois de conectar repositórios novos: enquanto estiverem ali, não entram em nenhuma visão por contexto. Criar um contexto Novo Contexto abre um formulário curto: Campo Observação Nome obrigatório Descrição opcional, até 250 caracteres Contexto pai define a posição na árvore Importar CSV permite criar vários de uma vez. O briefing do contexto Abrir um contexto leva à sua tela de detalhe, que tem duas partes: o briefing e a lista de repositórios. O briefing é um texto livre de até 3000 caracteres com informações de negócio sobre aquele conjunto de repositórios. Ele não é decorativo: é usado pela IA para contextualizar as análises daquele contexto. O mesmo código analisado com e sem briefing produz leituras diferentes, porque o modelo passa a saber o que o sistema faz, que restrições existem e o que está em andamento. O botão Usar template preenche o campo com uma estrutura de quatro partes: Seção do template O que escrever Sobre este produto/domínio o que este conjunto de repositórios faz e qual o papel dele no negócio Stack e decisões técnicas linguagens, frameworks, bancos, padrões arquiteturais adotados e por quê Dependências e integrações outros times, serviços externos ou internos dos quais o domínio depende Contexto relevante para análise migrações em andamento, dívida técnica conhecida, restrições regulatórias, decisões recentes A última seção costuma ser a mais valiosa: é onde entram informações que não estão no código e que mudam a interpretação dele — uma migração em curso explica código duplicado, uma restrição regulatória explica uma validação aparentemente redundante. Repositórios do contexto Abaixo do briefing fica a lista de repositórios vinculados, cada um com seu estado de monitoramento. Adicionar vincula repositórios ao contexto e Remover desfaz o vínculo — sem excluir o repositório da organização, que apenas volta para \"Sem Contexto\". O contexto também pode ser editado ou excluído pelos botões no topo."},{"id":"m2-04-api-keys","modulo":2,"titulo":"API Keys","subtitulos":["A tabela","Criar uma chave","Exemplos de integração"],"texto":"Chaves de acesso à API do WLC. Elas existem para um propósito específico: disparar análises a partir da esteira de CI/CD , para que a documentação gerada acompanhe o código sem intervenção manual. ![Administração — API Keys](../assets/screenshots/admin api keys.png) A tabela Coluna Conteúdo Descrição o nome dado à chave na criação, que identifica seu uso Prefixo os primeiros caracteres da chave, para reconhecê la sem expô la Criado em data de emissão Status Ativo ou Revogado Ações Revogar , que invalida a chave imediatamente A caixa Mostrar revogados inclui as chaves desativadas na listagem. Criar uma chave Nova API Key gera a chave. O valor completo é exibido uma única vez, no momento da criação — depois disso, a listagem mostra apenas o prefixo. Guarde o no cofre de segredos da sua esteira nesse momento; se perder, o caminho é revogar e gerar outra. Chaves de API são credenciais. Não as compartilhe em conversas, tickets ou documentos, e prefira revogar e emitir uma nova a reaproveitar uma chave que tenha sido exposta. Exemplos de integração O botão Exemplos abre um guia com configurações prontas para reanálise automática a cada push na branch principal, cobrindo GitHub Actions, GitLab CI, Azure DevOps, CircleCI, Bitbucket, Jenkins e cURL , com botão para copiar. O funcionamento é o mesmo em todas as plataformas: 1. A chave é guardada como secret na sua ferramenta de CI 2. O pipeline chama o endpoint de análise enviando a chave no cabeçalho Authorization: Bearer 3. A API responde 202 Accepted e a análise roda em segundo plano, sem travar o pipeline Como a resposta é assíncrona, o build não espera pela análise: o resultado aparece na documentação do repositório quando o processamento termina."},{"id":"m2-05-usuarios","modulo":2,"titulo":"Usuários","subtitulos":["A tabela","Os perfis","Convidar pessoas","Perfil e visibilidade são coisas diferentes"],"texto":"As pessoas com acesso à organização. ![Administração — Usuários](../assets/screenshots/admin usuarios.png) A tabela Coluna Conteúdo Usuário nome e e mail Perfil o papel da pessoa, editável no próprio seletor da linha Grupos os grupos a que pertence, que determinam o que ela enxerga Status Ativo, Inativo, Pendente ou Expirado A busca filtra por nome ou e mail, e Filtros permite recortar por status e por situação do convite. Os perfis O produto trabalha com cinco perfis: Administrador , Gestor , Analista de Segurança , Desenvolvedor e Visualizador . O que cada um pode fazer está em [Permissões](m2 08 permissoes.md). Trocar o perfil de alguém é imediato: basta usar o seletor na linha da pessoa. Convidar pessoas Convidar usuários envia convite por e mail. Até a pessoa aceitar, ela aparece na lista com status Pendente ; convites não aceitos dentro do prazo passam a Expirado , e o filtro de convites ajuda a encontrá los para reenvio. Perfil e visibilidade são coisas diferentes Vale separar os dois conceitos, porque eles se confundem com frequência: O perfil define o que a pessoa pode fazer — administrar, apenas visualizar, e assim por diante Os grupos definem o que a pessoa enxerga — quais contextos, e portanto quais repositórios Uma pessoa com perfil de Desenvolvedor e sem grupo algum pode não ver nenhum repositório. Administradores são exceção: enxergam tudo, independentemente de grupos. No print, nomes e e mails estão borrados por serem dados pessoais."},{"id":"m2-06-grupos","modulo":2,"titulo":"Grupos de Usuários","subtitulos":["O que um grupo reúne","Criar um grupo","Efeito no Navigate"],"texto":"Grupos são o mecanismo de visibilidade do produto: eles respondem quem enxerga o quê. ![Administração — Grupos](../assets/screenshots/admin grupos.png) O que um grupo reúne Um grupo junta duas coisas: pessoas — os membros do grupo contextos — os contextos cujos repositórios esses membros poderão ver As pessoas de um grupo passam a enxergar os repositórios dos contextos vinculados a ele, e não os demais. As colunas da lista refletem isso: nome, descrição, número de membros e número de contextos. Administradores são exceção. Quem tem perfil de administrador visualiza todos os repositórios da organização, esteja ou não em algum grupo. Grupos restringem a visão dos demais perfis. Criar um grupo Novo Grupo abre um assistente de três passos: Passo 1 — Identificação. Nome do grupo e descrição. Passo 2 — Membros (opcional). Lista das pessoas da organização, com busca, para marcar quem entra. Passo 3 — Contextos (opcional). Lista dos contextos existentes, para marcar quais o grupo poderá ver. Os dois últimos passos são opcionais: dá para criar o grupo e preencher depois, pelo menu de ações na linha. Mas um grupo sem contextos não concede visibilidade alguma, e um grupo sem membros não afeta ninguém. Efeito no Navigate A visibilidade por grupo também vale para o assistente: com a filtragem por usuário ativa, perfis de desenvolvedor e visualizador recebem respostas apenas sobre os repositórios a que têm acesso. O Navigate não contorna a restrição de visibilidade."},{"id":"m2-07-notificacoes","modulo":2,"titulo":"Notificações","subtitulos":["Digest semanal","O estado é a coluna a observar"],"texto":"Envio de mensagens em comunicadores, organizado por contexto. É a única parte do produto que envia informação para fora dele. ![Administração — Notificações](../assets/screenshots/admin notificacoes.png) Digest semanal O recurso disponível é o Digest semanal : um resumo periódico do contexto, entregue no comunicador do time. Cada contexto precisa ser matriculado individualmente, através de Matricular contexto , informando o grupo de destino. A tabela acompanha cada matrícula: Coluna Conteúdo Contexto o contexto matriculado Grupo de destino para onde as mensagens vão Estado se o envio está apto a acontecer Última entrega quando o último digest saiu Ações Testar , que dispara um envio de verificação O estado é a coluna a observar Matricular o contexto não basta. O envio depende de a feature flag digest_push estar ligada para a organização. Enquanto ela estiver desligada, a linha exibe feature desligada na organização , o botão Testar fica indisponível, e a instrução aparece na própria linha. Um grupo de destino sem endereço cadastrado também é sinalizado ali, na mesma coluna — o que evita descobrir o problema só quando o digest não chega."},{"id":"m2-08-permissoes","modulo":2,"titulo":"Permissões","subtitulos":["A matriz","As funcionalidades configuráveis","Sobre a anonimização"],"texto":"Define, por perfil de usuário, quais funcionalidades ficam habilitadas. ![Administração — Permissões](../assets/screenshots/admin permissoes.png) A matriz As linhas são funcionalidades e as colunas são os cinco perfis do produto: Administrador , Gestor , Analista de Segurança , Desenvolvedor e Visualizador . Cada cruzamento tem um interruptor. As funcionalidades configuráveis Funcionalidade Efeito quando ativa Compartilhar conversas o perfil pode criar e abrir links de compartilhamento de conversas do Navigate Anonimizar autores nas contribuições a Distribuição de Contribuições exibe os autores como 1, 2, 3…; desativar mostra os nomes Sobre a anonimização A segunda merece decisão consciente: ela controla se nomes de pessoas aparecem associados a métricas de contribuição. Manter a anonimização ativa é a opção mais conservadora do ponto de vista de dados pessoais, e é coerente com o desenho do produto — que, como descrito em [Métricas](m1 03 metricas.md), não produz score individual por desenvolvedor. As métricas de distribuição existem para revelar concentração de conhecimento , não para avaliar pessoas. Desativar a anonimização transforma um indicador de risco organizacional em algo que pode ser lido como avaliação individual. É uma escolha da organização, e vale que seja explícita."},{"id":"m2-09-monitoramento","modulo":2,"titulo":"Monitoramento","subtitulos":["Coleta Automática de Métricas"],"texto":"Saúde do motor de análise e das integrações, e o controle de com que frequência os dados são coletados. ![Administração — Monitoramento](../assets/screenshots/admin monitoramento.png) Coleta Automática de Métricas O bloco principal controla a periodicidade da coleta que alimenta o Score e as métricas do painel. O interruptor no canto liga e desliga a coleta automática. Campo O que define Frequência de quanto em quanto tempo a coleta roda — diariamente, por exemplo Executar às (UTC) o horário da execução, em UTC Janela de dados o período considerado em cada coleta, por exemplo os últimos 90 dias Dois pontos que evitam confusão: O horário é em UTC , não no fuso local. Uma coleta às 04:51 UTC acontece por volta das 01:51 no horário de Brasília. A janela de dados não é a mesma coisa que a frequência. A frequência diz de quanto em quanto tempo a coleta roda; a janela diz quanto tempo para trás cada coleta enxerga. Uma coleta diária com janela de 90 dias recalcula, todo dia, uma fotografia dos últimos 90 dias. Desligar a coleta automática não apaga o histórico já reunido — apenas interrompe a atualização, e o painel passa a mostrar dados cada vez mais antigos."},{"id":"m2-10-sso","modulo":2,"titulo":"Configurar SSO SAML","subtitulos":["O estado da configuração","Efeito no login"],"texto":"Autenticação corporativa via SAML, para que as pessoas entrem no WLC com as credenciais que já usam na empresa. ![Administração — SSO SAML](../assets/screenshots/admin sso.png) O estado da configuração A tela mostra a situação do SSO da organização, que pode ser: Estado Significado Não configurado nenhum provedor de identidade foi conectado Pendente a configuração foi iniciada e ainda não concluída Ativo o login por SSO está funcionando Desabilitado a configuração existe, mas está desligada Falhou a validação com o provedor não passou O botão Configurar abre o assistente de configuração, onde se informam os dados do provedor de identidade. Efeito no login Com o SSO ativo, a tela de acesso passa a oferecer Entrar com SSO , ao lado do login por e mail e senha — como descrito em [Acesso](m1 02 acesso.md)."},{"id":"m2-11-super-admin","modulo":2,"titulo":"Super Admin","subtitulos":["Empresas","Feature flags e Termos de uso"],"texto":"Seções restritas à equipe Duranium, que administram a plataforma como um todo em vez de uma organização específica. A própria tela avisa dessa restrição. ![Administração — Empresas](../assets/screenshots/admin empresas.png) Empresas Lista as contas (tenants) da plataforma, com nome, slug, domínio e status, e permite criar uma nova empresa. É a partir daqui que se chega às configurações por organização de cada cliente, incluindo SSO e feature flags específicas. Feature flags e Termos de uso Duas outras seções pertencem a este grupo: Feature flags — liga e desliga funcionalidades por organização. É o mecanismo por trás de recursos que existem no produto mas não estão ativos em todas as contas, como o digest_push mencionado em [Notificações](m2 07 notificacoes.md) Termos de uso — versões dos termos, com estados de rascunho, ativa e arquivada Estas duas telas não estão documentadas com imagem: elas exigem as permissões admin.feature flags e admin.terms , que a conta usada na captura não possui."}];
+const ordem = INDICE.map(s => s.id);
+const artigos = [...document.querySelectorAll('.secao')];
+const links = [...document.querySelectorAll('.secao-link')];
+const busca = document.getElementById('busca');
+const resultados = document.getElementById('resultados');
+const lateral = document.getElementById('lateral');
+
+function mostrar(id, comAncora) {
+  let alvo = ordem.includes(id) ? id : null;
+  let elemento = null;
+  // Hash de heading (âncora interna): descobre a seção que o contém.
+  if (!alvo && id) {
+    const el = document.getElementById(id);
+    const secao = el && el.closest('.secao');
+    if (secao) { alvo = secao.id; elemento = el; }
+  }
+  if (!alvo) alvo = ordem[0];
+  artigos.forEach(a => a.classList.toggle('visivel', a.id === alvo));
+  links.forEach(l => l.classList.toggle('ativo', l.dataset.alvo === alvo));
+  abrirModuloDe(alvo);
+  lateral.classList.remove('aberta');
+  atualizarRodape(alvo);
+  if (elemento) {
+    elemento.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return;
+  }
+  if (comAncora) {
+    const el = [...document.querySelectorAll('#' + CSS.escape(alvo) + ' h2')]
+      .find(h => h.textContent.trim() === comAncora);
+    if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+  }
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+function atualizarRodape(id) {
+  const i = ordem.indexOf(id);
+  const ant = document.getElementById('anterior');
+  const prox = document.getElementById('proximo');
+  ant.style.visibility = i > 0 ? 'visible' : 'hidden';
+  prox.style.visibility = i < ordem.length - 1 ? 'visible' : 'hidden';
+  if (i > 0) { ant.href = '#' + ordem[i-1]; ant.textContent = '← ' + INDICE[i-1].titulo; }
+  if (i < ordem.length - 1) { prox.href = '#' + ordem[i+1]; prox.textContent = INDICE[i+1].titulo + ' →'; }
+}
+
+/** Expandir e retrair cada módulo. O estado fica salvo entre visitas. */
+const modulos = [...document.querySelectorAll('.modulo')];
+for (const m of modulos) {
+  const botao = m.querySelector('.modulo-cabecalho');
+  botao.addEventListener('click', () => {
+    const aberto = m.classList.toggle('aberto');
+    botao.setAttribute('aria-expanded', String(aberto));
+    try { localStorage.setItem('wlc-modulo-' + m.dataset.modulo, aberto ? '1' : '0'); } catch {}
+  });
+  try {
+    if (localStorage.getItem('wlc-modulo-' + m.dataset.modulo) === '0') {
+      m.classList.remove('aberto');
+      botao.setAttribute('aria-expanded', 'false');
+    }
+  } catch {}
+}
+
+/** Um módulo retraído não pode esconder a seção que está sendo exibida. */
+function abrirModuloDe(id) {
+  const secao = document.getElementById(id);
+  const modulo = secao && modulos.find(m => m.dataset.modulo === secao.dataset.modulo);
+  if (modulo && !modulo.classList.contains('aberto')) {
+    modulo.classList.add('aberto');
+    modulo.querySelector('.modulo-cabecalho').setAttribute('aria-expanded', 'true');
+  }
+}
+
+addEventListener('hashchange', () => mostrar(location.hash.slice(1)));
+document.getElementById('menu').onclick = () => lateral.classList.toggle('aberta');
+
+/** Busca: casa no título, nos subtítulos e no corpo, nessa ordem de prioridade. */
+function procurar(termo) {
+  const t = termo.trim().toLowerCase();
+  if (t.length < 2) return [];
+  const achados = [];
+  for (const s of INDICE) {
+    if (s.titulo.toLowerCase().includes(t)) {
+      achados.push({ id: s.id, titulo: s.titulo, contexto: 'Seção', peso: 0 });
+    }
+    for (const sub of s.subtitulos) {
+      if (sub.toLowerCase().includes(t)) {
+        achados.push({ id: s.id, titulo: sub, contexto: s.titulo, ancora: sub, peso: 1 });
+      }
+    }
+    const pos = s.texto.toLowerCase().indexOf(t);
+    if (pos > -1 && !achados.some(a => a.id === s.id && a.peso < 2)) {
+      const trecho = s.texto.slice(Math.max(0, pos - 55), pos + 85).trim();
+      achados.push({ id: s.id, titulo: s.titulo, contexto: '…' + trecho + '…', peso: 2 });
+    }
+  }
+  return achados.sort((a, b) => a.peso - b.peso).slice(0, 8);
+}
+
+function pintar(lista) {
+  if (!busca.value.trim()) { resultados.classList.remove('aberto'); return; }
+  if (!lista.length) {
+    resultados.innerHTML = '<div class="vazio">Nada encontrado para este termo.</div>';
+  } else {
+    resultados.innerHTML = lista.map(r =>
+      '<a class="resultado" href="#' + r.id + '" data-ancora="' + (r.ancora || '') + '">' +
+      '<strong>' + r.titulo + '</strong><span>' + r.contexto + '</span></a>').join('');
+  }
+  resultados.classList.add('aberto');
+}
+
+busca.addEventListener('input', () => pintar(procurar(busca.value)));
+busca.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') { busca.value = ''; resultados.classList.remove('aberto'); busca.blur(); }
+  if (e.key === 'Enter') { const p = resultados.querySelector('.resultado'); if (p) p.click(); }
+});
+resultados.addEventListener('click', (e) => {
+  const alvo = e.target.closest('.resultado');
+  if (!alvo) return;
+  e.preventDefault();
+  resultados.classList.remove('aberto');
+  busca.value = '';
+  const id = alvo.getAttribute('href').slice(1);
+  if (location.hash.slice(1) === id) mostrar(id, alvo.dataset.ancora);
+  else { location.hash = id; setTimeout(() => mostrar(id, alvo.dataset.ancora), 0); }
+});
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.busca-caixa')) resultados.classList.remove('aberto');
+});
+addEventListener('keydown', (e) => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); busca.focus(); busca.select(); }
+});
+
+mostrar(location.hash.slice(1));
+</script>
+</body>
+</html>

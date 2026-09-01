@@ -1,0 +1,185 @@
+{
+  "baseUrl": "https://app.weluvcode.ai",
+  "organizacao": "Duranium Demo",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "secoes": {
+    "autenticacao": "Acesso e autenticação",
+    "onboarding": "Onboarding",
+    "workspace": "Workspace",
+    "contexto": "Contexto",
+    "repositorio": "Repositório",
+    "perfil": "Perfil do usuário",
+    "admin": "Administração",
+    "sistema": "Telas de sistema"
+  },
+  "capturas": [
+    {
+      "slug": "novo-plano-3-repositorios",
+      "path": "/onboarding-plan",
+      "titulo": "Novo plano — passo 3, Repositórios",
+      "secao": "people",
+      "auth": "privada",
+      "passos": [
+        {
+          "clicar": "Novo Plano"
+        },
+        {
+          "preencher": [
+            "Ex: Ana Silva",
+            "Ana Silva"
+          ]
+        },
+        {
+          "preencher": [
+            "Ex: Engenheiro Backend",
+            "Engenheira Backend"
+          ]
+        },
+        {
+          "escolher": [
+            0,
+            "Pleno (3-5 anos)"
+          ]
+        },
+        {
+          "clicar": "Próximo"
+        },
+        {
+          "preencher": [
+            "Ex: Python, TypeScript, React, FastAPI",
+            "Python, FastAPI"
+          ]
+        },
+        {
+          "escolher": [
+            0,
+            "Baixa"
+          ]
+        },
+        {
+          "escolher": [
+            1,
+            "Básica (Copilot)"
+          ]
+        },
+        {
+          "escolher": [
+            2,
+            "Desenvolvimento de funcionalidades"
+          ]
+        },
+        {
+          "escolher": [
+            3,
+            "Misto"
+          ]
+        },
+        {
+          "clicar": "Próximo"
+        }
+      ],
+      "caminho": "/onboarding-plan",
+      "status": "ok",
+      "arquivo": "assets/screenshots/novo-plano-3-repositorios.png",
+      "urlFinal": "/onboarding-plan",
+      "redirecionou": false
+    }
+  ],
+  "excluidas": [
+    {
+      "path": "/sso/callback",
+      "motivo": "callback de OAuth, sem interface própria"
+    },
+    {
+      "path": "/auth/github/callback",
+      "motivo": "callback de OAuth, sem interface própria"
+    },
+    {
+      "path": "/github/callback",
+      "motivo": "callback de OAuth, sem interface própria"
+    },
+    {
+      "path": "/auth/invite/:token",
+      "motivo": "exige token de convite válido, gerado por e-mail"
+    },
+    {
+      "path": "/set-new-password",
+      "motivo": "sem token válido redireciona para /login; capturar manualmente a partir de um link real de e-mail"
+    },
+    {
+      "path": "/activate-user",
+      "motivo": "sem token válido renderiza tela vazia; capturar manualmente a partir de um convite real"
+    },
+    {
+      "path": "/navigate/share/:token",
+      "motivo": "exige token de compartilhamento válido"
+    },
+    {
+      "path": "/executive",
+      "motivo": "redireciona para /repositories"
+    },
+    {
+      "path": "/contexts/:contextId/insights",
+      "motivo": "redireciona para a home do contexto"
+    },
+    {
+      "path": "/contexts/:contextId/repo/:repoId/ai-insights",
+      "motivo": "redireciona para a home do repositório"
+    },
+    {
+      "path": "/contexts/:contextId/repo/:repoId/dashboard",
+      "motivo": "com a flag new_home ativa, redireciona para a home do repositório"
+    },
+    {
+      "path": "/admin/companies/:id",
+      "motivo": "exige id de empresa; capturar manualmente se necessário"
+    },
+    {
+      "path": "/admin/companies/:id/orgs/:orgId/sso",
+      "motivo": "exige ids de empresa e organização"
+    },
+    {
+      "path": "/admin/companies/:companyId/orgs/:orgId/feature-flags",
+      "motivo": "exige ids de empresa e organização"
+    },
+    {
+      "path": "/admin/feature-flags/:orgId",
+      "motivo": "exige id de organização"
+    },
+    {
+      "path": "/",
+      "motivo": "redireciona para /overview; documentada como Visão geral"
+    },
+    {
+      "path": "/explorer",
+      "motivo": "funcionalidade descontinuada"
+    },
+    {
+      "path": "/reports",
+      "motivo": "tela exibe apenas \"Em breve\"; fora da documentação até entrar no ar"
+    },
+    {
+      "path": "/executive-summary",
+      "motivo": "não utilizado hoje"
+    },
+    {
+      "path": "/onboarding",
+      "motivo": "conta já onboardada é redirecionada para /repositories; exige conta recém-criada"
+    },
+    {
+      "path": "/onboarding-incomplete",
+      "motivo": "conta já onboardada é redirecionada para /overview"
+    },
+    {
+      "path": "/admin/feature-flags",
+      "motivo": "exige a permissão admin.feature-flags, ausente na conta usada na captura"
+    },
+    {
+      "path": "/admin/terms",
+      "motivo": "exige a permissão admin.terms, ausente na conta usada na captura"
+    }
+  ]
+}

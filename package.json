@@ -1,0 +1,19 @@
+{
+  "name": "wlc-documentation",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Documentação do WeLuvCode (WLC) com capturas de tela automatizadas",
+  "type": "module",
+  "scripts": {
+    "capture": "node capture/capture.mjs",
+    "capture:public": "node capture/capture.mjs --only=publico",
+    "postinstall": "playwright install chromium",
+    "site": "node site/build.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.58.1"
+  },
+  "dependencies": {
+    "marked": "^18.0.11"
+  }
+}
