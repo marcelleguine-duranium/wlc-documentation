@@ -24,7 +24,7 @@ contexto**, informando o grupo de destino. A tabela acompanha cada matrícula:
 ## O estado é a coluna a observar
 
 Matricular o contexto não basta. O envio depende de a feature flag `digest_push`
-estar ligada para a organização. Enquanto ela estiver desligada, a linha exibe
+estar ligada para o workspace. Enquanto ela estiver desligada, a linha exibe
 *feature desligada na organização*, o botão **Testar** fica indisponível, e a
 instrução aparece na própria linha.
 

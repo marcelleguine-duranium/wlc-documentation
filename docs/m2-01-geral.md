@@ -1,6 +1,6 @@
 # Geral
 
-Os dados cadastrais da organização — o que o produto usa para se referir a ela e
+Os dados cadastrais do workspace — o que o produto usa para se referir a ele e
 para calibrar comparações.
 
 ![Administração — Geral](../assets/screenshots/admin-geral.png)
@@ -9,8 +9,8 @@ para calibrar comparações.
 
 | Campo | Para que serve |
 | --- | --- |
-| **Nome** | identifica a organização no cabeçalho e na barra lateral |
-| **Descrição** | texto livre sobre o que a organização faz |
+| **Nome** | identifica o workspace no cabeçalho e na barra lateral |
+| **Descrição** | texto livre sobre o que o workspace faz |
 | **Setor** | segmento de atuação |
 | **Porte da engenharia** | tamanho do time técnico |
 

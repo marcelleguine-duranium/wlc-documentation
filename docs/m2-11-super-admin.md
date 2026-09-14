@@ -1,7 +1,7 @@
 # Super Admin
 
 Seções restritas à equipe Duranium, que administram a plataforma como um todo em
-vez de uma organização específica. A própria tela avisa dessa restrição.
+vez de um workspace específico. A própria tela avisa dessa restrição.
 
 ![Administração — Empresas](../assets/screenshots/admin-empresas.png)
 
@@ -9,13 +9,13 @@ vez de uma organização específica. A própria tela avisa dessa restrição.
 
 Lista as contas (tenants) da plataforma, com nome, slug, domínio e status, e
 permite criar uma nova empresa. É a partir daqui que se chega às configurações
-por organização de cada cliente, incluindo SSO e feature flags específicas.
+de cada workspace de cliente, incluindo SSO e feature flags específicas.
 
 ## Feature flags e Termos de uso
 
 Duas outras seções pertencem a este grupo:
 
-- **Feature flags** — liga e desliga funcionalidades por organização. É o
+- **Feature flags** — liga e desliga funcionalidades por workspace. É o
   mecanismo por trás de recursos que existem no produto mas não estão ativos em
   todas as contas, como o `digest_push` mencionado em
   [Notificações](m2-07-notificacoes.md)

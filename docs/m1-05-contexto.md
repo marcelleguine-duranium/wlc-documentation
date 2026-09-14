@@ -2,14 +2,14 @@
 
 Um contexto é um agrupamento lógico de repositórios por produto, domínio ou
 squad. Clicar no nome de um contexto muda o escopo do produto inteiro: o caminho
-percorrido fica visível na trilha do topo (*Organização › Contexto*) e o seletor
+percorrido fica visível na trilha do topo (*Workspace › Contexto*) e o seletor
 da barra lateral passa a indicar o nível em que você está.
 
 ## Visão Geral do contexto
 
 ![Visão geral do contexto](../assets/screenshots/contexto-home.png)
 
-Mesma estrutura da visão da organização — Score, variação, composição e
+Mesma estrutura da visão do workspace — Score, variação, composição e
 trajetória — restrita aos repositórios daquele contexto. A diferença está na
 composição, que aqui lista repositórios em vez de contextos: é assim que se
 identifica qual repositório puxou o Score do contexto.
@@ -23,7 +23,7 @@ Três abas organizam o conteúdo: **Overview**, **Insights** e **Digest**.
 
 ![Repositórios do contexto](../assets/screenshots/contexto-repositorios.png)
 
-Mesma lista da visão da organização, limitada ao contexto, com os recortes
+Mesma lista da visão do workspace, limitada ao contexto, com os recortes
 **Repositórios** e **Ciclo de Vida**.
 
 ## Navigate no contexto

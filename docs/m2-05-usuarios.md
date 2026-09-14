@@ -1,6 +1,6 @@
 # Usuários
 
-As pessoas com acesso à organização.
+As pessoas com acesso ao workspace.
 
 ![Administração — Usuários](../assets/screenshots/admin-usuarios.png)
 

@@ -2,7 +2,7 @@
 
 O repositório é o nível mais profundo da navegação, e é onde o Score de fato é
 calculado — os níveis acima agregam. A trilha do topo mostra o caminho completo
-(*Organização › Contexto › Repositório*).
+(*Workspace › Contexto › Repositório*).
 
 A barra lateral, neste nível, traz **Visão Geral** e **Documentação**.
 

@@ -13,7 +13,7 @@ os dados são coletados.
 
 | Seção | Responde a |
 | --- | --- |
-| [Geral](m2-01-geral.md) | como esta organização se identifica |
+| [Geral](m2-01-geral.md) | como este workspace se identifica |
 | [Repositórios](m2-02-repositorios.md) | quais repositórios o WLC analisa |
 | [Contextos](m2-03-contextos.md) | como esses repositórios são agrupados |
 | [API Keys](m2-04-api-keys.md) | como a esteira de CI/CD dispara análises |
@@ -31,7 +31,7 @@ diretamente.
 
 ## Por onde começar
 
-Numa organização nova, a ordem que funciona é esta:
+Num workspace novo, a ordem que funciona é esta:
 
 1. **Repositórios** — conectar o GitHub e escolher o que será analisado
 2. **Contextos** — agrupar os repositórios por domínio e escrever o briefing de

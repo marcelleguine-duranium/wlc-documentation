@@ -31,7 +31,7 @@ Para incluir muitos de uma vez existe o caminho por planilha:
 3. **Importar CSV** — envia a lista
 
 **Exportar** faz o inverso: extrai a lista atual, útil para auditoria ou para
-replicar a configuração em outra organização.
+replicar a configuração em outro workspace.
 
 ## Monitoramento por repositório
 

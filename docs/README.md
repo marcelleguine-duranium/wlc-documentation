@@ -21,8 +21,8 @@ usa no dia a dia, e a área de configuração.
 
 | Seção | Conteúdo |
 | --- | --- |
-| [Visão do Painel Admin](m2-00-visao-admin.md) | O que fica onde, e por onde começar numa organização nova |
-| [Geral](m2-01-geral.md) | Dados cadastrais da organização |
+| [Visão do Painel Admin](m2-00-visao-admin.md) | O que fica onde, e por onde começar num workspace novo |
+| [Geral](m2-01-geral.md) | Dados cadastrais do workspace |
 | [Repositórios](m2-02-repositorios.md) | Conexão com o GitHub, cota, importação em lote e monitoramento |
 | [Contextos](m2-03-contextos.md) | Agrupamento por domínio e o briefing que alimenta a IA |
 | [API Keys](m2-04-api-keys.md) | Chaves para disparar análises pela esteira de CI/CD |
@@ -34,6 +34,6 @@ usa no dia a dia, e a área de configuração.
 | [SSO SAML](m2-10-sso.md) | Autenticação corporativa |
 | [Super Admin](m2-11-super-admin.md) | Seções restritas à equipe Duranium |
 
-As capturas foram feitas na organização de demonstração **Duranium Demo**, cujos
+As capturas foram feitas no workspace de demonstração **Duranium Demo**, cujos
 repositórios são projetos open source. Para regerá-las, veja o
 [README do repositório](../README.md).

@@ -7,7 +7,7 @@ credenciais que já usam na empresa.
 
 ## O estado da configuração
 
-A tela mostra a situação do SSO da organização, que pode ser:
+A tela mostra a situação do SSO do workspace, que pode ser:
 
 | Estado | Significado |
 | --- | --- |

@@ -3,7 +3,7 @@
 ## Entrar
 
 A tela de login aceita dois caminhos: e-mail e senha, ou **Entrar com SSO** para
-organizações com autenticação corporativa configurada.
+workspaces com autenticação corporativa configurada.
 
 ![Tela de login](../assets/screenshots/login.png)
 
@@ -19,12 +19,12 @@ o produto explica o que houve e oferece pedir um novo sem voltar ao início:
 
 ![Link inválido ou expirado](../assets/screenshots/link-expirado.png)
 
-## Uma conta, uma organização
+## Uma conta, um workspace
 
-Cada e-mail tem acesso a uma única organização. Não existe troca de organização
-dentro do produto: para trabalhar em outra, é preciso uma conta com acesso a ela.
+Cada e-mail tem acesso a um único workspace. Não existe troca de workspace
+dentro do produto: para trabalhar em outro, é preciso uma conta com acesso a ele.
 
 O seletor no topo da barra lateral, logo abaixo da busca, **não troca de
-organização** — ele navega entre os contextos e os repositórios da organização em
+workspace** — ele navega entre os contextos e os repositórios do workspace em
 que você já está. É por ele que se desce da visão geral para um contexto
 específico, e de um contexto para um repositório.

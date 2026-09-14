@@ -29,5 +29,5 @@ métricas de distribuição existem para revelar **concentração de conheciment
 não para avaliar pessoas.
 
 Desativar a anonimização transforma um indicador de risco organizacional em algo
-que pode ser lido como avaliação individual. É uma escolha da organização, e vale
+que pode ser lido como avaliação individual. É uma escolha do workspace, e vale
 que seja explícita.

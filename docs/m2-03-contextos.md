@@ -1,7 +1,7 @@
 # Contextos
 
 Um **contexto** é um agrupamento lógico de repositórios — por produto, domínio ou
-squad. É a peça central da organização dos dados: o Score é agregado por
+squad. É a peça central da estruturação dos dados: o Score é agregado por
 contexto, o Navigate pode ser restrito a um contexto, e o acesso das pessoas é
 concedido por contexto.
 
@@ -58,7 +58,7 @@ redundante.
 
 Abaixo do briefing fica a lista de repositórios vinculados, cada um com seu
 estado de monitoramento. **Adicionar** vincula repositórios ao contexto e
-**Remover** desfaz o vínculo — sem excluir o repositório da organização, que
+**Remover** desfaz o vínculo — sem excluir o repositório do workspace, que
 apenas volta para "Sem Contexto".
 
 O contexto também pode ser editado ou excluído pelos botões no topo.

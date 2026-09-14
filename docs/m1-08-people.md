@@ -56,7 +56,7 @@ aparece na lista com o estado *Gerando* e passa a *Pronto* quando conclui.
 ## Job Description
 
 Descrições de vaga geradas com base nas tecnologias e características reais dos
-repositórios da organização.
+repositórios do workspace.
 
 ![Job Description](../assets/screenshots/vaga.png)
 

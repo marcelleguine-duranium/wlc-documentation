@@ -27,7 +27,7 @@ tela cheia quando o assunto se aprofunda.
 
 O seletor no canto superior esquerdo define sobre o que o Navigate responde:
 
-- **Workspace** — todos os repositórios da organização
+- **Workspace** — o workspace inteiro, com todos os seus repositórios
 - **Um contexto específico** — apenas os repositórios daquele agrupamento
 
 Ao abrir o painel flutuante, o escopo vem da tela em que você está. O escopo não
@@ -45,8 +45,8 @@ terminar.
 assunto muda: sem isso, o Navigate segue considerando as perguntas anteriores.
 
 **Compartilhar** — gera um link para a conversa. O acesso é restrito: apenas
-pessoas **da mesma organização** e **com permissão sobre os repositórios tratados
-na conversa** conseguem abrir. Links de outra organização são recusados, e quem
+pessoas **do mesmo workspace** e **com permissão sobre os repositórios tratados
+na conversa** conseguem abrir. Links de outro workspace são recusados, e quem
 não tem acesso aos repositórios recebe orientação para pedir liberação ao
 administrador. Quem abre um link compartilhado vê a conversa marcada como
 *Compartilhada por* quem a gerou.

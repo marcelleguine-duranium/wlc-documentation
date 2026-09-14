@@ -17,7 +17,7 @@ a ele, e não os demais. As colunas da lista refletem isso: nome, descrição,
 número de membros e número de contextos.
 
 > **Administradores são exceção.** Quem tem perfil de administrador visualiza
-> todos os repositórios da organização, esteja ou não em algum grupo. Grupos
+> todos os repositórios do workspace, esteja ou não em algum grupo. Grupos
 > restringem a visão dos demais perfis.
 
 ## Criar um grupo
@@ -26,7 +26,7 @@ número de membros e número de contextos.
 
 **Passo 1 — Identificação.** Nome do grupo e descrição.
 
-**Passo 2 — Membros** (opcional). Lista das pessoas da organização, com busca,
+**Passo 2 — Membros** (opcional). Lista das pessoas do workspace, com busca,
 para marcar quem entra.
 
 **Passo 3 — Contextos** (opcional). Lista dos contextos existentes, para marcar

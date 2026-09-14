@@ -3,7 +3,7 @@
 ## Visão Geral
 
 É a tela inicial do produto: acessar a raiz leva direto para cá. Ela responde
-"como está a engenharia desta organização agora".
+"como está a engenharia deste workspace agora".
 
 ![Visão geral](../assets/screenshots/visao-geral.png)
 
@@ -12,7 +12,7 @@
 
 ### O bloco do Score
 
-O bloco superior traz o Score da organização, o recorte a que ele se refere
+O bloco superior traz o Score do workspace, o recorte a que ele se refere
 (quantos contextos e repositórios entraram na conta) e um selo de estado:
 **Saudável**, **Atenção** ou **Crítico**.
 
@@ -66,7 +66,7 @@ mantém a visão consolidada em "Todos".
 
 ## Repositórios
 
-Lista todos os repositórios da organização com busca e filtros.
+Lista todos os repositórios do workspace com busca e filtros.
 
 ![Lista de repositórios](../assets/screenshots/repositorios.png)
 
@@ -92,7 +92,7 @@ o que é configurado na administração.
 
 ![Lista de contextos](../assets/screenshots/contextos.png)
 
-O topo repete o Score da organização, com o detalhe de **quantos repositórios já
+O topo repete o Score do workspace, com o detalhe de **quantos repositórios já
 têm Score** em relação ao total — informação que ajuda a calibrar a confiança no
 número.
 

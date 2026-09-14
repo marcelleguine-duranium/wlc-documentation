@@ -1,6 +1,6 @@
 # 1. Visão geral
 
-O WeLuvCode (WLC) analisa os repositórios de uma organização e traduz o
+O WeLuvCode (WLC) analisa os repositórios de um workspace e traduz o
 resultado em um indicador único, o **Score de Engenharia**, acompanhado da
 documentação técnica que a plataforma gera a partir do próprio código.
 
@@ -30,12 +30,12 @@ mede.
 O produto organiza tudo em três níveis, e o Score existe em cada um deles:
 
 ```
-Organização  →  Contexto  →  Repositório
-(workspace)     (domínio)     (código)
+Workspace    →    Contexto    →    Repositório
+a empresa         o domínio        o código
 ```
 
 Um **contexto** é um agrupamento lógico de repositórios por produto, domínio ou
-squad. Na organização de demonstração há dois contextos, Backend e Web Frontend,
+squad. No workspace de demonstração há dois contextos, Backend e Web Frontend,
 somando sete repositórios.
 
 ## Onde cada coisa fica
@@ -47,5 +47,10 @@ A barra lateral esquerda é fixa e se adapta ao nível em que você está:
 - **People** — Onboarding Dev e Job Description
 
 No rodapé fica o seu usuário; no topo, o seletor de contexto e repositório.
+
+> **Workspace e "Organização" são a mesma coisa.** O produto usa *Workspace* na
+> maior parte das telas — no Score, no escopo do Navigate, nos filtros — mas o
+> seletor da barra lateral rotula esse mesmo nível como *Organização*. Esta
+> documentação usa **Workspace**, que é o termo predominante na interface.
 
 ![Visão geral do workspace](../assets/screenshots/visao-geral.png)
