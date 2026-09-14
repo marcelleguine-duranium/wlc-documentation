@@ -156,7 +156,25 @@ async function fazerLogin(context) {
   await page.fill('#email', EMAIL)
   await page.fill('#password', SENHA)
   await page.click('form button[type="submit"]')
-  await page.waitForURL((url) => !url.pathname.startsWith('/login'), { timeout: 30_000 })
+  try {
+    await page.waitForURL((url) => !url.pathname.startsWith('/login'), { timeout: 30_000 })
+  } catch {
+    // Continuar em /login depois do envio não é lentidão: o motivo está escrito
+    // na tela — credencial recusada, desafio de senha nova, MFA. Sem trazer esse
+    // texto, o erro que chega ao terminal é um timeout sem diagnóstico.
+    const motivo = await page.evaluate(() => {
+      const limpar = (el) => (el?.textContent ?? '').replace(/\s+/g, ' ').trim()
+      const alerta = document.querySelector('[role="alert"], [data-sonner-toast], [data-radix-toast-root]')
+      return limpar(alerta) || null
+    })
+    throw new Error(
+      'O login não saiu de /login em 30s. ' +
+      (motivo
+        ? `A tela informa: "${motivo}".`
+        : 'Nenhuma mensagem de erro visível na tela.') +
+      '\nConfira WLC_EMAIL e WLC_PASSWORD, e rode com --headed para acompanhar o navegador.',
+    )
+  }
   await mkdir(path.dirname(SESSAO), { recursive: true })
   await context.storageState({ path: SESSAO })
   log('  sessão autenticada e salva')
