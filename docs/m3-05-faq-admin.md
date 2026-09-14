@@ -1,0 +1,137 @@
+# Configuração e administração
+
+## Por onde começar em um workspace novo?
+
+Na ordem que funciona: **Repositórios** (conectar o GitHub e escolher o que será
+analisado), **Contextos** (agrupar e escrever o briefing), **Usuários**
+(convidar e definir perfis), **Grupos** (se nem todo mundo deve ver tudo), **API
+Keys** (se as análises devem rodar a cada push) e **Monitoramento** (se o padrão
+de coleta não servir). Ver [Painel Admin](m2-00-visao-admin.md).
+
+## Conectei o GitHub e nada foi analisado.
+
+Nenhum repositório é analisado antes de ser adicionado em
+[Repositórios](m2-02-repositorios.md). Vale checar também o bloco de conexão no
+topo da tela: se faltar alguma permissão obrigatória, o produto avisa ali quais
+são — e sem elas as análises não rodam. **Atualizar conexão** refaz a
+autorização.
+
+## Atingi a cota de repositórios do plano.
+
+A tela de adicionar repositórios informa quantos já estão em uso e quantas vagas
+restam. Repositórios arquivados vêm marcados, para não ocuparem vaga por engano.
+
+## Como adiciono muitos repositórios de uma vez?
+
+Pelo caminho da planilha: **Baixar template** gera o CSV no formato esperado,
+você preenche e usa **Importar CSV**. **Exportar** faz o inverso, útil para
+auditoria ou para replicar a configuração em outro workspace.
+
+## Pausar um repositório apaga o histórico?
+
+Não. Pausar interrompe novas análises sem remover o repositório nem descartar o
+histórico já coletado — é o caminho para um projeto que entrou em espera.
+
+## O que é o nó "Sem Contexto"?
+
+São os repositórios ainda não classificados. É o item a observar depois de
+conectar repositórios novos: enquanto estiverem ali, não entram em nenhuma visão
+por contexto.
+
+## Remover um repositório de um contexto exclui ele do workspace?
+
+Não. **Remover** desfaz apenas o vínculo, e o repositório volta para "Sem
+Contexto".
+
+## O briefing do contexto é mesmo necessário?
+
+É o que mais muda o resultado das análises de IA daquele contexto. O mesmo código
+analisado com e sem briefing produz leituras diferentes, porque o modelo passa a
+saber o que o sistema faz, que restrições existem e o que está em andamento. O
+botão **Usar template** dá a estrutura de quatro partes; a seção *Contexto
+relevante para análise* — migrações em curso, dívida conhecida, restrições
+regulatórias — costuma ser a mais valiosa. Limite de 3000 caracteres.
+
+## Qual a diferença entre perfil e grupo?
+
+O **perfil** define o que a pessoa **pode fazer** (Administrador, Gestor, Analista
+de Segurança, Desenvolvedor, Visualizador). Os **grupos** definem o que a pessoa
+**enxerga** — quais contextos e, portanto, quais repositórios. Uma pessoa com
+perfil de Desenvolvedor e sem grupo algum pode não ver nenhum repositório;
+administradores enxergam tudo, independentemente de grupos.
+
+## Criei um grupo e nada mudou.
+
+Um grupo sem contextos não concede visibilidade alguma, e um grupo sem membros
+não afeta ninguém. Os dois passos são opcionais na criação e podem ser
+preenchidos depois, pelo menu de ações na linha do grupo.
+
+## Como troco o perfil de uma pessoa?
+
+Pelo seletor na própria linha da pessoa, em [Usuários](m2-05-usuarios.md). A
+troca é imediata.
+
+## Para que serve uma API Key?
+
+Para disparar análises a partir da esteira de CI/CD, de modo que a documentação
+gerada acompanhe o código sem intervenção manual. O botão **Exemplos** traz
+configurações prontas para GitHub Actions, GitLab CI, Azure DevOps, CircleCI,
+Bitbucket, Jenkins e cURL.
+
+## A análise trava meu pipeline?
+
+Não. A API responde **202 Accepted** e a análise roda em segundo plano: o build
+não espera, e o resultado aparece na documentação do repositório quando o
+processamento termina.
+
+## Perdi a chave. Consigo ver o valor de novo?
+
+Não. O valor completo é exibido **uma única vez, no momento da criação**; depois
+disso a listagem mostra apenas o prefixo. Se perder, revogue e gere outra.
+Guarde a chave no cofre de segredos da esteira — chaves de API são credenciais e
+não devem ser compartilhadas em conversas, tickets ou documentos.
+
+## O digest semanal não está chegando.
+
+Olhe a coluna **Estado** da matrícula em [Notificações](m2-07-notificacoes.md).
+Matricular o contexto não basta: o envio depende da feature flag `digest_push`
+estar ligada para o workspace — enquanto estiver desligada, a linha exibe
+*feature desligada na organização* e o botão **Testar** fica indisponível. Um
+grupo de destino sem endereço cadastrado também é sinalizado na mesma coluna.
+
+## A que horas a coleta roda?
+
+No horário configurado em **Executar às (UTC)** — e é **UTC**, não o fuso local:
+uma coleta às 04:51 UTC acontece por volta das 01:51 no horário de Brasília.
+
+## Qual a diferença entre frequência e janela de dados?
+
+A **frequência** diz de quanto em quanto tempo a coleta roda; a **janela** diz
+quanto tempo para trás cada coleta enxerga. Uma coleta diária com janela de 90
+dias recalcula, todo dia, uma fotografia dos últimos 90 dias.
+
+## Desligar a coleta automática apaga o que já foi coletado?
+
+Não. Apenas interrompe a atualização — o painel passa a mostrar dados cada vez
+mais antigos.
+
+## Devemos desligar a anonimização de autores?
+
+É uma escolha do workspace, e vale que seja explícita. Manter a anonimização
+ativa é a opção mais conservadora do ponto de vista de dados pessoais e é
+coerente com o desenho do produto, que não produz score individual. Desativar
+transforma um indicador de risco organizacional em algo que pode ser lido como
+avaliação individual.
+
+## Como ativo o SSO SAML?
+
+Pelo botão **Configurar** em [SSO SAML](m2-10-sso.md), que abre o assistente onde
+se informam os dados do provedor de identidade. A tela mostra o estado atual —
+Não configurado, Pendente, Ativo, Desabilitado ou Falhou.
+
+## O que são as telas de Empresas, Feature flags e Termos de uso?
+
+São seções de **Super Admin**, restritas à equipe Duranium, que administram a
+plataforma como um todo em vez de um workspace específico. É por ali que
+funcionalidades são ligadas por workspace — como o `digest_push` do digest
+semanal.
