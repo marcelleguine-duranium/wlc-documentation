@@ -300,22 +300,37 @@ parado não é premiado nem punido por indicadores sem base.
 **Indicador sem fonte fica de fora.** Mudança de Contexto está desenhada mas não é
 coletada, então é excluída do cálculo em vez de entrar com valor estimado.
 
-## Exemplo: por que três dimensões boas não salvam o Score
+## Por que uma dimensão crítica derruba o Score
 
-Números fictícios, para ilustrar a mecânica:
+Vale voltar ao exemplo do `django`, calculado no [Passo 4](#passo-4-as-notas-viram-o-score),
+porque ele mostra a assimetria do modelo com dados reais:
 
-| Dimensão | Peso | Nota |
+| Dimensão | Nota | Faixa |
 | --- | --- | --- |
-| Fluxo de Entrega | 30% | 7,7 |
-| Qualidade da Engenharia | 30% | 7,3 |
-| Eficiência do Time | 20% | 2,5 |
-| Riscos Organizacionais | 20% | 8,6 |
+| Fluxo de Entrega | 6,4 | Atenção |
+| Qualidade da Engenharia | 7,1 | Saudável |
+| Eficiência do Time | 10,0 | Saudável |
+| Riscos Organizacionais | 2,1 | Crítico |
 
-**Score: 6,7 — Atenção.**
+**Score: 6,5 — Atenção.**
 
-A Eficiência caiu para 2,5 porque a revisão estava concentrada em uma pessoa
-acima de 60%. Três dimensões saudáveis não compensam uma dimensão crítica, e é
-exatamente essa assimetria que o Score deve tornar visível.
+A Eficiência do Time está em **10,0**, a nota máxima: o trabalho é bem
+distribuído, com 37 revisores e nenhum concentrando mais de 40% das revisões. A
+Qualidade está saudável. Ainda assim o Score fica em Atenção, puxado por Riscos
+Organizacionais em 2,1.
+
+Olhando os indicadores daquela dimensão na aba Métricas, dá para ver por quê:
+
+- **Concentração de Conhecimento em 78,1%** dos arquivos — crítico, contra um
+  limiar saudável de menos de 30%
+- **443 entregas de longa duração** — crítico, contra um limiar saudável de
+  nenhuma
+- **Bus Factor de 2 pessoas** — atenção, a um passo do crítico
+
+Uma nota perfeita em uma dimensão não compensa outra em estado crítico, e é
+exatamente essa assimetria que o Score deve tornar visível. Um repositório com
+revisões bem distribuídas mas com o conhecimento concentrado em poucas pessoas
+continua sendo um risco de continuidade.
 
 ## O estágio muda a conclusão, não o cálculo
 

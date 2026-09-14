@@ -23,7 +23,6 @@ export const SECOES = {
   repositorio: 'Repositório',
   perfil: 'Perfil do usuário',
   admin: 'Administração',
-  sistema: 'Telas de sistema',
 }
 
 export const ROTAS = [
@@ -121,8 +120,6 @@ export const ROTAS = [
   { slug: 'admin-monitoramento', path: '/admin/monitoring', titulo: 'Administração — Monitoramento', secao: 'admin', auth: 'privada' },
   { slug: 'admin-sso', path: '/admin/sso', titulo: 'Administração — SSO', secao: 'admin', auth: 'privada', redact: true },
 
-  // --- Sistema ---
-  { slug: 'nao-encontrado', path: '/rota-que-nao-existe', titulo: 'Página não encontrada', secao: 'sistema', auth: 'privada' },
 ]
 
 /**
