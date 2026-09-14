@@ -52,18 +52,18 @@ async function carregarSecoes() {
       (_, tag, texto) => `<${tag} id="${slug(texto)}">${texto}</${tag}>`)
 
     // Links entre documentos viram âncoras da navegação do site:
-    //   04-workspace.md        -> #04-workspace
-    //   08-administracao.md#x  -> #x  (o alvo é o heading, não a seção)
+    //   m1-04-workspace.md        -> #m1-04-workspace
+    //   m2-00-visao-admin.md#x    -> #x  (o alvo é o heading, não a seção)
     html = html
-      .replace(/href="(\d{2}-[a-z0-9-]+)\.md#([^"]+)"/g, 'href="#$2"')
-      .replace(/href="(\d{2}-[a-z0-9-]+)\.md"/g, 'href="#$1"')
+      .replace(/href="(m\d-\d{2}-[a-z0-9-]+)\.md#([^"]+)"/g, 'href="#$2"')
+      .replace(/href="(m\d-\d{2}-[a-z0-9-]+)\.md"/g, 'href="#$1"')
 
     // Subtítulos viram os saltos internos da navegação.
     const subtitulos = [...corpo.matchAll(/^##\s+(.+)$/gm)]
       .map((m) => m[1].replace(/<a id="[^"]*"><\/a>/g, '').trim())
 
     const texto = corpo.replace(/[#*`>|\-]/g, ' ').replace(/\s+/g, ' ').trim()
-    const modulo = arquivo.startsWith('m2-') ? 2 : 1
+    const modulo = Number(arquivo.match(/^m(\d)-/)?.[1] ?? 1)
     return { id, titulo, html, subtitulos, texto, modulo }
   }))
 }
@@ -72,6 +72,7 @@ function montarPagina(secoes) {
   const MODULOS = [
     { n: 1, titulo: 'Módulo 1', subtitulo: 'Painel Principal' },
     { n: 2, titulo: 'Módulo 2', subtitulo: 'Painel Admin' },
+    { n: 3, titulo: 'Módulo 3', subtitulo: 'Perguntas frequentes' },
   ]
 
   const navegacao = MODULOS.map((m) => {
