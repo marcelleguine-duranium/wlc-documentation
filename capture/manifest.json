@@ -12,79 +12,21 @@
     "contexto": "Contexto",
     "repositorio": "Repositório",
     "perfil": "Perfil do usuário",
-    "admin": "Administração",
-    "sistema": "Telas de sistema"
+    "admin": "Administração"
   },
   "capturas": [
     {
-      "slug": "novo-plano-3-repositorios",
-      "path": "/onboarding-plan",
-      "titulo": "Novo plano — passo 3, Repositórios",
-      "secao": "people",
+      "slug": "contexto-digest",
+      "path": "/contexts/{contextId}/home?tab=digest",
+      "titulo": "Digest do contexto",
+      "secao": "contexto",
       "auth": "privada",
-      "passos": [
-        {
-          "clicar": "Novo Plano"
-        },
-        {
-          "preencher": [
-            "Ex: Ana Silva",
-            "Ana Silva"
-          ]
-        },
-        {
-          "preencher": [
-            "Ex: Engenheiro Backend",
-            "Engenheira Backend"
-          ]
-        },
-        {
-          "escolher": [
-            0,
-            "Pleno (3-5 anos)"
-          ]
-        },
-        {
-          "clicar": "Próximo"
-        },
-        {
-          "preencher": [
-            "Ex: Python, TypeScript, React, FastAPI",
-            "Python, FastAPI"
-          ]
-        },
-        {
-          "escolher": [
-            0,
-            "Baixa"
-          ]
-        },
-        {
-          "escolher": [
-            1,
-            "Básica (Copilot)"
-          ]
-        },
-        {
-          "escolher": [
-            2,
-            "Desenvolvimento de funcionalidades"
-          ]
-        },
-        {
-          "escolher": [
-            3,
-            "Misto"
-          ]
-        },
-        {
-          "clicar": "Próximo"
-        }
-      ],
-      "caminho": "/onboarding-plan",
+      "altura": 1900,
+      "nota": "Aba Digest da home do contexto. Exige a feature flag digest ativa; com ela desligada o deep link cai silenciosamente na aba Overview.",
+      "caminho": "/contexts/cJF7Vb/home?tab=digest",
       "status": "ok",
-      "arquivo": "assets/screenshots/novo-plano-3-repositorios.png",
-      "urlFinal": "/onboarding-plan",
+      "arquivo": "assets/screenshots/contexto-digest.png",
+      "urlFinal": "/contexts/cJF7Vb/home?tab=digest",
       "redirecionou": false
     }
   ],
@@ -123,11 +65,19 @@
     },
     {
       "path": "/contexts/:contextId/insights",
-      "motivo": "redireciona para a home do contexto"
+      "motivo": "link antigo; redireciona para a aba Insights da home do contexto, capturada como contexto-insights"
     },
     {
       "path": "/contexts/:contextId/repo/:repoId/ai-insights",
-      "motivo": "redireciona para a home do repositório"
+      "motivo": "link antigo; redireciona para a aba Insights IA da home do repositório, capturada como repo-insights"
+    },
+    {
+      "path": "/dependencies",
+      "motivo": "mesma tela de Dependências no escopo do workspace; capturada no escopo de contexto"
+    },
+    {
+      "path": "/contexts/:contextId/repo/:repoId/dependencies",
+      "motivo": "mesma tela de Dependências no escopo do repositório; capturada no escopo de contexto"
     },
     {
       "path": "/contexts/:contextId/repo/:repoId/dashboard",

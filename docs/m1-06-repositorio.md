@@ -14,9 +14,69 @@ Score do repositório, variação e trajetória. A composição, aqui, lista as 
 dimensões em vez de repositórios — é o nível em que se vê qual dimensão está
 puxando o Score.
 
+A Visão Geral do repositório tem três abas: **Geral**, **Insights IA** e
+**Métricas**.
+
 O botão **Ver métricas detalhadas** abre a aba **Métricas**, onde cada indicador
 aparece com o valor medido e a faixa em que caiu. Essa tela está explicada em
 [Métricas](m1-03-metricas.md).
+
+## Insights IA do repositório
+
+![Insights IA do repositório](../assets/screenshots/repo-insights.png)
+
+A aba **Insights IA** transforma os números do repositório em leitura e
+recomendação. É o equivalente, um nível abaixo, do
+[diagnóstico do contexto](m1-05-contexto.md): lá a pergunta é estratégica, aqui é
+operacional — o que este repositório precisa que seja feito.
+
+A mecânica de geração é a mesma do contexto: a aba começa vazia, **Gerar
+Insights** dispara a análise, a geração leva cerca de um minuto, o cabeçalho
+passa a mostrar **Última execução** e o botão vira **Regerar**. Regerar sempre
+chama o modelo de novo, e o diagnóstico anterior fica na tela até o novo ficar
+pronto.
+
+O que alimenta a análise aqui são as métricas de processo do repositório e as
+execuções recentes, somadas ao contexto da empresa — nome, segmento e descrição
+cadastrados em [Administração › Geral](m2-01-geral.md). É por isso que aquele
+cadastro não é burocracia: ele muda o tom da recomendação para o setor em que a
+organização opera.
+
+### As três dimensões do diagnóstico
+
+O resultado vem organizado em três dimensões, cada uma com nota de 1 a 10:
+
+| Dimensão | O que avalia |
+| --- | --- |
+| **Saúde & Qualidade** | estado atual da qualidade, métricas-chave e o principal gap |
+| **Produtividade & Velocidade** | velocidade de entrega, gargalos e vazão |
+| **Estratégia & Pessoas** | distribuição de carga, risco de concentração e oportunidades de IA |
+
+> **Estas três dimensões não são as quatro dimensões do Score.** O Score é
+> calculado a partir de indicadores medidos, com pesos fixos, e está descrito em
+> [Métricas](m1-03-metricas.md). As notas desta aba são uma leitura do modelo
+> sobre aqueles mesmos dados, em outro recorte. Quando as duas divergirem, o
+> número que vale para acompanhamento é o do Score.
+
+Cada nota recebe uma palavra, pela mesma régua: **Excelente** de 8 para cima,
+**Bom** a partir de 6, **Atenção** a partir de 4 e **Crítico** abaixo de 4.
+
+### O que a tela mostra
+
+| Bloco | Conteúdo |
+| --- | --- |
+| **Notas por dimensão** | as três dimensões e suas notas, no topo, para leitura imediata |
+| **Resumo executivo** | o parágrafo de abertura, citando números dos dados |
+| **Top Prioridades** | exatamente três ações, numeradas de 1 a 3 |
+| **Uma seção por dimensão** | nota, situação, resumo de até três frases e de 3 a 5 recomendações |
+
+Cada recomendação é uma frase curta e vem com **Esforço** e **Impacto** — Baixo,
+Médio ou Alto — e um marcador de prioridade: vermelho para alta, âmbar para
+média, verde para baixa. O par esforço/impacto é o que permite montar uma fila de
+trabalho sem ler tudo.
+
+Enquanto o repositório não tiver um diagnóstico gerado, a aba mostra o estado de
+espera em vez de números.
 
 ## Documentação gerada
 

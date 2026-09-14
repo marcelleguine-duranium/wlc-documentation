@@ -8,7 +8,9 @@ produto que envia informação para fora dele.
 ## Digest semanal
 
 O recurso disponível é o **Digest semanal**: um resumo periódico do contexto,
-entregue no comunicador do time.
+entregue no comunicador do time. É o mesmo conteúdo da aba **Digest** na visão do
+contexto, descrita em [Contexto](m1-05-contexto.md) — aqui se configura para onde
+ele é enviado.
 
 Cada contexto precisa ser **matriculado** individualmente, através de **Matricular
 contexto**, informando o grupo de destino. A tabela acompanha cada matrícula:
