@@ -20,7 +20,7 @@ contexto**, informando o grupo de destino. A tabela acompanha cada matrícula:
 | **Contexto** | o contexto matriculado |
 | **Grupo de destino** | para onde as mensagens vão |
 | **Estado** | se o envio está apto a acontecer |
-| **Última entrega** | quando o último digest saiu |
+| **Última entrega** | quando a última mensagem foi enviada |
 | **Ações** | **Testar**, que dispara um envio de verificação |
 
 ## O estado é a coluna a observar

@@ -17,12 +17,20 @@ bloco e explica quais faltam. Sem elas, as análises não rodam.
 ## Adicionar repositórios
 
 **Adicionar repositório** abre a lista de repositórios disponíveis na conta
-conectada, com busca por nome. A tela informa a **cota do plano** — quantos
-repositórios já estão em uso e quantas vagas restam — e marca os arquivados, para
-que não sejam incluídos por engano.
+conectada, com busca por nome. O topo do diálogo informa a **cota do plano** —
+quantos repositórios já estão em uso e quantas vagas restam — em número e em
+barra de progresso.
+
+![Topo do diálogo, com a cota do plano e a busca](../assets/screenshots/recortes/admin-cota-topo.png)
 
 Repositórios já adicionados ficam ocultos por padrão; a caixa **Mostrar
-repositórios já adicionados** os exibe.
+repositórios já adicionados** os exibe. A lista mostra a descrição de cada
+repositório e marca os **arquivados**, para que não sejam incluídos por engano.
+
+![A lista de disponíveis, com o selo dos arquivados](../assets/screenshots/recortes/admin-cota-lista.png)
+
+Com a cota cheia, o produto bloqueia a inclusão e orienta a remover um
+repositório já conectado antes de adicionar outro.
 
 Para incluir muitos de uma vez existe o caminho por planilha:
 

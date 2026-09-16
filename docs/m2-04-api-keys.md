@@ -20,10 +20,11 @@ A caixa **Mostrar revogados** inclui as chaves desativadas na listagem.
 
 ## Criar uma chave
 
-**Nova API Key** gera a chave. O valor completo é exibido **uma única vez, no
-momento da criação** — depois disso, a listagem mostra apenas o prefixo. Guarde-o
-no cofre de segredos da sua esteira nesse momento; se perder, o caminho é revogar
-e gerar outra.
+**Nova API Key** gera a chave, pedindo apenas uma **descrição** de até 200
+caracteres — é ela que identifica o uso da chave na listagem. O valor completo é
+exibido **uma única vez, no momento da criação** — depois disso, a listagem
+mostra apenas o prefixo. Guarde-o no cofre de segredos da sua esteira nesse
+momento; se perder, o caminho é revogar e gerar outra.
 
 > Chaves de API são credenciais. Não as compartilhe em conversas, tickets ou
 > documentos, e prefira revogar e emitir uma nova a reaproveitar uma chave que

@@ -30,6 +30,22 @@ Trocar o perfil de alguém é imediato: basta usar o seletor na linha da pessoa.
 na lista com status **Pendente**; convites não aceitos dentro do prazo passam a
 **Expirado**, e o filtro de convites ajuda a encontrá-los para reenvio.
 
+### O limite de usuários
+
+O workspace tem um número máximo de usuários ativos, definido pelo plano
+contratado. O diálogo de convite mostra quantas vagas ainda existem e recusa uma
+lista de endereços maior do que o que cabe, dizendo quantos ainda podem entrar.
+
+**Ao atingir o limite, o botão Convidar usuários fica desativado** e o produto
+explica o motivo quando o cursor passa sobre ele. A partir daí há dois caminhos:
+desativar alguém que não usa mais o produto, o que libera uma vaga na hora, ou
+pedir mais usuários — e isso é feito abrindo um chamado com o time de suporte,
+por envolver o plano contratado.
+
+Convites pendentes não ocupam vaga enquanto não são aceitos. Quando há convites
+em aberto, a tela exibe a contagem de vagas ocupadas ao lado da de pendentes,
+para que o teto não seja atingido de surpresa.
+
 ## Perfil e visibilidade são coisas diferentes
 
 Vale separar os dois conceitos, porque eles se confundem com frequência:

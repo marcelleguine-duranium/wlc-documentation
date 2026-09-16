@@ -20,6 +20,16 @@ autorização.
 
 A tela de adicionar repositórios informa quantos já estão em uso e quantas vagas
 restam. Repositórios arquivados vêm marcados, para não ocuparem vaga por engano.
+Com todas as vagas ocupadas, o produto bloqueia a inclusão: o caminho é remover
+um repositório já conectado antes de adicionar outro.
+
+## Atingi o limite de usuários do plano.
+
+O botão **Convidar usuários** fica desativado quando todas as vagas estão
+ocupadas, e o produto explica o motivo ao passar o cursor sobre ele. Desativar
+alguém que não usa mais o produto libera uma vaga na hora; para aumentar o teto,
+é preciso abrir um chamado com o time de suporte. Convites pendentes não ocupam
+vaga enquanto não são aceitos.
 
 ## Como adiciono muitos repositórios de uma vez?
 
