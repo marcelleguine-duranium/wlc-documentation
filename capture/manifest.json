@@ -5,6 +5,7 @@
     "width": 1440,
     "height": 900
   },
+  "deviceScaleFactor": 2,
   "secoes": {
     "autenticacao": "Acesso e autenticação",
     "onboarding": "Onboarding",
@@ -16,17 +17,56 @@
   },
   "capturas": [
     {
-      "slug": "contexto-digest",
-      "path": "/contexts/{contextId}/home?tab=digest",
-      "titulo": "Digest do contexto",
-      "secao": "contexto",
+      "slug": "repo-home",
+      "path": "/contexts/{contextId}/repo/{repoId}/home",
+      "titulo": "Home do repositório",
+      "secao": "repositorio",
       "auth": "privada",
-      "altura": 1900,
-      "nota": "Aba Digest da home do contexto. Exige a feature flag digest ativa; com ela desligada o deep link cai silenciosamente na aba Overview.",
-      "caminho": "/contexts/cJF7Vb/home?tab=digest",
+      "nota": "Exige a feature flag new_home ativa.",
+      "caminho": "/contexts/BqXDMz/repo/3igYLX/home",
       "status": "ok",
-      "arquivo": "assets/screenshots/contexto-digest.png",
-      "urlFinal": "/contexts/cJF7Vb/home?tab=digest",
+      "arquivo": "assets/screenshots/repo-home.png",
+      "urlFinal": "/contexts/BqXDMz/repo/3igYLX/home",
+      "redirecionou": false
+    },
+    {
+      "slug": "repo-insights",
+      "path": "/contexts/{contextId}/repo/{repoId}/home?tab=insights",
+      "titulo": "Insights IA do repositório",
+      "secao": "repositorio",
+      "auth": "privada",
+      "altura": 2300,
+      "nota": "Aba Insights IA da home do repositório. Exige um diagnóstico já gerado; sem isso a tela mostra o estado de espera.",
+      "caminho": "/contexts/BqXDMz/repo/3igYLX/home?tab=insights",
+      "status": "ok",
+      "arquivo": "assets/screenshots/repo-insights.png",
+      "urlFinal": "/contexts/BqXDMz/repo/3igYLX/home?tab=insights",
+      "redirecionou": false
+    },
+    {
+      "slug": "repo-metricas",
+      "path": "/contexts/{contextId}/repo/{repoId}/home?tab=metricas",
+      "titulo": "Métricas detalhadas do repositório",
+      "secao": "repositorio",
+      "auth": "privada",
+      "altura": 1500,
+      "nota": "Aba da home do repositório, alcançada pelo botão \"Ver métricas detalhadas\".",
+      "caminho": "/contexts/BqXDMz/repo/3igYLX/home?tab=metricas",
+      "status": "ok",
+      "arquivo": "assets/screenshots/repo-metricas.png",
+      "urlFinal": "/contexts/BqXDMz/repo/3igYLX/home?tab=metricas",
+      "redirecionou": false
+    },
+    {
+      "slug": "repo-documentacao",
+      "path": "/contexts/{contextId}/repo/{repoId}/documentation",
+      "titulo": "Documentação gerada do repositório",
+      "secao": "repositorio",
+      "auth": "privada",
+      "caminho": "/contexts/BqXDMz/repo/3igYLX/documentation",
+      "status": "ok",
+      "arquivo": "assets/screenshots/repo-documentacao.png",
+      "urlFinal": "/contexts/BqXDMz/repo/3igYLX/documentation",
       "redirecionou": false
     }
   ],
