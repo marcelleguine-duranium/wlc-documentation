@@ -74,6 +74,30 @@ Duas coisas a observar ao definir um recorte novo:
   altura: esticado até a coluna, passa dos 180 mm e domina a página. Corte-o em
   partes, como em `admin-cota-topo` e `admin-cota-lista`, e capture a tela com
   `WLC_ESCALA=4` — em 2x o modal chega ao papel com menos de 150 dpi.
+- **Texto corrido não se recorta na horizontal**, porque cortar fatiaria as
+  frases. Para essas telas, estreite a janela com `largura` na rota: o texto
+  reflui em uma coluna menor e chega maior ao papel.
+
+### Quanta interface cabe na coluna
+
+O que decide se uma figura é legível não é a resolução, é quanta interface entra
+nos 174 mm da coluna. Uma tela de 1190 px espremida ali põe o texto do produto a
+5,4 pt, metade do corpo do manual; os mesmos 174 mm com 620 px de interface o
+colocam a 9,7 pt. Por isso as telas de texto são capturadas com `largura: 660`.
+
+A contrapartida é densidade: 660 px em 2x rendem 1320 px, ou 193 dpi na coluna.
+Essas rotas são capturadas com `WLC_ESCALA=3`, que devolve 289 dpi, e a exigência
+está na nota de cada uma em `capture/routes.mjs`.
+
+Para descobrir a largura de uma tela nova, sem gravar nada no repositório:
+
+```bash
+WLC_CONTEXT_ID=<id> node capture/experimento-largura.mjs --slug=<slug> --larguras=760,660,580
+```
+
+O script grava em `/tmp` e não toca no manifesto. Estreitar tem limite: abaixo de
+cerca de 1024 px a barra lateral vira menu, e a tela de Dependências passa a
+esconder colunas da tabela — por isso ela continua em 1440.
 
 Depois de refazer as capturas com `npm run capture`, rode o recortador de novo:
 um recorte com coordenadas antigas mostra a parte errada da tela sem que nada

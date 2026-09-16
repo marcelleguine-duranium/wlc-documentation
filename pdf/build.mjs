@@ -382,10 +382,10 @@ ${corpo.join('\n')}
   // a captura em capture/recortes.mjs, não encolher a imagem no CSS.
   // A coluna de texto tem 174 mm; a altura sai da proporção da própria imagem,
   // e não do layout da janela, que não corresponde ao da página impressa.
-  // Acima de 300 dpi a imagem só engorda o arquivo: o papel não mostra a
-  // diferença. A redução acontece aqui, na impressão, para que a central de
-  // ajuda continue com a resolução cheia, que as telas de alta densidade usam.
-  const LARGURA_MAX = Math.round((174 / 25.4) * 300)
+  // O teto é 420 dpi, que são os 2880 px de uma captura em 2x: reduzir até os
+  // 300 dpi do papel seria uma reamostragem em fator quebrado, e é ela que borra
+  // o texto da interface. Só capturas em escala maior passam por aqui.
+  const LARGURA_MAX = Math.round((174 / 25.4) * 420)
   const reduzidas = await pagina.$$eval('figure img', async (imgs, larguraMax) => {
     let n = 0
     for (const img of imgs) {

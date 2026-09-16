@@ -11,6 +11,8 @@
  *   auth     'publica' captura sem sessão; 'privada' exige login
  *   redact   true aplica blur em textos que pareçam e-mail antes do print
  *   altura   amplia a janela do navegador; use em telas com rolagem interna
+ *   largura  estreita a janela; o texto reflui em coluna menor e chega legível
+ *            ao PDF. Recortes dessa tela precisam declarar `base` com este valor
  *   passos   interações a executar antes do print (telas sem rota própria)
  *   nota     observação levada para a documentação
  */
@@ -51,10 +53,10 @@ export const ROTAS = [
   // --- Contexto (parametrizadas) ---
   { slug: 'contexto-home', path: '/contexts/{contextId}/home', titulo: 'Home do contexto', secao: 'contexto', auth: 'privada',
     nota: 'Exige a feature flag new_home ativa.' },
-  { slug: 'contexto-insights', path: '/contexts/{contextId}/home?tab=insights', titulo: 'Insights IA do contexto', secao: 'contexto', auth: 'privada', altura: 3400,
-    nota: 'Aba Insights da home do contexto. Exige a permissão context.insights e um diagnóstico já gerado; sem isso a tela mostra o estado vazio.' },
-  { slug: 'contexto-digest', path: '/contexts/{contextId}/home?tab=digest', titulo: 'Digest do contexto', secao: 'contexto', auth: 'privada', altura: 1900,
-    nota: 'Aba Digest da home do contexto. Exige a feature flag digest ativa; com ela desligada o deep link cai silenciosamente na aba Overview.' },
+  { slug: 'contexto-insights', path: '/contexts/{contextId}/home?tab=insights', titulo: 'Insights IA do contexto', secao: 'contexto', auth: 'privada', largura: 660, altura: 3200,
+    nota: 'Aba Insights da home do contexto. Exige a permissão context.insights e um diagnóstico já gerado; sem isso a tela mostra o estado vazio. Capturar com WLC_ESCALA=3: a janela estreita rende só 1320 px em 2x, o que põe o recorte a 193 dpi na coluna do PDF.' },
+  { slug: 'contexto-digest', path: '/contexts/{contextId}/home?tab=digest', titulo: 'Digest do contexto', secao: 'contexto', auth: 'privada', largura: 660, altura: 1800,
+    nota: 'Aba Digest da home do contexto. Exige a feature flag digest ativa; com ela desligada o deep link cai silenciosamente na aba Overview. Capturar com WLC_ESCALA=3: a janela estreita rende só 1320 px em 2x, o que põe o recorte a 193 dpi na coluna do PDF.' },
   { slug: 'contexto-repositorios', path: '/contexts/{contextId}/repos', titulo: 'Repositórios do contexto', secao: 'contexto', auth: 'privada' },
   { slug: 'contexto-dependencias', path: '/contexts/{contextId}/dependencies', titulo: 'Dependências do contexto', secao: 'contexto', auth: 'privada', altura: 2300,
     nota: 'Exige a feature flag obsolescence ativa. A mesma tela atende workspace (/dependencies) e repositório; só o escopo muda.' },
@@ -64,10 +66,10 @@ export const ROTAS = [
   // --- Repositório (parametrizadas) ---
   { slug: 'repo-home', path: '/contexts/{contextId}/repo/{repoId}/home', titulo: 'Home do repositório', secao: 'repositorio', auth: 'privada',
     nota: 'Exige a feature flag new_home ativa.' },
-  { slug: 'repo-insights', path: '/contexts/{contextId}/repo/{repoId}/home?tab=insights', titulo: 'Insights IA do repositório', secao: 'repositorio', auth: 'privada', altura: 2300,
-    nota: 'Aba Insights IA da home do repositório. Exige um diagnóstico já gerado; sem isso a tela mostra o estado de espera.' },
-  { slug: 'repo-metricas', path: '/contexts/{contextId}/repo/{repoId}/home?tab=metricas', titulo: 'Métricas detalhadas do repositório', secao: 'repositorio', auth: 'privada', altura: 1500,
-    nota: 'Aba da home do repositório, alcançada pelo botão "Ver métricas detalhadas".' },
+  { slug: 'repo-insights', path: '/contexts/{contextId}/repo/{repoId}/home?tab=insights', titulo: 'Insights IA do repositório', secao: 'repositorio', auth: 'privada', largura: 660, altura: 1400,
+    nota: 'Aba Insights IA da home do repositório. Exige um diagnóstico já gerado; sem isso a tela mostra o estado de espera. Capturar com WLC_ESCALA=3: a janela estreita rende só 1320 px em 2x, o que põe o recorte a 193 dpi na coluna do PDF.' },
+  { slug: 'repo-metricas', path: '/contexts/{contextId}/repo/{repoId}/home?tab=metricas', titulo: 'Métricas detalhadas do repositório', secao: 'repositorio', auth: 'privada', largura: 660, altura: 3600,
+    nota: 'Aba da home do repositório, alcançada pelo botão "Ver métricas detalhadas". Capturar com WLC_ESCALA=3: a janela estreita rende só 1320 px em 2x, o que põe o recorte a 193 dpi na coluna do PDF.' },
   { slug: 'repo-documentacao', path: '/contexts/{contextId}/repo/{repoId}/documentation', titulo: 'Documentação gerada do repositório', secao: 'repositorio', auth: 'privada' },
 
   // --- People: telas sem rota própria, alcançadas por interação ---
@@ -97,13 +99,14 @@ export const ROTAS = [
     ] },
   { slug: 'nova-vaga-1', path: '/job-opening', titulo: 'Nova vaga — passo 1', secao: 'people', auth: 'privada',
     passos: [{ clicar: 'Nova Vaga' }] },
-  { slug: 'vaga-gerada', path: '/job-opening', titulo: 'Descrição da vaga gerada', secao: 'people', auth: 'privada', altura: 1800,
-    passos: [{ clicar: 'Engenheiro' }] },
+  { slug: 'vaga-gerada', path: '/job-opening', titulo: 'Descrição da vaga gerada', secao: 'people', auth: 'privada', largura: 660, altura: 3600,
+    passos: [{ clicar: 'Engenheiro' }],
+    nota: 'Capturar com WLC_ESCALA=3: a janela estreita rende só 1320 px em 2x, o que põe o recorte a 193 dpi na coluna do PDF.' },
 
   // --- Navigate: painel flutuante e diálogo do Panorama ---
   { slug: 'navigate-painel', path: '/repositories', titulo: 'Painel do Navigate', secao: 'workspace', auth: 'privada',
     passos: [{ clicarAria: 'Perguntar ao Navigate' }],
-    nota: 'O painel abre sobre qualquer tela; aqui, sobre a lista de repositórios.' },
+    nota: 'O painel abre sobre qualquer tela; aqui, sobre a lista de repositórios. Capturar com WLC_ESCALA=3: a janela estreita rende só 1320 px em 2x, o que põe o recorte a 193 dpi na coluna do PDF.' },
   { slug: 'navigate-panorama', path: '/navigate', titulo: 'Panorama de Saúde — seleção', secao: 'workspace', auth: 'privada',
     passos: [{ clicar: 'Panorama de Saúde' }],
     nota: 'Diálogo de escolha de contextos e período; não gera o relatório.' },

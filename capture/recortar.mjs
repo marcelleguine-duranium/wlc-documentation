@@ -22,11 +22,13 @@ const DESTINO = path.join(ORIGEM, 'recortes')
 const filtro = process.argv.find((a) => a.startsWith('--nome='))?.split('=')[1]?.split(',')
 
 /**
- * Densidade de impressão alvo. A coluna do PDF tem 174 mm, então 300 dpi são
- * 2055 px de largura; acima disso o arquivo cresce sem diferença visível no
- * papel. Capturas em 2x costumam passar desse teto e são reduzidas até ele.
+ * Densidade de impressão alvo. A coluna do PDF tem 174 mm, então 420 dpi são
+ * 2880 px — exatamente a largura de uma captura em 2x. O teto é esse, e não os
+ * 300 dpi que o papel exigiria, porque reduzir 2880 para 2055 é uma reamostragem
+ * em fator quebrado, e é ela que borra o texto da interface. Vale mais gastar
+ * arquivo do que reamostrar: o recorte chega ao PDF com os pixels originais.
  */
-const DPI_ALVO = 300
+const DPI_ALVO = 420
 const LARGURA_MAX = Math.round((174 / 25.4) * DPI_ALVO)
 
 async function main() {
@@ -45,6 +47,7 @@ async function main() {
     }
 
     const x = r.x ?? X_PADRAO
+    const base = r.base ?? LARGURA_BASE
     const base64 = await pagina.evaluate(async ({ src, x, y, w, h, larguraBase, larguraMax }) => {
       const img = new Image()
       img.src = src
@@ -66,7 +69,7 @@ async function main() {
       ctx.drawImage(img, X, Y, largura, H, 0, 0, c.width, c.height)
       return { dados: c.toDataURL('image/png').split(',')[1], largura: c.width, altura: c.height, k }
     }, { src: cache.get(r.origem), x, y: r.y, w: r.w, h: r.h,
-         larguraBase: LARGURA_BASE, larguraMax: LARGURA_MAX })
+         larguraBase: base, larguraMax: LARGURA_MAX })
 
     if (base64.erro) throw new Error(`${r.nome}: ${base64.erro}`)
 

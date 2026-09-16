@@ -322,8 +322,13 @@ async function capturar(page, rota, ids) {
   try {
     // Telas com rolagem interna não são cobertas por fullPage: o scroll fica em
     // um container, não no body. Para essas, `altura` amplia a janela.
-    if (rota.altura) await page.setViewportSize({ width: VIEWPORT.width, height: rota.altura })
-    else await page.setViewportSize(VIEWPORT)
+    // `largura` estreita a janela para que o texto reflua em uma coluna menor: é
+    // o que torna legível, no papel, uma tela cujo bloco de texto ocupa a
+    // largura toda e por isso não pode ser recortado na horizontal.
+    await page.setViewportSize({
+      width: rota.largura ?? VIEWPORT.width,
+      height: rota.altura ?? VIEWPORT.height,
+    })
     await page.goto(`${BASE_URL}${caminho}`, { waitUntil: 'domcontentloaded', timeout: 30_000 })
     await esperarConteudo(page)
 
