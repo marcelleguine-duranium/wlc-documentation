@@ -70,6 +70,10 @@ Duas coisas a observar ao definir um recorte novo:
 - **Não recorte áreas estreitas.** O recorte é esticado até os 174 mm da coluna,
   então um pedaço de 250 px de largura chega ao PDF com cerca de 36 dpi. Os
   recortes de largura cheia ficam em torno de 174 dpi.
+- **Diálogo não cabe em uma figura só.** Um modal ocupa pouca largura e muita
+  altura: esticado até a coluna, passa dos 180 mm e domina a página. Corte-o em
+  partes, como em `admin-cota-topo` e `admin-cota-lista`, e capture a tela com
+  `WLC_ESCALA=4` — em 2x o modal chega ao papel com menos de 150 dpi.
 
 Depois de refazer as capturas com `npm run capture`, rode o recortador de novo:
 um recorte com coordenadas antigas mostra a parte errada da tela sem que nada
@@ -204,6 +208,10 @@ abaixo de 200 dpi.
 Densidade maior não muda nada no catálogo de recortes: as coordenadas continuam
 declaradas na escala 1x e são multiplicadas na hora de cortar. O recortador
 também reduz o que passar de 300 dpi, para o PDF não crescer sem ganho no papel.
+
+A exceção é `admin-adicionar-repositorio`, capturada com `WLC_ESCALA=4`: só um
+terço da largura da tela é aproveitado, porque a figura é o diálogo e não a
+página inteira. A exigência está na nota da rota, em `capture/routes.mjs`.
 
 ### Opções
 
