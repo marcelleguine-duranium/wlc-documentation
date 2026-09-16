@@ -222,7 +222,9 @@ observa, e os seus indicadores. Cada indicador mostra:
 - o **valor medido**, com a base entre parênteses (por exemplo, "133 commits")
 - as **três faixas** do indicador, com a faixa em que ele caiu destacada
 
-![Fluxo de Entrega e Qualidade da Engenharia, com a faixa de cada indicador destacada](../assets/screenshots/recortes/metricas-fluxo-qualidade.png)
+![Fluxo de Entrega, com a faixa de cada indicador destacada](../assets/screenshots/recortes/metricas-fluxo.png)
+
+![Qualidade da Engenharia, no mesmo formato](../assets/screenshots/recortes/metricas-qualidade.png)
 
 É assim que se vê, sem cálculo mental, por que um indicador está em atenção ou em
 crítico. Indicadores sem dado aparecem com `--` e, como explicado acima, saem da
@@ -232,7 +234,9 @@ Alguns blocos trazem detalhamento adicional: a composição entre nova capacidad
 correção e outros; a distribuição de contribuições por autor; e a lista dos
 Arquivos Mais Alterados no período.
 
-![Eficiência do Time e Riscos Organizacionais, com os blocos de detalhamento](../assets/screenshots/recortes/metricas-eficiencia-riscos.png)
+![Eficiência do Time](../assets/screenshots/recortes/metricas-eficiencia.png)
+
+![Riscos Organizacionais](../assets/screenshots/recortes/metricas-riscos.png)
 
 > A distribuição de contribuições aparece com os autores identificados como #1,
 > #2, #3… Isso é a permissão **Anonimizar autores nas contribuições**, descrita
