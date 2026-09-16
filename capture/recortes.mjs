@@ -48,6 +48,12 @@ export const RECORTES = [
   { origem: 'repo-metricas.png', nome: 'metricas-fluxo-qualidade', y: 300, h: 565 },
   { origem: 'repo-metricas.png', nome: 'metricas-eficiencia-riscos', y: 865, h: 555 },
 
+  // --- Adicionar repositório (1440x900, capturada em 4x) ---
+  // Só o diálogo, não a tela inteira; inteiro ele daria 187 mm de altura, então
+  // vai em duas partes, cada uma junto do trecho que a explica.
+  { origem: 'admin-adicionar-repositorio.png', nome: 'admin-cota-topo', x: 464, y: 175, w: 512, h: 212 },
+  { origem: 'admin-adicionar-repositorio.png', nome: 'admin-cota-lista', x: 464, y: 387, w: 512, h: 265 },
+
   // --- Job Description (1440x1800) ---
   { origem: 'vaga-gerada.png', nome: 'vaga-gerada-topo', y: 110, h: 410 },
   { origem: 'vaga-gerada.png', nome: 'vaga-gerada-stack', y: 1140, h: 120 },
