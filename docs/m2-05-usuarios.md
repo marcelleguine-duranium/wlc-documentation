@@ -16,6 +16,10 @@ As pessoas com acesso ao workspace.
 A busca filtra por nome ou e-mail, e **Filtros** permite recortar por status e
 por situação do convite.
 
+O administrador vê aqui todas as pessoas do workspace. Um gestor vê apenas as
+dos grupos de que participa — a mesma restrição que vale para o resto do
+produto, aplicada também a esta lista.
+
 ## Os perfis
 
 O produto trabalha com cinco perfis: **Administrador**, **Gestor**, **Analista de
@@ -55,8 +59,9 @@ Vale separar os dois conceitos, porque eles se confundem com frequência:
 - Os **grupos** definem *o que a pessoa enxerga* — quais contextos, e portanto
   quais repositórios
 
-Uma pessoa com perfil de Desenvolvedor e sem grupo algum pode não ver nenhum
-repositório. Administradores são exceção: enxergam tudo, independentemente de
-grupos.
+Uma pessoa sem grupo algum pode não ver nenhum repositório, **e isso vale
+inclusive para o perfil de Gestor**: o cargo amplia o que se pode fazer, não o
+que se enxerga. Administrador é a única exceção — enxerga tudo,
+independentemente de grupos. Ver [Grupos de Usuários](m2-06-grupos.md).
 
 > No print, nomes e e-mails estão borrados por serem dados pessoais.

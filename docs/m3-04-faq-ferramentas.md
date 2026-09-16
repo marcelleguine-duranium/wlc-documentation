@@ -24,9 +24,9 @@ terminar.
 
 ## O Navigate pode me mostrar repositórios que eu não deveria ver?
 
-Não. Com a filtragem por usuário ativa, perfis de desenvolvedor e visualizador só
-recebem respostas sobre os repositórios a que têm acesso pelos seus grupos. O
-Navigate não contorna a restrição de visibilidade.
+Não. Com a filtragem por usuário ativa, todo perfil que não seja administrador —
+inclusive o de gestor — só recebe respostas sobre os repositórios a que tem
+acesso pelos seus grupos. O Navigate não contorna a restrição de visibilidade.
 
 ## Posso compartilhar uma conversa do Navigate?
 

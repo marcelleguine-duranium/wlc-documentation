@@ -38,6 +38,10 @@ Um **contexto** é um agrupamento lógico de repositórios por produto, domínio
 squad. No workspace de demonstração há dois contextos, Backend e Web Frontend,
 somando sete repositórios.
 
+O nível do workspace corresponde à empresa para quem tem perfil de
+administrador. Para os demais perfis, ele corresponde ao que os seus grupos
+concedem — o que está detalhado em [Workspace](m1-04-workspace.md).
+
 ## Onde cada coisa fica
 
 A barra lateral esquerda é fixa e se adapta ao nível em que você está:

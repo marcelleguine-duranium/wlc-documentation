@@ -85,7 +85,9 @@ características reais dos repositórios do workspace. (Capítulo 8)
 Apêndice B)
 
 **Grupo de usuários** — mecanismo de visibilidade; reúne pessoas e contextos, e
-define quais repositórios esses membros enxergam. (Capítulo 15 e Apêndice B)
+define quais repositórios esses membros enxergam. Vale para todos os perfis,
+inclusive o de Gestor; só o Administrador não depende de grupo. (Capítulo 15 e
+Apêndice B)
 
 **API Key** — chave de acesso à API, destinada a disparar análises a partir da
 esteira de CI/CD, para que a documentação gerada acompanhe o código sem

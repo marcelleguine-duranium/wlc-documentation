@@ -34,10 +34,11 @@ Ao abrir o painel flutuante, o escopo vem da tela em que você está. O escopo n
 pode ser trocado no meio de uma resposta: é preciso esperar a resposta corrente
 terminar.
 
-> O que cada pessoa enxerga depende das permissões. Com a filtragem por usuário
-> ativa, perfis de desenvolvedor e visualizador só recebem respostas sobre os
-> repositórios aos quais têm acesso pelos seus
-> [grupos](m2-00-visao-admin.md).
+> O que cada pessoa enxerga depende dos seus grupos. Com a filtragem por usuário
+> ativa, todo perfil que não seja administrador — inclusive o de gestor — só
+> recebe respostas sobre os repositórios aos quais tem acesso pelos seus
+> [grupos](m2-06-grupos.md). O escopo **Workspace**, para essas pessoas,
+> significa o conjunto que elas enxergam.
 
 ### Os três botões
 

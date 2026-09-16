@@ -14,7 +14,8 @@ Campos apenas de leitura, sinalizados com um cadeado:
 - **Email**
 - **Role** — o perfil de acesso, definido pelo administrador
 - **Grupos** — também definidos pelo administrador; são eles que determinam quais
-  repositórios você enxerga (ver [Administração](m2-00-visao-admin.md))
+  repositórios você enxerga, qualquer que seja o seu perfil (ver
+  [Grupos de Usuários](m2-06-grupos.md))
 
 O produto explica cada bloqueio na própria tela, para deixar claro que a mudança
 existe, mas passa pela administração.

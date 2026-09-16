@@ -10,6 +10,11 @@ As linhas são funcionalidades e as colunas são os cinco perfis do produto:
 **Administrador**, **Gestor**, **Analista de Segurança**, **Desenvolvedor** e
 **Visualizador**. Cada cruzamento tem um interruptor.
 
+Esta matriz não tem relação com **visibilidade**. Ela liga e desliga
+funcionalidades por perfil; quais repositórios cada pessoa enxerga é decidido em
+[Grupos de Usuários](m2-06-grupos.md), e nenhum interruptor daqui amplia o
+alcance de ninguém.
+
 ## As funcionalidades configuráveis
 
 | Funcionalidade | Efeito quando ativa |

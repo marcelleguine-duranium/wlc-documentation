@@ -88,7 +88,7 @@ export const PARTES = [
       { fonte: 'm2-02-repositorios.md', titulo: 'Repositórios e conexão com o GitHub', perfil: 'admin' },
       { fonte: 'm2-03-contextos.md', titulo: 'Contextos e briefing', perfil: 'admin' },
       { fonte: 'm2-05-usuarios.md', titulo: 'Usuários', perfil: 'admin' },
-      { fonte: 'm2-06-grupos.md', titulo: 'Grupos de usuários', perfil: 'admin' },
+      { fonte: 'm2-06-grupos.md', titulo: 'Grupos de usuários', perfil: 'ambos' },
       { fonte: 'm2-08-permissoes.md', titulo: 'Permissões', perfil: 'admin' },
       { fonte: 'm2-07-notificacoes.md', titulo: 'Notificações e digest semanal', perfil: 'admin' },
       { fonte: 'm2-04-api-keys.md', titulo: 'API Keys e integração com CI/CD', perfil: 'admin' },

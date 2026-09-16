@@ -1,5 +1,12 @@
 # 4. Workspace
 
+> **"Workspace" é o que você enxerga.** Fora o perfil de administrador, as telas
+> deste capítulo são calculadas sobre os repositórios que os seus grupos
+> concedem. Um gestor responsável por dois contextos vê o Score, a composição e a
+> trajetória desses dois contextos, não os da empresa inteira — e duas pessoas
+> com grupos diferentes leem números diferentes na mesma tela. Quem define esse
+> recorte é o administrador, em [Grupos de Usuários](m2-06-grupos.md).
+
 ## Visão Geral
 
 É a tela inicial do produto: acessar a raiz leva direto para cá. Ela responde
@@ -70,7 +77,8 @@ mantém a visão consolidada em "Todos".
 
 ## Repositórios
 
-Lista todos os repositórios do workspace com busca e filtros.
+Lista os repositórios do workspace com busca e filtros: todos, para o
+administrador; os dos seus grupos, para os demais perfis.
 
 ![Lista de repositórios](../assets/screenshots/repositorios.png)
 
@@ -137,7 +145,8 @@ este recorte mostra o Score do conjunto de repositórios visível a cada grupo.
 
 É a leitura por recorte de time: em vez de "como está este domínio", responde
 "como está o que este time acompanha". Grupos sem contextos associados aparecem
-vazios.
+vazios. O administrador vê aqui todos os grupos do workspace; os demais perfis,
+apenas aqueles de que participam.
 
 ## Análises em andamento
 

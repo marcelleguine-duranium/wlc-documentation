@@ -12,9 +12,10 @@ faz e o que ela vê. Cada um é tratado em detalhe nos capítulos 14, 15 e 16.
 | **Permissões** | quais funcionalidades ficam habilitadas por perfil | Admin › Permissões |
 
 Perfil e visibilidade se confundem com frequência. O perfil define a capacidade
-de agir; os grupos definem o recorte de repositórios visível. Uma pessoa com
-perfil de Desenvolvedor e sem grupo algum pode não ver nenhum repositório.
-Administradores são exceção: enxergam tudo, independentemente de grupos.
+de agir; os grupos definem o recorte de repositórios visível. Quem não está em
+nenhum grupo pode não ver repositório algum, **inclusive quem tem perfil de
+Gestor**: cargo amplia o que se faz, não o que se enxerga. Administrador é a
+única exceção — enxerga tudo, independentemente de grupos.
 
 ## Os cinco perfis
 
@@ -30,6 +31,10 @@ O que cada um pode fazer não é fixo: é definido na matriz de Permissões, cuj
 linhas são funcionalidades e cujas colunas são esses cinco perfis. O acesso às
 seções do Painel Admin também depende de permissão — quem não a tem não vê o
 item no menu e é redirecionado ao tentar acessar a rota diretamente.
+
+**Grupos de Usuários é exclusiva do Administrador.** Um Gestor não administra o
+mecanismo que o restringe, e a lista de Usuários que ele vê traz apenas as
+pessoas dos seus grupos.
 
 ## Funcionalidades configuráveis na matriz
 

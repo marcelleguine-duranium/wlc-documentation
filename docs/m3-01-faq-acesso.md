@@ -36,8 +36,20 @@ interface.
 A visibilidade vem dos **grupos de usuários**, não do perfil. Uma pessoa que não
 está em nenhum grupo — ou está em um grupo sem contextos vinculados — pode não
 enxergar repositório algum. Peça ao administrador do workspace que inclua você em
-um grupo com os contextos certos. Administradores são exceção: enxergam tudo,
-estejam ou não em grupos. Ver [Grupos de Usuários](m2-06-grupos.md).
+um grupo com os contextos certos. Administrador é a única exceção: enxerga tudo,
+esteja ou não em grupos. Ver [Grupos de Usuários](m2-06-grupos.md).
+
+## Sou Gestor. Por que não vejo a organização inteira?
+
+Porque o perfil não concede visibilidade: ele define o que você pode fazer, e
+são os grupos que definem o que você enxerga. Um gestor vê os contextos dos
+grupos de que é membro, e os repositórios desses contextos — o Score, a
+composição e a trajetória da tela inicial são calculados sobre esse recorte.
+
+Se você não está em nenhum grupo, não verá repositório algum. O caminho, nos dois
+casos, é pedir ao administrador do workspace que vincule você aos grupos
+correspondentes à sua área. Um endereço de contexto fora do seu escopo também não
+abre, mesmo com o link em mãos.
 
 ## Por que não consigo alterar meu e-mail, meu perfil ou meus grupos?
 

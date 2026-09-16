@@ -4,11 +4,15 @@ O manual cobre dois papéis. O **Gestor** acompanha o resultado da engenharia na
 telas do produto; o **Administrador** configura o que essas telas exibem. Cada
 capítulo traz, ao lado do título, a indicação de a quem ele se destina.
 
+Vale saber desde já que o Gestor enxerga apenas os contextos dos grupos de que é
+membro: o que as telas da Parte II mostram a ele é esse recorte, não a
+organização inteira. O capítulo 15 explica o mecanismo.
+
 ## Trilhas de leitura
 
 | Perfil | Leia | Consulte quando precisar |
 | --- | --- | --- |
-| **Gestor** | Parte I e Parte II | Parte IV e o Apêndice A |
+| **Gestor** | Parte I e Parte II | Capítulo 15, Parte IV e os Apêndices A e B |
 | **Administrador** | Parte I e Parte III | Parte II, Parte IV e os Apêndices B e C |
 | **Primeira implantação** | Capítulo 10, na ordem dos seis passos | Capítulos 12 a 19 |
 
@@ -27,6 +31,7 @@ capítulo traz, ao lado do título, a indicação de a quem ele se destina.
 | Agrupar repositórios por domínio e escrever o briefing | 13 |
 | Convidar pessoas e definir o que cada uma faz | 14 e 16 |
 | Restringir o que cada pessoa enxerga | 15 |
+| Entender por que não vejo um repositório que esperava ver | 15 e 21 |
 | Enviar o resumo semanal para o comunicador do time | 17 |
 | Disparar análises pela esteira de CI/CD | 18 |
 | Ajustar a frequência da coleta de dados | 19 |

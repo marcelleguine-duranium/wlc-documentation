@@ -66,9 +66,27 @@ regulatórias — costuma ser a mais valiosa. Limite de 3000 caracteres.
 
 O **perfil** define o que a pessoa **pode fazer** (Administrador, Gestor, Analista
 de Segurança, Desenvolvedor, Visualizador). Os **grupos** definem o que a pessoa
-**enxerga** — quais contextos e, portanto, quais repositórios. Uma pessoa com
-perfil de Desenvolvedor e sem grupo algum pode não ver nenhum repositório;
-administradores enxergam tudo, independentemente de grupos.
+**enxerga** — quais contextos e, portanto, quais repositórios. Quem não está em
+nenhum grupo pode não ver repositório algum, **e isso inclui o perfil de
+Gestor**. Administrador é a única exceção: enxerga tudo, independentemente de
+grupos.
+
+## Um Gestor precisa mesmo estar em um grupo?
+
+Precisa. Fora o administrador, nenhum perfil enxerga nada sem grupo, e o de
+gestor não abre exceção. Ao criar um workspace ou ao promover alguém a gestor,
+vincule a pessoa aos grupos da área pela qual ela responde — senão ela entra e
+não encontra repositório, contexto nem Score.
+
+O gestor entra no grupo como membro comum: não existe a figura de dono ou
+responsável pelo grupo. Ver [Grupos de Usuários](m2-06-grupos.md).
+
+## Por que o Gestor não vê a seção Grupos de Usuários?
+
+Porque essa seção é exclusiva do administrador. Quem pudesse editar o próprio
+grupo poderia ampliar o próprio alcance, e a restrição deixaria de restringir.
+Pela mesma razão, a lista de Usuários do Painel Admin mostra, para um gestor,
+apenas as pessoas dos grupos de que ele participa.
 
 ## Criei um grupo e nada mudou.
 
