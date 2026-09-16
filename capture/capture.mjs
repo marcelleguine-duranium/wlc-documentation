@@ -15,6 +15,7 @@
  */
 
 import { chromium } from 'playwright'
+import { medirVazio } from './analisar.mjs'
 import { mkdir, writeFile, rm } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
@@ -37,6 +38,13 @@ const SENHA = process.env.WLC_PASSWORD
  */
 const ORG = process.env.WLC_ORG
 const VIEWPORT = { width: 1440, height: 900 }
+/**
+ * Densidade da captura. Com 2, cada print sai com o dobro de pixels no mesmo
+ * enquadramento — o que a documentação precisa para imprimir nítida: na largura
+ * de coluna do PDF, 1440 px rendem 210 dpi e 2880 px rendem 420 dpi.
+ * As coordenadas dos recortes continuam sendo declaradas na escala 1x.
+ */
+const ESCALA = Number(process.env.WLC_ESCALA ?? 2)
 const ESPERA_RENDER = Number(process.env.WLC_ESPERA_MS ?? 1500)
 const TIMEOUT_CONTEUDO = Number(process.env.WLC_TIMEOUT_CONTEUDO_MS ?? 20_000)
 
@@ -187,31 +195,61 @@ async function fazerLogin(context) {
  * processamento exibem estado vazio, que não ilustra a funcionalidade.
  * WLC_CONTEXT_ID e WLC_REPO_ID permitem fixar a escolha.
  */
-async function descobrirIds(page) {
-  if (process.env.WLC_CONTEXT_ID && process.env.WLC_REPO_ID) {
-    return { contextId: process.env.WLC_CONTEXT_ID, repoId: process.env.WLC_REPO_ID }
+/**
+ * Um id só pode conter os caracteres que aparecem em um segmento de URL. Quem
+ * copia o comando do README junto com o `<id>` de exemplo cairia numa rota
+ * `/contexts/%3Cid%3E/home`, que responde uma tela vazia — print legítimo para
+ * o script e inútil para a documentação.
+ */
+function validarId(nome, valor) {
+  if (!valor) return null
+  if (!/^[A-Za-z0-9_-]+$/.test(valor)) {
+    throw new Error(
+      `${nome} inválido: "${valor}". Informe o id que aparece na URL do produto`
+      + ' ao abrir um contexto ou repositório, sem os sinais de menor e maior.'
+      + ` Se o valor veio de um exemplo copiado, limpe com: unset ${nome}`,
+    )
   }
-  let contextId = process.env.WLC_CONTEXT_ID ?? null
-  let repoId = null
+  return valor
+}
 
-  await page.goto(`${BASE_URL}/contexts`, { waitUntil: 'domcontentloaded' })
+async function descobrirIds(page) {
+  const idContexto = validarId('WLC_CONTEXT_ID', process.env.WLC_CONTEXT_ID)
+  const idRepo = validarId('WLC_REPO_ID', process.env.WLC_REPO_ID)
+  if (idContexto && idRepo) {
+    return { contextId: idContexto, repoId: idRepo }
+  }
+
+  let contextId = idContexto ?? null
+
+  if (!contextId) {
+    await page.goto(`${BASE_URL}/contexts`, { waitUntil: 'domcontentloaded' })
+    await esperarConteudo(page)
+    const href = await page.evaluate(() =>
+      [...document.querySelectorAll('a[href^="/contexts/"]')]
+        .map((a) => a.getAttribute('href'))
+        .find((h) => /^\/contexts\/[^/]+\/./.test(h ?? '')) ?? null,
+    )
+    if (href) contextId = href.split('/')[2]
+  }
+
+  if (idRepo) return { contextId, repoId: idRepo }
+
+  // O repositório precisa pertencer ao contexto escolhido, senão a rota
+  // /contexts/<ctx>/repo/<repo>/ não resolve. Com o contexto em mãos, a busca
+  // começa pela lista dele; sem contexto, pela lista geral.
+  const urlLista = contextId ? `${BASE_URL}/contexts/${contextId}/repos` : `${BASE_URL}/repositories`
+  await page.goto(urlLista, { waitUntil: 'domcontentloaded' })
   await esperarConteudo(page)
-  const href = await page.evaluate(() =>
-    [...document.querySelectorAll('a[href^="/contexts/"]')]
-      .map((a) => a.getAttribute('href'))
-      .find((h) => /^\/contexts\/[^/]+\/./.test(h ?? '')) ?? null,
-  )
-  if (href) contextId = href.split('/')[2]
 
   // Os cards de repositório não são âncoras: é preciso clicar para chegar à rota.
-  await page.goto(`${BASE_URL}/repositories`, { waitUntil: 'domcontentloaded' })
-  await esperarConteudo(page)
   // Um card com Score exibe uma nota do tipo "6.5"; sem Score exibe travessão.
   const comScore = page.locator('[class*="cursor-pointer"], [role="button"]')
     .filter({ hasText: /\b\d[.,]\d\b/ })
   const card = (await comScore.count())
     ? comScore.first()
     : page.locator('[class*="cursor-pointer"], [role="button"]').first()
+
   if (await card.count()) {
     await card.click().catch(() => {})
     await esperarConteudo(page)
@@ -221,12 +259,12 @@ async function descobrirIds(page) {
       const semScore = await page.locator('text=/Ainda estamos calculando o Score/i').count()
       if (semScore) {
         log('  aviso: o repositório escolhido ainda não tem Score calculado.')
-        log('         Fixe outro com WLC_CONTEXT_ID e WLC_REPO_ID para telas com dados.')
+        log('         Fixe outro com WLC_REPO_ID para telas com dados.')
       }
-      return { contextId: m[1], repoId: m[2] }
+      return { contextId: contextId ?? m[1], repoId: m[2] }
     }
   }
-  return { contextId, repoId }
+  return { contextId, repoId: null }
 }
 
 /**
@@ -326,7 +364,7 @@ async function listarOrganizacoes(browser) {
   if (!existsSync(SESSAO)) {
     throw new Error('Nenhuma sessão salva. Rode uma captura primeiro, ou use --relogin.')
   }
-  const contexto = await browser.newContext({ viewport: VIEWPORT, locale: 'pt-BR', storageState: SESSAO })
+  const contexto = await browser.newContext({ viewport: VIEWPORT, deviceScaleFactor: ESCALA, locale: 'pt-BR', storageState: SESSAO })
   const page = await contexto.newPage()
   await page.goto(`${BASE_URL}/overview`, { waitUntil: 'domcontentloaded' })
   await esperarConteudo(page)
@@ -382,7 +420,7 @@ async function main() {
   const publicas = selecionadas.filter((r) => r.auth === 'publica')
   if (publicas.length) {
     log(`\nTelas públicas (${publicas.length})`)
-    const ctx = await browser.newContext({ viewport: VIEWPORT, locale: 'pt-BR' })
+    const ctx = await browser.newContext({ viewport: VIEWPORT, deviceScaleFactor: ESCALA, locale: 'pt-BR' })
     const page = await ctx.newPage()
     for (const rota of publicas) {
       const r = await capturar(page, rota, {})
@@ -396,7 +434,7 @@ async function main() {
     if (temFlag('relogin') && existsSync(SESSAO)) await rm(SESSAO)
     const temSessao = existsSync(SESSAO)
     const contexto = await browser.newContext({
-      viewport: VIEWPORT,
+      viewport: VIEWPORT, deviceScaleFactor: ESCALA,
       locale: 'pt-BR',
       ...(temSessao ? { storageState: SESSAO } : {}),
     })
@@ -439,7 +477,7 @@ async function main() {
     JSON.stringify({
       baseUrl: BASE_URL,
       organizacao: ORG ?? null,
-      viewport: VIEWPORT,
+      viewport: VIEWPORT, deviceScaleFactor: ESCALA,
       secoes: SECOES,
       capturas: resultados,
       excluidas: ROTAS_EXCLUIDAS,
@@ -450,6 +488,21 @@ async function main() {
   const puladas = resultados.filter((r) => r.status === 'pulada')
   const erros = resultados.filter((r) => r.status === 'erro')
   const redirects = ok.filter((r) => r.redirecionou)
+
+  // Uma tela gravada no estado errado é um sucesso para o script: a rota
+  // respondeu e o print saiu. Só os pixels denunciam que não há nada ali.
+  const vazias = []
+  if (ok.length) {
+    // O navegador da captura já foi encerrado neste ponto; a medição roda em um
+    // próprio, que serve apenas de canvas para ler os pixels dos arquivos.
+    const leitor = await chromium.launch()
+    const aux = await leitor.newPage()
+    for (const r of ok) {
+      const medida = await medirVazio(aux, path.join(DESTINO, `${r.slug}.png`))
+      if (medida.suspeita) vazias.push({ slug: r.slug, pct: medida.pct })
+    }
+    await leitor.close()
+  }
 
   log(`\n${ok.length}/${resultados.length} telas capturadas em assets/screenshots/`)
   if (redirects.length) {
@@ -463,6 +516,12 @@ async function main() {
   if (erros.length) {
     log(`${erros.length} erro(s):`)
     for (const r of erros) log(`  ${r.slug}: ${r.motivo}`)
+  }
+  if (vazias.length) {
+    log(`\nATENÇÃO — ${vazias.length} captura(s) parecem vazias:`)
+    for (const v of vazias) log(`  ${v.slug}: ${v.pct}% da imagem é cor sólida`)
+    log('  Confira a tela no produto. Um id inexistente ou um contexto sem dados')
+    log('  grava um print legítimo para o script e inútil para a documentação.')
   }
   log('Manifesto: capture/manifest.json')
 }
