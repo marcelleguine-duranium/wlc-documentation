@@ -86,7 +86,7 @@ as tecnologias, as práticas e o contexto técnico que aparecem no texto final.
 Abrir uma vaga mostra a **Descrição da Vaga** pronta para uso, com botões de
 exportação em **PDF** e **DOCX**.
 
-![Descrição da vaga gerada](../assets/screenshots/vaga-gerada.png)
+![Topo da descrição da vaga, com a linha de resumo e a exportação](../assets/screenshots/recortes/vaga-gerada-topo.png)
 
 O documento começa por uma linha de resumo — senioridade, modelo de trabalho,
 área e tamanho do time — seguida da apresentação da posição em prosa e das
@@ -96,3 +96,5 @@ O conteúdo não é genérico: as responsabilidades e os requisitos citam as
 tecnologias efetivamente usadas nos repositórios selecionados e as práticas que a
 análise identificou neles, como testes automatizados, revisão de código e
 pipeline de CI/CD.
+
+![Stack tecnológica extraída dos repositórios selecionados](../assets/screenshots/recortes/vaga-gerada-stack.png)

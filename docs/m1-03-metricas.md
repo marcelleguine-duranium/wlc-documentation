@@ -35,7 +35,7 @@ nenhum indicador é recalculado no agrupamento.
 Entrega e qualidade valem 60% somadas; distribuição do time e risco
 organizacional completam os 40% restantes.
 
-![Cards das dimensões na Visão Geral](../assets/screenshots/visao-geral.png)
+![Cards das dimensões na Visão Geral](../assets/screenshots/recortes/visao-geral-dimensoes.png)
 
 ## Como o cálculo funciona
 
@@ -210,7 +210,7 @@ São os cortes da nota:
 Toda a mecânica descrita acima fica visível na aba **Métricas** da home do
 repositório, alcançada pelo botão **Ver métricas detalhadas**.
 
-![Métricas detalhadas do repositório](../assets/screenshots/repo-metricas.png)
+![Cabeçalho da aba Métricas: janela de coleta e faixa Pipeline](../assets/screenshots/recortes/metricas-cabecalho.png)
 
 O cabeçalho informa a janela considerada — últimos 90 dias, com o intervalo de
 datas explícito — e a faixa **Pipeline** resume o volume do período: pull
@@ -222,6 +222,8 @@ observa, e os seus indicadores. Cada indicador mostra:
 - o **valor medido**, com a base entre parênteses (por exemplo, "133 commits")
 - as **três faixas** do indicador, com a faixa em que ele caiu destacada
 
+![Fluxo de Entrega e Qualidade da Engenharia, com a faixa de cada indicador destacada](../assets/screenshots/recortes/metricas-fluxo-qualidade.png)
+
 É assim que se vê, sem cálculo mental, por que um indicador está em atenção ou em
 crítico. Indicadores sem dado aparecem com `--` e, como explicado acima, saem da
 conta em vez de contar como zero.
@@ -229,6 +231,8 @@ conta em vez de contar como zero.
 Alguns blocos trazem detalhamento adicional: a composição entre nova capacidade,
 correção e outros; a distribuição de contribuições por autor; e a lista dos
 Arquivos Mais Alterados no período.
+
+![Eficiência do Time e Riscos Organizacionais, com os blocos de detalhamento](../assets/screenshots/recortes/metricas-eficiencia-riscos.png)
 
 > A distribuição de contribuições aparece com os autores identificados como #1,
 > #2, #3… Isso é a permissão **Anonimizar autores nas contribuições**, descrita

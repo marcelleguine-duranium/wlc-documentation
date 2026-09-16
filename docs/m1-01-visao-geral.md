@@ -53,4 +53,4 @@ No rodapé fica o seu usuário; no topo, o seletor de contexto e repositório.
 > seletor da barra lateral rotula esse mesmo nível como *Organização*. Esta
 > documentação usa **Workspace**, que é o termo predominante na interface.
 
-![Visão geral do workspace](../assets/screenshots/visao-geral.png)
+![Barra lateral, seletor de contexto e o bloco do Score](../assets/screenshots/recortes/visao-geral-navegacao.png)

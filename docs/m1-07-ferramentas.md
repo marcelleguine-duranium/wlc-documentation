@@ -124,7 +124,7 @@ Inventário das bibliotecas de terceiros usadas pelo código, com o quanto cada
 uma está atrasada em relação à versão publicada. Fica em Ferramentas ›
 Dependências, ao lado do Navigate.
 
-![Dependências no contexto](../assets/screenshots/contexto-dependencias.png)
+![Nota de saúde das dependências e a explicação da nota](../assets/screenshots/recortes/dependencias-nota.png)
 
 É uma ferramenta, não uma aba: o assunto é próprio, e a pessoa chega aqui de
 propósito — não de passagem, olhando a saúde do repositório.
@@ -223,6 +223,8 @@ cartões que respondem perguntas específicas:
 | **Tecnologias fora de suporte** | linguagem, servidor ou banco cujo fabricante encerrou o ciclo — não saem mais correções, nem de segurança |
 | **Conflito de versão** | bibliotecas instaladas em mais de uma versão dentro do mesmo repositório |
 
+![Composição por risco e os cartões de depreciadas, fora de suporte e conflito](../assets/screenshots/recortes/dependencias-composicao.png)
+
 Os cartões são clicáveis: clicar filtra a tabela abaixo, clicar de novo desfaz.
 
 Sobre conflito de versão, uma ressalva: só ecossistemas que empilham versões
@@ -233,11 +235,15 @@ por projeto, zero quer dizer "não se aplica", e não "está limpo".
 dezenas de extensões de um mesmo framework contam como um. A lista é curada, então
 um framework ausente pode simplesmente não estar nela.
 
+![Frameworks identificados, com versão instalada, distância e suporte](../assets/screenshots/recortes/dependencias-frameworks.png)
+
 ### A tabela
 
 A tabela lista as bibliotecas com versão instalada, versão atual, data do último
 release, distância e risco — e, nos escopos agregados, em quantos repositórios
 cada uma aparece.
+
+![Filtros e tabela de bibliotecas, ordenada por risco](../assets/screenshots/recortes/dependencias-tabela.png)
 
 A coluna **Último release** responde o que a distância não responde: uma
 biblioteca sem versão nova pode estar pronta ou pode estar abandonada, e nos dois

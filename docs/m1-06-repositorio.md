@@ -23,7 +23,7 @@ aparece com o valor medido e a faixa em que caiu. Essa tela está explicada em
 
 ## Insights IA do repositório
 
-![Insights IA do repositório](../assets/screenshots/repo-insights.png)
+![Notas por dimensão e resumo executivo da aba Insights IA](../assets/screenshots/recortes/repo-insights-resumo.png)
 
 A aba **Insights IA** transforma os números do repositório em leitura e
 recomendação. É o equivalente, um nível abaixo, do
@@ -69,6 +69,10 @@ Cada nota recebe uma palavra, pela mesma régua: **Excelente** de 8 para cima,
 | **Resumo executivo** | o parágrafo de abertura, citando números dos dados |
 | **Top Prioridades** | exatamente três ações, numeradas de 1 a 3 |
 | **Uma seção por dimensão** | nota, situação, resumo de até três frases e de 3 a 5 recomendações |
+
+![Top Prioridades: as três ações numeradas](../assets/screenshots/recortes/repo-insights-prioridades.png)
+
+![Uma seção por dimensão, com nota, situação e recomendações](../assets/screenshots/recortes/repo-insights-dimensao.png)
 
 Cada recomendação é uma frase curta e vem com **Esforço** e **Impacto** — Baixo,
 Médio ou Alto — e um marcador de prioridade: vermelho para alta, âmbar para

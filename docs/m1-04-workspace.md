@@ -5,7 +5,7 @@
 É a tela inicial do produto: acessar a raiz leva direto para cá. Ela responde
 "como está a engenharia deste workspace agora".
 
-![Visão geral](../assets/screenshots/visao-geral.png)
+![Bloco do Score na tela inicial, com o filtro de contexto e a granularidade](../assets/screenshots/recortes/visao-geral-score.png)
 
 > A mecânica por trás destes números — pesos, indicadores, blockers e faixas —
 > está em [Métricas](m1-03-metricas.md).
@@ -53,11 +53,15 @@ medido, com legenda por série. O botão ao lado do título alterna entre linhas
 barras. A série é reconstruída a partir do histórico do git, e não apenas do
 período em que o repositório está conectado ao WLC.
 
+![Trajetória do Score e das quatro dimensões](../assets/screenshots/recortes/visao-geral-trajetoria.png)
+
 ### Cards das dimensões
 
 Abaixo do gráfico, cada uma das quatro dimensões tem seu próprio card, com a nota
 de 0 a 10, o estado (Saudável, Atenção ou Crítico) e a variação em relação ao
 período anterior. É onde se vê rapidamente qual dimensão está puxando o Score.
+
+![Os quatro cards de dimensão](../assets/screenshots/recortes/visao-geral-dimensoes.png)
 
 ### Filtro por contexto
 

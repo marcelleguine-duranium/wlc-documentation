@@ -21,7 +21,7 @@ Três abas organizam o conteúdo: **Overview**, **Insights** e **Digest**.
 
 ## Insights IA do contexto
 
-![Insights IA do contexto](../assets/screenshots/contexto-insights.png)
+![Cabeçalho da aba Insights e o resumo executivo](../assets/screenshots/recortes/contexto-insights-resumo.png)
 
 A aba **Insights** entrega um diagnóstico estratégico do contexto inteiro,
 escrito por IA para quem responde pela área — não pelo repositório isolado. É a
@@ -67,6 +67,10 @@ instruído a desconsiderá-lo em vez de supor.
 | **Prioridades de Ação** | de 4 a 6 ações, da mais urgente para a menos: **Imediato**, **Curto prazo**, **Longo prazo**. Cada uma traz **Esforço** e **Impacto**, em Baixo, Médio ou Alto |
 | **Repositórios analisados** | a lista do que entrou na análise, ao pé da página |
 
+![Riscos Estratégicos, do mais grave para o menos, com os repositórios afetados](../assets/screenshots/recortes/contexto-insights-riscos.png)
+
+![Prioridades de Ação, cada uma com esforço e impacto](../assets/screenshots/recortes/contexto-insights-acoes.png)
+
 A combinação de esforço e impacto é o que torna a lista utilizável: é ela que
 separa o que rende muito por pouco trabalho do que é caro e pode esperar.
 
@@ -76,7 +80,7 @@ separa o que rende muito por pouco trabalho do que é caro e pode esperar.
 
 ## Digest do contexto
 
-![Digest do contexto](../assets/screenshots/contexto-digest.png)
+![A aba Digest e o controle de semana](../assets/screenshots/recortes/contexto-digest-semana.png)
 
 A aba **Digest** responde uma pergunta que nenhuma outra tela do produto responde:
 *o que este contexto subiu para produção nesta semana* — em linguagem de negócio,
@@ -117,6 +121,8 @@ negrito. Abaixo dele, separado, o bloco **Em uma frase**, que é o resumo curto
 para colar em uma mensagem. Fecha com o rodapé: *N entregas em produção · N
 repositórios ativos*.
 
+![Síntese da semana, com o bloco Em uma frase e o rodapé de contagem](../assets/screenshots/recortes/contexto-digest-sintese.png)
+
 ### Os três tipos
 
 As entregas são classificadas em três tipos, e cada um tem seu cartão com a
@@ -135,6 +141,8 @@ beco. Os mesmos filtros aparecem como chips logo abaixo, e o filtro escolhido
 **sobrevive à troca de semana**: é o que permite percorrer várias semanas olhando
 só as correções, por exemplo.
 
+![Os três cartões de tipo, que também funcionam como filtro](../assets/screenshots/recortes/contexto-digest-tipos.png)
+
 ### Linha do tempo da semana
 
 As entregas ficam agrupadas por dia, do mais recente para o mais antigo. Alguns
@@ -149,6 +157,8 @@ e, no rodapé:
   para o seu
 - a **contagem de PRs** da entrega
 - os **autores**, cujo chip leva ao perfil no GitHub
+
+![Entregas agrupadas por dia, cada uma com tipo, descrição, PRs e autores](../assets/screenshots/recortes/contexto-digest-linha.png)
 
 Quando a semana tem mais entregas do que cabe de uma vez, **ver mais entregas**
 carrega o restante, com o contador de quantas já estão na tela.
