@@ -3,3 +3,7 @@ capture/.auth/
 capture/output/
 .DS_Store
 .scratch/
+
+# manual em PDF (gerado por npm run pdf)
+pdf/manual.html
+pdf/*.pdf

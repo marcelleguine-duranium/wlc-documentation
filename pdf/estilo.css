@@ -1,0 +1,369 @@
+/*
+ * Folha de impressão do manual, na paleta do produto.
+ *
+ * Teal é o acento estrutural (numeração, filetes, callouts), coral é o acento
+ * pontual (número do capítulo, avisos de atenção) e navy fica reservado à capa
+ * e às aberturas de parte. O fundo da página é branco, e não o Off-White da
+ * paleta: em 103 páginas impressas, os tons de fundo ficam nas superfícies —
+ * tabelas, destaques e blocos de código.
+ */
+
+/*
+ * As margens do miolo vêm do CSS (o build imprime com margens zeradas e
+ * preferCSSPageSize), para que as páginas escuras possam usar a página inteira
+ * através da página nomeada "cheia".
+ */
+@page { size: A4; margin: 16mm 18mm; }
+@page cheia { size: A4; margin: 0; }
+
+:root {
+  /* acentos de marca */
+  --teal: #469CA1;
+  --teal-escuro: #286B6F;
+  --teal-claro: #6BBCC1;
+  --coral: #E85C50;
+  --coral-escuro: #C03E32;
+
+  /* fundos */
+  --off-white: #F5F7FA;
+  --cool-tint: #ECF4F5;
+  --teal-tint: #EAF5F5;
+  --branco: #FFFFFE;
+  --navy: #111B22;
+
+  /* texto */
+  --slate: #2D3B45;
+  --charcoal: #3D4F5F;
+  --steel: #5C6977;
+  --steel-claro: #8A95A0;
+  --silver: #CBD6E4;
+
+  /* estruturais */
+  --borda: #DDE1E6;
+  --divisor: #B0B8C1;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--branco);
+  color: var(--charcoal);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 10.5pt;
+  line-height: 1.55;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+h1, h2, h3, h4 { color: var(--slate); }
+p { margin: 0 0 0.75em; orphans: 3; widows: 3; }
+strong { font-weight: 650; color: var(--slate); }
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.88em;
+  background: var(--cool-tint);
+  color: var(--teal-escuro);
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+}
+pre {
+  background: var(--off-white);
+  border: 1px solid var(--borda);
+  border-left: 3px solid var(--teal);
+  border-radius: 4px;
+  padding: 10px 12px;
+  font-size: 9pt;
+  line-height: 1.45;
+  overflow: hidden;
+  break-inside: avoid;
+}
+pre code { background: none; color: var(--charcoal); padding: 0; }
+
+/* ---------- capa ---------- */
+
+.capa {
+  page: cheia;
+  width: 210mm;
+  height: 296mm;
+  background: var(--navy);
+  padding: 30mm 24mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  break-after: page;
+}
+.capa-logo { display: block; width: 62mm; height: auto; }
+.capa-linha {
+  border-top: 3px solid var(--coral);
+  width: 62mm;
+  margin: 6mm 0 0;
+}
+.capa-centro h1 {
+  font-size: 34pt;
+  line-height: 1.1;
+  margin: 0 0 4mm;
+  font-weight: 700;
+  color: var(--branco);
+}
+.capa-sub { font-size: 13pt; color: var(--silver); margin: 0; }
+.capa-rodape { font-size: 9.5pt; color: var(--steel-claro); }
+.capa-rodape p { margin: 0 0 2mm; }
+.capa-confidencial { font-weight: 600; color: var(--silver); }
+
+/* ---------- páginas de abertura ---------- */
+
+.controle, .sumario-pagina, .como-usar { break-before: page; }
+.controle h1, .sumario-pagina h1, .como-usar h1 {
+  font-size: 20pt;
+  margin: 0 0 8mm;
+  padding-bottom: 3mm;
+  border-bottom: 2px solid var(--teal);
+}
+.controle h2, .como-usar h2 { font-size: 12pt; margin: 7mm 0 2mm; }
+
+.controle-tabela { width: 100%; border-collapse: collapse; margin-bottom: 4mm; }
+.controle-tabela th {
+  width: 34mm;
+  text-align: left;
+  font-weight: 600;
+  color: var(--steel);
+  background: none;
+  padding: 2.4mm 0;
+  border-bottom: 1px solid var(--borda);
+  vertical-align: top;
+}
+/* A ficha técnica é uma lista de campos, não um quadro de dados: sem zebra. */
+.controle-tabela tbody tr:nth-child(even) td { background: none; }
+.controle-tabela td {
+  padding: 2.4mm 0;
+  border-bottom: 1px solid var(--borda);
+  color: var(--slate);
+}
+
+/* ---------- sumário ---------- */
+
+.sumario { list-style: none; margin: 0; padding: 0; }
+.sumario-parte {
+  font-size: 11pt;
+  font-weight: 700;
+  color: var(--slate);
+  margin: 6mm 0 2mm;
+  padding: 0 0 1.5mm 3mm;
+  border-bottom: 1px solid var(--divisor);
+  border-left: 3px solid var(--coral);
+}
+.sumario-parte:first-child { margin-top: 0; }
+.sumario-item a {
+  display: flex;
+  align-items: baseline;
+  gap: 4mm;
+  text-decoration: none;
+  border-bottom: none;
+  color: var(--charcoal);
+  padding: 1.1mm 0;
+}
+.sumario-num {
+  flex: 0 0 9mm;
+  font-weight: 650;
+  color: var(--teal-escuro);
+  font-variant-numeric: tabular-nums;
+}
+.sumario-titulo { flex: 1 1 auto; }
+.sumario-perfil {
+  flex: 0 0 auto;
+  font-size: 8pt;
+  color: var(--steel-claro);
+  white-space: nowrap;
+}
+
+/* ---------- folhas de rosto das partes ---------- */
+
+.folha-parte {
+  page: cheia;
+  break-before: page;
+  width: 210mm;
+  height: 296mm;
+  background: var(--navy);
+  padding: 30mm 24mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+}
+.folha-rotulo {
+  font-size: 11pt;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal-claro);
+  margin: 0 0 3mm;
+}
+.folha-titulo {
+  font-size: 28pt;
+  margin: 0 0 6mm;
+  font-weight: 700;
+  color: var(--branco);
+}
+.folha-resumo {
+  font-size: 11.5pt;
+  color: var(--silver);
+  max-width: 120mm;
+  padding-left: 4mm;
+  border-left: 3px solid var(--coral);
+}
+.folha-lista {
+  margin: 8mm 0 0;
+  padding-left: 5mm;
+  color: var(--steel-claro);
+  font-size: 10pt;
+}
+.folha-lista li { margin-bottom: 1.5mm; }
+.folha-marca {
+  /* Ancorada no pé da página, sem deslocar o bloco de texto centralizado. */
+  position: absolute;
+  left: 24mm;
+  bottom: 24mm;
+  width: 34mm;
+  height: auto;
+  opacity: 0.75;
+}
+
+.marca-pagina { display: block; width: 44mm; height: auto; margin-bottom: 9mm; }
+
+/* ---------- capítulos ---------- */
+
+.capitulo { break-before: page; }
+.capitulo-cabecalho {
+  margin-bottom: 7mm;
+  padding-top: 2.5mm;
+  border-top: 3px solid var(--teal);
+}
+.capitulo-rotulo {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 8.5pt;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--teal-escuro);
+  margin: 0 0 2mm;
+  padding-bottom: 2mm;
+  border-bottom: 1px solid var(--borda);
+}
+.capitulo-perfil {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: var(--steel);
+  background: var(--cool-tint);
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  padding: 0.6mm 2.4mm;
+}
+.capitulo-cabecalho h1 { font-size: 21pt; line-height: 1.2; margin: 0; font-weight: 700; }
+.capitulo-cabecalho h1 .num { color: var(--coral-escuro); margin-right: 2mm; }
+
+h2, h3, h4 { break-after: avoid; break-inside: avoid; }
+.capitulo h2 { font-size: 14pt; margin: 8mm 0 2.5mm; }
+.capitulo h3 { font-size: 11.5pt; margin: 6mm 0 2mm; }
+.capitulo h4 { font-size: 10.5pt; margin: 5mm 0 1.5mm; }
+.capitulo h2 .num, .capitulo h3 .num {
+  color: var(--teal-escuro);
+  font-variant-numeric: tabular-nums;
+  margin-right: 1.5mm;
+}
+
+ul, ol { margin: 0 0 0.8em; padding-left: 5.5mm; }
+li { margin-bottom: 1.2mm; }
+li::marker { color: var(--teal); }
+
+/* ---------- figuras ---------- */
+
+figure {
+  margin: 5mm 0;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+figure img {
+  /* Sem max-height: limitar a altura encolheria a imagem na largura também, que
+     é o que deixava as capturas longas estreitas e ilegíveis. Telas que rolam
+     muito entram como recortes, gerados por capture/recortar.mjs. */
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--branco);
+  border: 1px solid var(--borda);
+  border-radius: 4px;
+}
+figcaption {
+  margin-top: 1.8mm;
+  font-size: 8.5pt;
+  color: var(--steel);
+}
+.fig-num { font-weight: 650; color: var(--teal-escuro); }
+
+/* ---------- tabelas ---------- */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 3mm 0 5mm;
+  font-size: 9.5pt;
+}
+thead { display: table-header-group; }
+tr { break-inside: avoid; }
+th {
+  text-align: left;
+  font-weight: 650;
+  color: var(--slate);
+  background: var(--cool-tint);
+  border-bottom: 1.5px solid var(--teal);
+  padding: 2mm 2.5mm;
+}
+td {
+  padding: 2mm 2.5mm;
+  border-bottom: 1px solid var(--borda);
+  vertical-align: top;
+}
+tbody tr:nth-child(even) td { background: var(--off-white); }
+
+/* ---------- blocos de destaque ---------- */
+
+.destaque {
+  margin: 4mm 0;
+  padding: 3mm 4mm;
+  border-left: 3px solid var(--teal);
+  background: var(--teal-tint);
+  border-radius: 0 4px 4px 0;
+  break-inside: avoid;
+  font-size: 9.8pt;
+}
+.destaque p:last-child { margin-bottom: 0; }
+.destaque-rotulo {
+  display: block;
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--teal-escuro);
+  margin-bottom: 1.2mm;
+}
+.destaque.atencao {
+  border-left-color: var(--coral-escuro);
+  background: var(--off-white);
+}
+.destaque.atencao .destaque-rotulo { color: var(--coral-escuro); }
+
+/* ---------- links ---------- */
+
+a {
+  color: var(--charcoal);
+  text-decoration: none;
+  border-bottom: 1px solid var(--teal);
+}
+.ref { font-size: 8.5pt; color: var(--steel); white-space: nowrap; }
+.link-morto { border-bottom: none; }
