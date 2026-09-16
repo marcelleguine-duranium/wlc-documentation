@@ -5,7 +5,7 @@
     "width": 1440,
     "height": 900
   },
-  "deviceScaleFactor": 4,
+  "deviceScaleFactor": 3,
   "secoes": {
     "autenticacao": "Acesso e autenticação",
     "onboarding": "Onboarding",
@@ -17,24 +17,83 @@
   },
   "capturas": [
     {
-      "slug": "admin-adicionar-repositorio",
-      "path": "/admin/repositories",
-      "titulo": "Administração — Adicionar repositório",
-      "secao": "admin",
+      "slug": "contexto-insights",
+      "path": "/contexts/{contextId}/home?tab=insights",
+      "titulo": "Insights IA do contexto",
+      "secao": "contexto",
       "auth": "privada",
+      "largura": 660,
+      "altura": 3200,
+      "nota": "Aba Insights da home do contexto. Exige a permissão context.insights e um diagnóstico já gerado; sem isso a tela mostra o estado vazio. Capturar com WLC_ESCALA=3: a janela estreita rende só 1320 px em 2x, o que põe o recorte a 193 dpi na coluna do PDF.",
+      "caminho": "/contexts/BqXDMz/home?tab=insights",
+      "status": "ok",
+      "arquivo": "assets/screenshots/contexto-insights.png",
+      "urlFinal": "/contexts/BqXDMz/home?tab=insights",
+      "redirecionou": false
+    },
+    {
+      "slug": "contexto-digest",
+      "path": "/contexts/{contextId}/home?tab=digest",
+      "titulo": "Digest do contexto",
+      "secao": "contexto",
+      "auth": "privada",
+      "largura": 660,
+      "altura": 1800,
+      "nota": "Aba Digest da home do contexto. Exige a feature flag digest ativa; com ela desligada o deep link cai silenciosamente na aba Overview. Capturar com WLC_ESCALA=3: a janela estreita rende só 1320 px em 2x, o que põe o recorte a 193 dpi na coluna do PDF.",
+      "caminho": "/contexts/BqXDMz/home?tab=digest",
+      "status": "ok",
+      "arquivo": "assets/screenshots/contexto-digest.png",
+      "urlFinal": "/contexts/BqXDMz/home?tab=digest",
+      "redirecionou": false
+    },
+    {
+      "slug": "repo-insights",
+      "path": "/contexts/{contextId}/repo/{repoId}/home?tab=insights",
+      "titulo": "Insights IA do repositório",
+      "secao": "repositorio",
+      "auth": "privada",
+      "largura": 660,
+      "altura": 1400,
+      "nota": "Aba Insights IA da home do repositório. Exige um diagnóstico já gerado; sem isso a tela mostra o estado de espera. Capturar com WLC_ESCALA=3: a janela estreita rende só 1320 px em 2x, o que põe o recorte a 193 dpi na coluna do PDF.",
+      "caminho": "/contexts/BqXDMz/repo/3igYLX/home?tab=insights",
+      "status": "ok",
+      "arquivo": "assets/screenshots/repo-insights.png",
+      "urlFinal": "/contexts/BqXDMz/repo/3igYLX/home?tab=insights",
+      "redirecionou": false
+    },
+    {
+      "slug": "repo-metricas",
+      "path": "/contexts/{contextId}/repo/{repoId}/home?tab=metricas",
+      "titulo": "Métricas detalhadas do repositório",
+      "secao": "repositorio",
+      "auth": "privada",
+      "largura": 660,
+      "altura": 3600,
+      "nota": "Aba da home do repositório, alcançada pelo botão \"Ver métricas detalhadas\". Capturar com WLC_ESCALA=3: a janela estreita rende só 1320 px em 2x, o que põe o recorte a 193 dpi na coluna do PDF.",
+      "caminho": "/contexts/BqXDMz/repo/3igYLX/home?tab=metricas",
+      "status": "ok",
+      "arquivo": "assets/screenshots/repo-metricas.png",
+      "urlFinal": "/contexts/BqXDMz/repo/3igYLX/home?tab=metricas",
+      "redirecionou": false
+    },
+    {
+      "slug": "vaga-gerada",
+      "path": "/job-opening",
+      "titulo": "Descrição da vaga gerada",
+      "secao": "people",
+      "auth": "privada",
+      "largura": 660,
+      "altura": 3600,
       "passos": [
         {
-          "clicar": "Adicionar repositório"
-        },
-        {
-          "esperar": 2000
+          "clicar": "Engenheiro"
         }
       ],
-      "nota": "Diálogo de seleção de repositórios, aberto sobre a lista. Mostra a cota do plano; a sequência para antes do botão que adiciona. Capturar com WLC_ESCALA=4: o diálogo tem 510 px de largura em 1x e, em 2x, o recorte renderiza a 149 dpi na coluna do PDF.",
-      "caminho": "/admin/repositories",
+      "nota": "Capturar com WLC_ESCALA=3: a janela estreita rende só 1320 px em 2x, o que põe o recorte a 193 dpi na coluna do PDF.",
+      "caminho": "/job-opening",
       "status": "ok",
-      "arquivo": "assets/screenshots/admin-adicionar-repositorio.png",
-      "urlFinal": "/admin/repositories",
+      "arquivo": "assets/screenshots/vaga-gerada.png",
+      "urlFinal": "/job-opening",
       "redirecionou": false
     }
   ],
