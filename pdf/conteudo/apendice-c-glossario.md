@@ -53,10 +53,6 @@ Score mantém correspondência. (Apêndice A)
 estratégica de quem responde pela área; no repositório, a leitura do código.
 Nada é gerado sozinho: a análise é disparada explicitamente. (Capítulos 5 e 6)
 
-**Digest** — resumo periódico do contexto que responde o que subiu para produção
-na semana, em linguagem de negócio. Existe como aba na visão do contexto e pode
-ser enviado ao comunicador do time. (Capítulos 5 e 17)
-
 **Navigate** — assistente que responde perguntas usando a documentação gerada
 pelas análises semânticas e as métricas de processo. Tem escopo de workspace ou
 de contexto. (Capítulo 7)
@@ -91,9 +87,9 @@ Apêndice B)
 
 **API Key** — chave de acesso à API, destinada a disparar análises a partir da
 esteira de CI/CD, para que a documentação gerada acompanhe o código sem
-intervenção manual. (Capítulo 18)
+intervenção manual. (Capítulo 17)
 
 **Coleta Automática de Métricas** — rotina periódica que alimenta o Score e as
-métricas do painel; sua frequência é configurável. (Capítulo 19)
+métricas do painel; sua frequência é configurável. (Capítulo 18)
 
-**SSO SAML** — autenticação corporativa. (Capítulo 20)
+**SSO SAML** — autenticação corporativa. (Capítulo 19)

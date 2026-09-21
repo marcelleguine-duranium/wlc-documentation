@@ -119,14 +119,6 @@ disso a listagem mostra apenas o prefixo. Se perder, revogue e gere outra.
 Guarde a chave no cofre de segredos da esteira — chaves de API são credenciais e
 não devem ser compartilhadas em conversas, tickets ou documentos.
 
-## O digest semanal não está chegando.
-
-Olhe a coluna **Estado** da matrícula em [Notificações](m2-07-notificacoes.md).
-Matricular o contexto não basta: o envio depende da feature flag `digest_push`
-estar ligada para o workspace — enquanto estiver desligada, a linha exibe
-*feature desligada na organização* e o botão **Testar** fica indisponível. Um
-grupo de destino sem endereço cadastrado também é sinalizado na mesma coluna.
-
 ## A que horas a coleta roda?
 
 No horário configurado em **Executar às (UTC)** — e é **UTC**, não o fuso local:
@@ -161,5 +153,4 @@ Não configurado, Pendente, Ativo, Desabilitado ou Falhou.
 
 São seções de **Super Admin**, restritas à equipe Duranium, que administram a
 plataforma como um todo em vez de um workspace específico. É por ali que
-funcionalidades são ligadas por workspace — como o `digest_push` do digest
-semanal.
+funcionalidades são ligadas e desligadas workspace a workspace.

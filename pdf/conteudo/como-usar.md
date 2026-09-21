@@ -14,7 +14,7 @@ organização inteira. O capítulo 15 explica o mecanismo.
 | --- | --- | --- |
 | **Gestor** | Parte I e Parte II | Capítulo 15, Parte IV e os Apêndices A e B |
 | **Administrador** | Parte I e Parte III | Parte II, Parte IV e os Apêndices B e C |
-| **Primeira implantação** | Capítulo 10, na ordem dos seis passos | Capítulos 12 a 19 |
+| **Primeira implantação** | Capítulo 10, na ordem dos seis passos | Capítulos 12 a 18 |
 
 ## Onde procurar cada assunto
 
@@ -23,7 +23,7 @@ organização inteira. O capítulo 15 explica o mecanismo.
 | Entender o que o Score mede e o que ele não mede | 2 |
 | Saber por que uma dimensão está crítica com média boa | 2 e Apêndice A |
 | Acompanhar a evolução do workspace no período | 4 |
-| Ver o diagnóstico de uma área e o que subiu para produção | 5 |
+| Ver o diagnóstico de uma área | 5 |
 | Consultar a documentação gerada a partir do código | 6 |
 | Perguntar algo sobre os repositórios em linguagem natural | 7 |
 | Montar um plano de integração para quem está chegando | 8 |
@@ -31,11 +31,10 @@ organização inteira. O capítulo 15 explica o mecanismo.
 | Agrupar repositórios por domínio e escrever o briefing | 13 |
 | Convidar pessoas e definir o que cada uma faz | 14 e 16 |
 | Restringir o que cada pessoa enxerga | 15 |
-| Entender por que não vejo um repositório que esperava ver | 15 e 21 |
-| Enviar o resumo semanal para o comunicador do time | 17 |
-| Disparar análises pela esteira de CI/CD | 18 |
-| Ajustar a frequência da coleta de dados | 19 |
-| Ligar autenticação corporativa | 20 |
+| Entender por que não vejo um repositório que esperava ver | 15 e 20 |
+| Disparar análises pela esteira de CI/CD | 17 |
+| Ajustar a frequência da coleta de dados | 18 |
+| Ligar autenticação corporativa | 19 |
 
 ## Convenções
 

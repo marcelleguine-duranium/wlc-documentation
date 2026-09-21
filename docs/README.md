@@ -11,7 +11,7 @@ usa no dia a dia, e a área de configuração.
 | [Acesso](m1-02-acesso.md) | Login, SSO e recuperação de senha |
 | [Métricas](m1-03-metricas.md) | Como o Score é calculado: dimensões, indicadores, blockers, DORA e SPACE |
 | [Workspace](m1-04-workspace.md) | Visão Geral, Repositórios, Contextos, Ciclo de Vida e leitura do Score |
-| [Contexto](m1-05-contexto.md) | Visão do contexto, Insights IA, Digest semanal, seus repositórios e o Navigate com escopo restrito |
+| [Contexto](m1-05-contexto.md) | Visão do contexto, Insights IA, seus repositórios e o Navigate com escopo restrito |
 | [Repositório](m1-06-repositorio.md) | Visão do repositório, Insights IA e a documentação gerada por análise semântica |
 | [Ferramentas](m1-07-ferramentas.md) | Navigate: escopo, compartilhamento, Panorama de Saúde e o que perguntar. Dependências: nota de saúde, cobertura e níveis de risco |
 | [People](m1-08-people.md) | Onboarding Dev e Job Description |
@@ -28,7 +28,6 @@ usa no dia a dia, e a área de configuração.
 | [API Keys](m2-04-api-keys.md) | Chaves para disparar análises pela esteira de CI/CD |
 | [Usuários](m2-05-usuarios.md) | Convites, perfis e status |
 | [Grupos de Usuários](m2-06-grupos.md) | Quem enxerga quais repositórios |
-| [Notificações](m2-07-notificacoes.md) | Digest semanal por contexto |
 | [Permissões](m2-08-permissoes.md) | O que cada perfil pode fazer |
 | [Monitoramento](m2-09-monitoramento.md) | Frequência e janela da coleta de métricas |
 | [SSO SAML](m2-10-sso.md) | Autenticação corporativa |
@@ -45,7 +44,7 @@ trata do assunto em detalhe.
 | [Score e métricas](m3-02-faq-score.md) | Repositório sem Score, blockers, dado ausente, comparação entre repositórios e o que o Score não mede |
 | [Análises e Insights IA](m3-03-faq-analises.md) | Geração e regeração de insights, frentes fora de escopo, atualização e exportação da documentação |
 | [Ferramentas e People](m3-04-faq-ferramentas.md) | Navigate, escopo e compartilhamento, Dependências, Onboarding Dev e Job Description |
-| [Configuração e administração](m3-05-faq-admin.md) | Conexão com o GitHub, contextos e briefing, perfis e grupos, API Keys, digest e coleta |
+| [Configuração e administração](m3-05-faq-admin.md) | Conexão com o GitHub, contextos e briefing, perfis e grupos, API Keys e coleta |
 
 As capturas foram feitas no workspace de demonstração **Duranium Demo**, cujos
 repositórios são projetos open source. Para regerá-las, veja o

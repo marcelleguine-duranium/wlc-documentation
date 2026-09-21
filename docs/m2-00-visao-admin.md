@@ -19,7 +19,6 @@ os dados são coletados.
 | [API Keys](m2-04-api-keys.md) | como a esteira de CI/CD dispara análises |
 | [Usuários](m2-05-usuarios.md) | quem tem acesso e com qual perfil |
 | [Grupos de Usuários](m2-06-grupos.md) | quem enxerga quais repositórios |
-| [Notificações](m2-07-notificacoes.md) | o que é enviado para fora do produto |
 | [Permissões](m2-08-permissoes.md) | o que cada perfil pode fazer |
 | [Monitoramento](m2-09-monitoramento.md) | com que frequência os dados são coletados |
 | [SSO SAML](m2-10-sso.md) | autenticação corporativa |

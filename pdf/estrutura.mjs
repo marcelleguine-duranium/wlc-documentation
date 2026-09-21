@@ -90,7 +90,6 @@ export const PARTES = [
       { fonte: 'm2-05-usuarios.md', titulo: 'Usuários', perfil: 'admin' },
       { fonte: 'm2-06-grupos.md', titulo: 'Grupos de usuários', perfil: 'ambos' },
       { fonte: 'm2-08-permissoes.md', titulo: 'Permissões', perfil: 'admin' },
-      { fonte: 'm2-07-notificacoes.md', titulo: 'Notificações e digest semanal', perfil: 'admin' },
       { fonte: 'm2-04-api-keys.md', titulo: 'API Keys e integração com CI/CD', perfil: 'admin' },
       { fonte: 'm2-09-monitoramento.md', titulo: 'Monitoramento da coleta', perfil: 'admin' },
       { fonte: 'm2-10-sso.md', titulo: 'SSO SAML', perfil: 'admin' },

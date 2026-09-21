@@ -17,8 +17,7 @@ Duas outras seções pertencem a este grupo:
 
 - **Feature flags** — liga e desliga funcionalidades por workspace. É o
   mecanismo por trás de recursos que existem no produto mas não estão ativos em
-  todas as contas, como o `digest_push` mencionado em
-  [Notificações](m2-07-notificacoes.md)
+  todas as contas
 - **Termos de uso** — versões dos termos, com estados de rascunho, ativa e
   arquivada
 
