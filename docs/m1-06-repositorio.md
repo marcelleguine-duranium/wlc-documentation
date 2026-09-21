@@ -18,8 +18,8 @@ A Visão Geral do repositório tem três abas: **Geral**, **Insights IA** e
 **Métricas**.
 
 O botão **Ver métricas detalhadas** abre a aba **Métricas**, onde cada indicador
-aparece com o valor medido e a faixa em que caiu. Essa tela está explicada em
-[Métricas](m1-03-metricas.md).
+aparece com o valor medido e a faixa em que se enquadra. Essa tela está
+explicada em [Métricas](m1-03-metricas.md).
 
 ## Insights IA do repositório
 
@@ -97,19 +97,31 @@ analisada.
 | Regras de Negócio | regras implícitas no código |
 | Gestão de Dependências | versões, depreciação, dívida técnica e licenças |
 | Design de APIs | qualidade arquitetural das APIs |
-| Qualidade de Código | complexidade, manutenibilidade e cobertura de testes |
+| Métricas de Código | complexidade, manutenibilidade e cobertura de testes |
 | Conformidade CNPJ 2026 | adaptação ao novo formato alfanumérico |
 
-Cada frente fica em um de dois estados:
+> **Métricas de Código** é o nome novo da frente que até aqui se chamava
+> *Qualidade de Código*. A troca está em andamento no produto, então algumas
+> telas ainda exibem o nome antigo.
 
-- **Atualizada** — a análise foi concluída, com a data da última atualização, e o
-  botão **Abrir** mostra o documento
-- **Fora de escopo** — a frente não se aplica àquele repositório, e o produto diz
-  por quê (por exemplo, nenhum endpoint de API detectado). O botão **Reavaliar
-  escopo** força uma nova verificação
+Cada frente exibe um de sete estados, e o estado determina a ação disponível na
+linha:
 
-Esse segundo estado é deliberado: em vez de entregar um documento vazio, o
-produto explica a ausência.
+| Estado | O que significa | Ação na linha |
+| --- | --- | --- |
+| **Atualizada** | a análise foi concluída, com a data da última atualização | **Abrir** mostra o documento |
+| **Processando** | há uma análise em curso. Se a frente já tinha documento, ele continua disponível; se é a primeira análise, ainda não há o que abrir | **Abrir versão anterior**, quando existe |
+| **Falha na última análise** | a última tentativa falhou, mas o documento anterior foi preservado | **Abrir versão anterior** |
+| **Falha** | a tentativa falhou e nenhum documento foi gerado | **Gerar novamente** |
+| **Cancelada** | a execução foi interrompida antes de terminar; o documento anterior, quando havia, continua servido | **Abrir versão anterior** ou **Gerar novamente** |
+| **Fora de escopo** | a frente não se aplica àquele repositório, e o produto diz por quê (por exemplo, nenhum endpoint de API detectado) | **Reavaliar escopo** força uma nova verificação |
+| **Pendente** | a frente nunca foi gerada neste repositório | **Gerar agora** dispara a primeira análise |
+
+Dois desses estados merecem leitura atenta. **Fora de escopo** é deliberado: em
+vez de entregar um documento vazio, o produto explica a ausência. E a distinção
+entre **Falha na última análise** e **Falha** diz se ainda há material para ler —
+no primeiro caso o documento anterior continua acessível, no segundo não existe
+documento nenhum.
 
 ### O que define "fora de escopo"
 
@@ -133,7 +145,7 @@ Depois, cada frente tem seu próprio critério:
 | **Visão Geral** | sempre; é a única frente que a regra de repositório pequeno não afeta | — |
 | **Arquitetura** | o repositório tem mais de 5 arquivos e contém arquivos de código-fonte | "Repositório não possui estrutura suficiente para análise de arquitetura" |
 | **Regras de Negócio** | o repositório tem mais de 100 linhas e contém arquivos de código-fonte | "Repositório possui código insuficiente para análise de negócios" |
-| **Qualidade de Código** | há pelo menos alguma linha de código e arquivos de código-fonte | "Nenhum arquivo de código-fonte encontrado" |
+| **Métricas de Código** | há pelo menos alguma linha de código e arquivos de código-fonte | "Nenhum arquivo de código-fonte encontrado" |
 | **Gestão de Dependências** | há dependências declaradas em algum gerenciador de pacotes | "Nenhuma dependência detectada" |
 | **Design de APIs** | há endpoints detectados, ou arquivos de especificação de API (OpenAPI, WSDL, GraphQL, gRPC) | "Nenhum endpoint de API detectado" |
 | **Conformidade CNPJ 2026** | o repositório declara alguma biblioteca conhecida de validação de CPF/CNPJ | "Nenhum padrão de validação CNPJ/CPF encontrado" |
@@ -142,7 +154,7 @@ Dois detalhes que evitam falso negativo:
 
 - **"Arquivo de código-fonte" exclui markdown, formatos de configuração e
   arquivos de dados.** Um repositório só com YAML e README não passa nos
-  critérios que exigem código, e é por isso que a mensagem de Qualidade de Código
+  critérios que exigem código, e é por isso que a mensagem de Métricas de Código
   menciona repositórios que contêm apenas configurações ou scripts simples.
 - **Design de APIs não exige endpoints implementados.** Um repositório que só
   publica contratos — arquivos `.wsdl`, `.proto` ou especificações OpenAPI — entra
@@ -177,6 +189,13 @@ frentes leva alguns minutos e consome recursos do motor.
 Os mesmos menus permitem exportar o resultado: **Baixar PDF** e **Baixar
 Markdown** por frente, ou **Baixar tudo em PDF** e **Baixar tudo em Markdown**
 para o conjunto.
+
+Frentes que produzem diagramas oferecem mais uma saída. Com o documento aberto, o
+menu de ações traz **Baixar fontes dos diagramas (Mermaid)**, que salva um único
+arquivo Markdown com o código-fonte de todos os diagramas daquela frente. É o que
+permite reaproveitá-los em outra ferramenta — uma wiki, um slide, um documento de
+arquitetura — em vez de recortar a imagem da tela. A opção só aparece nas frentes
+que têm diagrama.
 
 Frentes marcadas como *Fora de escopo* não têm a opção de gerar novamente, e sim
 **Reavaliar escopo**: em vez de reprocessar uma análise que não se aplica, o

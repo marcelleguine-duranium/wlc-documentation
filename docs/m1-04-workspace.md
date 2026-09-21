@@ -24,9 +24,9 @@ O bloco superior traz o Score do workspace, o recorte a que ele se refere
 **Saudável**, **Atenção** ou **Crítico**.
 
 Ao lado, o produto escreve em texto corrido o que a variação significa,
-nomeando o contexto que mais puxou o resultado para cima ou para baixo — e
-distinguindo movimento concentrado em um contexto de movimento distribuído entre
-vários.
+nomeando quem mais puxou o resultado para cima ou para baixo — pode ser um
+contexto ou um repositório — e separando o movimento concentrado em um único
+nome do movimento distribuído entre vários contextos do workspace.
 
 ### O que é "período anterior"
 
@@ -82,9 +82,14 @@ administrador; os dos seus grupos, para os demais perfis.
 
 ![Lista de repositórios](../assets/screenshots/repositorios.png)
 
-Cada linha traz o Score do repositório, a tendência, o contexto ao qual pertence,
-o status, a contagem de pull requests e de contribuidores, a data da última
-medição e as quatro dimensões abertas.
+Cada linha traz o Score do repositório, o ícone de ciclo de vida, o status, o
+contexto ao qual pertence, a contagem de pull requests e de contribuidores, a
+data do último commit e as quatro dimensões abertas.
+
+O ícone ao lado do nome é o **estágio de ciclo de vida** do repositório, a mesma
+classificação automática que organiza a aba **Ciclo de Vida** em Contextos,
+descrita adiante neste capítulo. Cada estágio tem seu ícone e sua cor; passar o
+cursor sobre ele mostra o nome do estágio.
 
 ### Os status
 
@@ -147,10 +152,3 @@ este recorte mostra o Score do conjunto de repositórios visível a cada grupo.
 "como está o que este time acompanha". Grupos sem contextos associados aparecem
 vazios. O administrador vê aqui todos os grupos do workspace; os demais perfis,
 apenas aqueles de que participam.
-
-## Análises em andamento
-
-Quando os repositórios estão sendo processados, esta tela acompanha o progresso
-de cada um, com percentual e situação. O botão de atualizar recarrega o estado.
-
-![Análises em andamento](../assets/screenshots/analise-em-progresso.png)
